@@ -8,27 +8,30 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dbus
-PKG_VERSION:=1.12.12
+PKG_VERSION:=1.14.10
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://dbus.freedesktop.org/releases/dbus/
-PKG_HASH:=9546f226011a1e5d9d77245fe5549ef25af4694053189d624d0d6ac127ecf5f8
-PKG_MAINTAINER:=
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
+PKG_SOURCE_URL:=https://dbus.freedesktop.org/releases/dbus
+PKG_HASH:=ba1f21d2bd9d339da2d4aa8780c09df32fea87998b73da24f49ab9df1e36a50f
+
+PKG_MAINTAINER:=Robert Marko <robimarko@gmail.com>
 PKG_LICENSE:=AFL-2.1
 PKG_CPE_ID:=cpe:/a:freedesktop:dbus
 
 PKG_BUILD_PARALLEL:=1
 PKG_INSTALL:=1
 
-include $(INCLUDE_DIR)/host-build.mk
+PKG_CONFIG_DEPENDS:= \
+	CONFIG_DBUS_VERBOSE
+
 include $(INCLUDE_DIR)/package.mk
 
 define Package/dbus/Default
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=Simple interprocess messaging system
-  URL:=http://dbus.freedesktop.org/
+  URL:=https://dbus.freedesktop.org/
 endef
 
 define Package/dbus/Default/description
@@ -73,6 +76,10 @@ $(call Package/dbus/Default/description)
  This package contains D-Bus utilities.
 endef
 
+define Package/dbus/config
+  source "$(SOURCE)/Config.in"
+endef
+
 CONFIGURE_ARGS += \
 	--disable-maintainer-mode \
 	--disable-developer \
@@ -98,33 +105,13 @@ CONFIGURE_ARGS += \
 	--with-system-socket=/var/run/dbus/system_bus_socket \
 	--with-system-pid-file=/var/run/dbus.pid \
 	--with-dbus-user=root \
-	--without-x
+	--without-x \
+	--enable-qt-help=no \
+	--disable-xml-docs
 
-HOST_CONFIGURE_ARGS+= \
-	--disable-maintainer-mode \
-	--disable-developer \
-	--enable-debug=no \
-	--enable-shared \
-	--disable-static \
-	--disable-verbose-mode \
-	--disable-asserts \
-	--disable-xml-docs \
-	--disable-doxygen-docs \
-	--disable-ducktype-docs \
-	--disable-selinux \
-	--disable-apparmor \
-	--disable-libaudit \
-	--enable-inotify \
-	--disable-kqueue \
-	--disable-console-owner-file \
-	--disable-systemd \
-	--disable-tests \
-	--disable-code-coverage \
-	--disable-x11-autolaunch \
-	--with-system-socket="$(STAGING_DIR_HOSTPKG)/var/run/dbus/system_bus_socket" \
-	--with-system-pid-file="$(STAGING_DIR_HOSTPKG)/var/run/dbus.pid" \
-	--with-dbus-daemondir="$(STAGING_DIR_HOSTPKG)/bin" \
-	--without-x
+ifeq ($(CONFIG_DBUS_VERBOSE),y)
+  CONFIGURE_ARGS += --enable-verbose-mode
+endif
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include
@@ -134,7 +121,7 @@ define Build/InstallDev
 		$(PKG_INSTALL_DIR)/usr/lib/dbus-1.0/include/dbus/*.h \
 		$(1)/usr/lib/dbus-1.0/include/dbus/
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/libdbus-1.{so*,la} \
+	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/libdbus-1.so* \
 		$(1)/usr/lib/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/dbus-1.0 $(1)/usr/lib/
 	$(INSTALL_DIR) $(1)/usr/lib/pkgconfig
@@ -164,10 +151,11 @@ endef
 
 define Package/dbus-utils/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) 	$(PKG_INSTALL_DIR)/usr/bin/dbus-{monitor,send,update-activation-environment} $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/dbus-monitor $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/dbus-send $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/dbus-test-tool $(1)/usr/bin/
 endef
 
-$(eval $(call HostBuild))
 $(eval $(call BuildPackage,libdbus))
 $(eval $(call BuildPackage,dbus))
 $(eval $(call BuildPackage,dbus-utils))

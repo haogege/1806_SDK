@@ -1,18 +1,18 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-11-29 19:46+0000\n"
-"Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
+"PO-Revision-Date: 2023-10-01 19:02+0000\n"
+"Last-Translator: Balaskó Kristóf <kristof@balaskokristof.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationswifischedule/hu/>\n"
 "Language: hu\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10-dev\n"
+"X-Generator: Weblate 5.1-dev\n"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:81
 msgid "Activate wifi"
-msgstr ""
+msgstr "Wifi aktiválása"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:65
 msgid "Could not find required /usr/bin/wifi_schedule.sh or /sbin/wifi"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Could not find required program /usr/bin/iwinfo"
 msgstr ""
 
-#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:41
+#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:45
 msgid "Cron Jobs"
 msgstr ""
 
@@ -64,21 +64,25 @@ msgstr ""
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:161
 msgid "Friday"
-msgstr ""
+msgstr "Péntek"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:48
 msgid "Global Settings"
+msgstr "Globális beállítások"
+
+#: applications/luci-app-wifischedule/root/usr/share/rpcd/acl.d/luci-app-wifischedule.json:3
+msgid "Grant UCI access for luci-app-wifischedule"
 msgstr ""
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:157
 msgid "Monday"
-msgstr ""
+msgstr "Hétfő"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:162
 msgid "Saturday"
-msgstr ""
+msgstr "Szombat"
 
-#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:27
+#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:31
 msgid "Schedule"
 msgstr ""
 
@@ -104,7 +108,7 @@ msgstr ""
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:163
 msgid "Sunday"
-msgstr ""
+msgstr "Vasárnap"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:33
 msgid "The value %s is invalid"
@@ -112,33 +116,33 @@ msgstr ""
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:160
 msgid "Thursday"
-msgstr ""
+msgstr "Csütörtök"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:158
 msgid "Tuesday"
-msgstr ""
+msgstr "Kedd"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:102
 msgid "Unload Modules (experimental; saves more power)"
 msgstr ""
 
-#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:29
+#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:33
 msgid "View Cron Jobs"
 msgstr ""
 
-#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:28
+#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:32
 msgid "View Logfile"
-msgstr ""
+msgstr "Naplófájl megtekintése"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:159
 msgid "Wednesday"
-msgstr ""
+msgstr "Szerda"
 
-#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:26
+#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:27
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:39
 msgid "Wifi Schedule"
 msgstr ""
 
-#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:35
+#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:39
 msgid "Wifi Schedule Logfile"
 msgstr ""

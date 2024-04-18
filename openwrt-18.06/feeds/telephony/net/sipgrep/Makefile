@@ -17,13 +17,15 @@ PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/sipcapture/sipgrep.git
 PKG_SOURCE_VERSION:=1cc00079cd80310f7e8b1a696e9a02b8a2b25e04
 PKG_SOURCE_DATE=2019-06-27
-PKG_RELEASE:=1
-PKG_MIRROR_HASH:=3480f83a4af2a2972f3aa981343b067fa35ddc74f42c3e459630f31aba8f2d91
+PKG_RELEASE:=3
+PKG_MIRROR_HASH:=2c90b4e262be7270bcc9a2de975adbe8f67dee5ff0c30b397036f2e69229f515
 
 PKG_BUILD_PARALLEL:=1
 PKG_FIXUP:=autoreconf
 
 PKG_INSTALL:=1
+
+PKG_CONFIG_DEPENDS:=CONFIG_IPV6
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -31,7 +33,7 @@ define Package/sipgrep
   SECTION:=utils
   CATEGORY:=Utilities
   SUBMENU:=Telephony
-  DEPENDS:=+libpcap +libpcre
+  DEPENDS:=+libpcap +libpcre2
   TITLE:=Command line tool to sniff, capture, display SIP messages
   URL:=https://github.com/sipcapture/sipgrep
 endef
@@ -42,8 +44,7 @@ troubleshoot SIP signaling over IP networks, allowing the user to
 specify extended regular expressions matching against SIP headers.
 endef
 
-CONFIGURE_ARGS += \
-	--enable-ipv6
+CONFIGURE_ARGS+=$(if $(CONFIG_IPV6),--enable-ipv6)
 
 define Package/sipgrep/install
 	$(INSTALL_DIR) $(1)/usr/bin

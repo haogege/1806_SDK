@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2019-11-18 05:09+0000\n"
+"PO-Revision-Date: 2024-02-05 02:27+0000\n"
 "Last-Translator: Franco Castillo <castillofrancodamian@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationswifischedule/es/>\n"
@@ -11,11 +11,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:81
 msgid "Activate wifi"
-msgstr "Activar WiFi"
+msgstr "Activar Wi-Fi"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:65
 msgid "Could not find required /usr/bin/wifi_schedule.sh or /sbin/wifi"
@@ -25,7 +25,7 @@ msgstr "No se pudo encontrar /usr/bin/wifi_schedule.sh o /sbin/wifi requerido"
 msgid "Could not find required program /usr/bin/iwinfo"
 msgstr "No se pudo encontrar el programa requerido /usr/bin/iwinfo"
 
-#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:41
+#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:45
 msgid "Cron Jobs"
 msgstr "Trabajos Cron"
 
@@ -35,7 +35,7 @@ msgstr "Día(s) de la semana"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:39
 msgid "Defines a schedule when to turn on and off wifi."
-msgstr "Define un horario de cuándo encender y apagar WiFi."
+msgstr "Define un horario de cuándo encender y apagar Wi-Fi."
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:133
 msgid "Determine Modules Automatically"
@@ -43,11 +43,11 @@ msgstr "Determinar módulos automáticamente"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:88
 msgid "Disable wifi gracefully"
-msgstr "Desactivar WiFi con gracia"
+msgstr "Desactivar Wi-Fi con gracia"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:95
 msgid "Disabled wifi forced"
-msgstr "Desactivar WiFi forzosamente"
+msgstr "Desactivar Wi-Fi forzosamente"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:148
 msgid "Enable"
@@ -55,15 +55,15 @@ msgstr "Activar"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:55
 msgid "Enable Wifi Schedule"
-msgstr "Activar programación WiFi"
+msgstr "Activar programación Wi-Fi"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:74
 msgid "Enable logging"
-msgstr "Activar registro"
+msgstr "Habilitar el registro"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:235
 msgid "Force disabling wifi even if stations associated"
-msgstr "Forzar desactivación de WiFi incluso con clientes conectados"
+msgstr "Forzar desactivación de Wi-Fi incluso con clientes conectados"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:161
 msgid "Friday"
@@ -73,6 +73,10 @@ msgstr "Viernes"
 msgid "Global Settings"
 msgstr "Configuración global"
 
+#: applications/luci-app-wifischedule/root/usr/share/rpcd/acl.d/luci-app-wifischedule.json:3
+msgid "Grant UCI access for luci-app-wifischedule"
+msgstr "Conceder acceso a UCI para luci-app-wifischedule"
+
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:157
 msgid "Monday"
 msgstr "Lunes"
@@ -81,7 +85,7 @@ msgstr "Lunes"
 msgid "Saturday"
 msgstr "Sábado"
 
-#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:27
+#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:31
 msgid "Schedule"
 msgstr "Programar"
 
@@ -95,7 +99,7 @@ msgstr "Hora de inicio"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:167
 msgid "Start WiFi"
-msgstr "Iniciar WiFi"
+msgstr "Iniciar Wi-Fi"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:230
 msgid "Stop Time"
@@ -103,7 +107,7 @@ msgstr "Hora de detención"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:201
 msgid "Stop WiFi"
-msgstr "Detener WiFi"
+msgstr "Detener Wi-Fi"
 
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:163
 msgid "Sunday"
@@ -125,11 +129,11 @@ msgstr "Martes"
 msgid "Unload Modules (experimental; saves more power)"
 msgstr "Módulos de descarga (experimental; ahorra más energía)"
 
-#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:29
+#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:33
 msgid "View Cron Jobs"
 msgstr "Ver los trabajos de Cron"
 
-#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:28
+#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:32
 msgid "View Logfile"
 msgstr "Ver archivo de registro"
 
@@ -137,11 +141,11 @@ msgstr "Ver archivo de registro"
 msgid "Wednesday"
 msgstr "Miércoles"
 
-#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:26
+#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:27
 #: applications/luci-app-wifischedule/luasrc/model/cbi/wifischedule/wifi_schedule.lua:39
 msgid "Wifi Schedule"
-msgstr "Horario de WiFi"
+msgstr "Horario de Wi-Fi"
 
-#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:35
+#: applications/luci-app-wifischedule/luasrc/controller/wifischedule/wifi_schedule.lua:39
 msgid "Wifi Schedule Logfile"
-msgstr "Archivo de registro de programación WiFi"
+msgstr "Archivo de registro de programación Wi-Fi"

@@ -7,17 +7,18 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bird2
-PKG_VERSION:=2.0.6
+PKG_VERSION:=2.14
 PKG_RELEASE:=1
 
 PKG_SOURCE:=bird-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=ftp://bird.network.cz/pub/bird
-PKG_HASH:=90934cce6ae90039ab1e58ade223935f9221a7e5eac05df6fb53045b77bfd3aa
-PKG_BUILD_DEPENDS:=ncurses readline
-PKG_MAINTAINER:=Toke Høiland-Jørgensen <toke@toke.dk>
-PKG_BUILD_DIR:=$(BUILD_DIR)/bird-$(PKG_VERSION)
+PKG_HASH:=b0b9f6f8566541b9be4af1f0cac675c5a3785601a55667a7ec3d7de29735a786
 
-PKG_LICENSE:=GPL-2.0
+PKG_MAINTAINER:=Toke Høiland-Jørgensen <toke@toke.dk>
+PKG_LICENSE:=GPL-2.0-or-later
+
+PKG_BUILD_DEPENDS:=ncurses readline
+PKG_BUILD_DIR:=$(BUILD_DIR)/bird-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -96,7 +97,7 @@ protocols, telling BIRD to show various information, telling it to show
 a routing table filtered by a filter, or asking BIRD to reconfigure.
 endef
 
-CONFIGURE_ARGS += --with-linux-headers="$(LINUX_DIR)"  --disable-libssh
+CONFIGURE_ARGS += --disable-libssh
 
 define Package/bird2/conffiles
 /etc/bird.conf

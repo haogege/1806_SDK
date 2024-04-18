@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dmapd
-PKG_VERSION:=0.0.84
+PKG_VERSION:=0.0.95
 PKG_RELEASE:=1
 
 PKG_MAINTAINER:=W. Michael Petullo <mike@flyn.org>
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=COPYING
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://www.flyn.org/projects/dmapd
-PKG_HASH:=96d134e7c6d8e0394ee654903a184bfc200a3139692d124e7b11a3400138c8b2
+PKG_HASH:=c2c387518ee012e2f2613770c1e7e7eeb5e58fb4605ed645f1db2aced1585a52
 
 PKG_INSTALL:=1
 PKG_BUILD_PARALLEL:=1
@@ -29,7 +29,7 @@ include $(INCLUDE_DIR)/nls.mk
 define Package/dmapd
   SECTION:=net
   CATEGORY:=Network
-  DEPENDS:=+libdmapsharing +libdb47 +vips +libgst1pbutils
+  DEPENDS:=+libdmapsharing +libdb47 +vips +libgst1pbutils +totem-pl-parser
   TITLE:= dmapd
   URL:=http://www.flyn.org/projects/dmapd/
   USERID:=dmapd=56:dmapd=56

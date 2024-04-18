@@ -9,13 +9,13 @@
  #include <errno.h>
  
  #include "defs.h"
-@@ -173,7 +173,8 @@ bool send_chunks(const char *where, bool just_a_keepalive,
- 	/* Send a duplicate packet when this impair is enabled - used for testing */
- 	if (IMPAIR(JACOB_TWO_TWO)) {
+@@ -192,7 +192,8 @@ static bool send_shunks(const char *wher
+ 	 */
+ 	if (impair.jacob_two_two) {
  		/* sleep for half a second, and second another packet */
 -		usleep(500000);
 +		const struct timespec req = {0, 500 * 1000 * 1000};
 +		nanosleep(&req, NULL);
- 		ip_endpoint_buf b;
- 
- 		DBG_log("JACOB 2-2: resending %zu bytes for %s through %s:%d to %s:",
+ 		endpoint_buf b;
+ 		endpoint_buf ib;
+ 		llog(RC_LOG, logger,

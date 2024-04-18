@@ -1,34 +1,26 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-12-02 16:11+0000\n"
-"Last-Translator: Jiri Tersel <jiri.tersel@seznam.cz>\n"
+"PO-Revision-Date: 2023-09-27 19:02+0000\n"
+"Last-Translator: David Rapaň <david@rapan.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsbmx7/cs/>\n"
 "Language: cs\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 3.10-dev\n"
-
-#: applications/luci-app-bmx7/root/www/luci-static/resources/bmx7/js/netjsongraph.js:510
-msgid "+ d.x +"
-msgstr ""
-
-#: applications/luci-app-bmx7/root/www/luci-static/resources/bmx7/js/netjsongraph.js:173
-msgid "+ d3.event.translate +"
-msgstr ""
+"X-Generator: Weblate 5.1-dev\n"
 
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/bmx7/tunnels_j.htm:33
 msgid "Announcements"
-msgstr ""
+msgstr "Oznámení"
 
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/bmx7/status_j.htm:27
 msgid "BMX7 revision"
-msgstr ""
+msgstr "Revize BMX7"
 
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/bmx7/tunnels_j.htm:41
-msgid "Bandwith"
-msgstr ""
+msgid "Bandwidth"
+msgstr "Šířka pásma"
 
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/admin_status/index/bmx7_nodes.htm:3
 msgid "Bmx7 mesh nodes"
@@ -61,7 +53,7 @@ msgid "Link key"
 msgstr ""
 
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/bmx7/status_j.htm:61
-msgid "LinkLocal Ipv6"
+msgid "Link-local IPv6"
 msgstr ""
 
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/bmx7/status_j.htm:71
@@ -90,7 +82,7 @@ msgstr "Metrika"
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/bmx7/status_j.htm:76
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/bmx7/tunnels_j.htm:38
 msgid "Name"
-msgstr "Název"
+msgstr "Jméno"
 
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/bmx7/status_j.htm:40
 msgid "Neighbours"
@@ -158,7 +150,7 @@ msgid "Rating"
 msgstr ""
 
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/bmx7/status_j.htm:78
-msgid "Remote linklocal IPv6"
+msgid "Remote link-local IPv6"
 msgstr ""
 
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/bmx7/status_j.htm:82

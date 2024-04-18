@@ -1,67 +1,57 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-11-25 13:57+0000\n"
-"Last-Translator: Ansuel Smith <ansuelsmth@gmail.com>\n"
+"PO-Revision-Date: 2023-09-10 12:33+0000\n"
+"Last-Translator: Random <random-r@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsradicale/it/>\n"
 "Language: it\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10-dev\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:268
 msgid ""
 "'AUTO' selects the highest protocol version that client and server support."
 msgstr ""
+"'AUTO' seleziona la versione più recente di protocollo che client e server "
+"supportano."
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:223
 msgid ""
 "'Hostname:Port' or 'IPv4:Port' or '[IPv6]:Port' Radicale should listen on"
 msgstr ""
+"'Hostname:Porta' o 'IPv4:Porta' o '[IPv6]:Porta' a cui Radicale dovrebbe "
+"ascoltare"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:272
 msgid "AUTO"
-msgstr ""
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:734
-msgid "Access-Control-Allow-Headers"
-msgstr ""
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:726
-msgid "Access-Control-Allow-Methods"
-msgstr ""
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:718
-msgid "Access-Control-Allow-Origin"
-msgstr ""
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:742
-msgid "Access-Control-Expose-Headers"
-msgstr ""
+msgstr "AUTO"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:706
 msgid "Additional HTTP headers"
-msgstr ""
+msgstr "Header HTTP aggiuntive"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:222
 msgid "Address:Port"
-msgstr ""
+msgstr "Indirizzo:Porta"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:80
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:341
 msgid "Authentication"
-msgstr ""
+msgstr "Autenticazione"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:87
 msgid ""
 "Authentication login is matched against the 'user' key, and collection's "
 "path is matched against the 'collection' key."
 msgstr ""
+"Le credenziali di accesso sono definite dalla chiave 'user', il percorso "
+"della raccolta dalla chiave 'collection'."
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:352
 msgid "Authentication method"
-msgstr ""
+msgstr "Metodo di autenticazione"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:342
 msgid "Authentication method to allow access to Radicale server."
@@ -73,7 +63,7 @@ msgstr ""
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:190
 msgid "Boot delay"
-msgstr ""
+msgstr "Ritardo all'avvio"
 
 #: applications/luci-app-radicale/luasrc/controller/radicale.lua:23
 msgid "CalDAV/CardDAV"
@@ -95,10 +85,6 @@ msgid ""
 "to the client and/or to store data inside collections."
 msgstr ""
 
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:334
-msgid "Ciphers"
-msgstr ""
-
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:544
 msgid "Console Log level"
 msgstr ""
@@ -111,7 +97,7 @@ msgstr ""
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:574
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:596
 msgid "Critical"
-msgstr ""
+msgstr "Critico"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:707
 msgid ""
@@ -120,19 +106,11 @@ msgid ""
 "another domain outside the domain from which the resource originated."
 msgstr ""
 
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:491
-msgid "Custom"
-msgstr ""
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:490
-msgid "Database"
-msgstr ""
-
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:548
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:570
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:592
 msgid "Debug"
-msgstr ""
+msgstr "Debug"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:191
 msgid "Delay (in seconds) during system boot before Radicale start"
@@ -140,7 +118,7 @@ msgstr ""
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:508
 msgid "Directory"
-msgstr ""
+msgstr "Directory"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:524
 msgid "Directory not exists/found !"
@@ -187,7 +165,7 @@ msgstr ""
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:573
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:595
 msgid "Error"
-msgstr ""
+msgstr "Errore"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:120
 msgid "File '%s' not found !"
@@ -232,11 +210,15 @@ msgstr ""
 msgid "Full path and file name of private key"
 msgstr ""
 
+#: applications/luci-app-radicale/root/usr/share/rpcd/acl.d/luci-app-radicale.json:3
+msgid "Grant UCI access for luci-app-radicale"
+msgstr ""
+
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:549
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:571
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:593
 msgid "Info"
-msgstr "Informazioni"
+msgstr "Info"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:83
 msgid "Keep in mind to use the correct hashing algorithm !"
@@ -264,7 +246,7 @@ msgstr ""
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:533
 msgid "Logging"
-msgstr ""
+msgstr "Registrazione (log)"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:235
 msgid "Logon message"
@@ -284,14 +266,10 @@ msgstr ""
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:356
 msgid "None"
-msgstr ""
+msgstr "Nessuno"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:654
 msgid "Number of backup files of log to create."
-msgstr ""
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:335
-msgid "OPTIONAL: See python's ssl module for available ciphers"
 msgstr ""
 
 #: applications/luci-app-radicale/luasrc/view/radicale/tabmap_nsections.htm:50
@@ -356,7 +334,7 @@ msgstr ""
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:56
 msgid "Reload"
-msgstr "Aggiorna"
+msgstr "Ricarica"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:688
 msgid "Response Encoding"
@@ -386,7 +364,7 @@ msgstr ""
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:62
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:65
 msgid "Save"
-msgstr ""
+msgstr "Salva"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:95
 msgid "Section names are only used for naming the rule."
@@ -394,7 +372,7 @@ msgstr ""
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:211
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:633
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:656
@@ -416,7 +394,7 @@ msgstr ""
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:164
 #: applications/luci-app-radicale/luasrc/view/radicale/btn_startstop.htm:10
 msgid "Start"
-msgstr ""
+msgstr "Avvia"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:155
 msgid "Start / Stop"
@@ -428,7 +406,7 @@ msgstr ""
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:473
 msgid "Storage"
-msgstr ""
+msgstr "Archiviazione"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:697
 msgid "Storage Encoding"
@@ -444,7 +422,7 @@ msgstr ""
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:141
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 #: applications/luci-app-radicale/luasrc/controller/radicale.lua:32
 msgid ""
@@ -489,7 +467,7 @@ msgstr ""
 #: applications/luci-app-radicale/luasrc/controller/radicale.lua:42
 #: applications/luci-app-radicale/luasrc/controller/radicale.lua:45
 msgid "Version"
-msgstr ""
+msgstr "Versione"
 
 #: applications/luci-app-radicale/luasrc/controller/radicale.lua:38
 msgid "Version Information"
@@ -504,7 +482,7 @@ msgstr ""
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:572
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:594
 msgid "Warning"
-msgstr ""
+msgstr "Avviso"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:90
 msgid ""
@@ -521,10 +499,6 @@ msgstr ""
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:390
 msgid "crypt"
 msgstr ""
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:364
-msgid "custom"
-msgstr "personalizzato"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:357
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:400
@@ -557,3 +531,6 @@ msgstr ""
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:393
 msgid "salted SHA-1"
 msgstr ""
+
+#~ msgid "custom"
+#~ msgstr "personalizzato"

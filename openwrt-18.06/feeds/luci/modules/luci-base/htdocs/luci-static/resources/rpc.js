@@ -1,4 +1,6 @@
 'use strict';
+'require baseclass';
+'require request';
 
 var rpcRequestID = 1,
     rpcSessionID = L.env.sessionid || '00000000000000000000000000000000',
@@ -14,7 +16,7 @@ var rpcRequestID = 1,
  * The `LuCI.rpc` class provides high level ubus JSON-RPC abstractions
  * and means for listing and invoking remove RPC methods.
  */
-return L.Class.extend(/** @lends LuCI.rpc.prototype */ {
+return baseclass.extend(/** @lends LuCI.rpc.prototype */ {
 	/* privates */
 	call: function(req, cb, nobatch) {
 		var q = '';
@@ -31,11 +33,8 @@ return L.Class.extend(/** @lends LuCI.rpc.prototype */ {
 						req[i].params[2]
 					);
 		}
-		else if (req.params) {
-			q += '/%s.%s'.format(req.params[1], req.params[2]);
-		}
 
-		return L.Request.post(rpcBaseURL + q, req, {
+		return request.post(rpcBaseURL + q, req, {
 			timeout: (L.env.rpctimeout || 20) * 1000,
 			nobatch: nobatch,
 			credentials: true
@@ -91,6 +90,10 @@ return L.Class.extend(/** @lends LuCI.rpc.prototype */ {
 			ret = msg.result;
 		}
 		else if (Array.isArray(msg.result)) {
+			if (req.raise && msg.result[0] !== 0)
+				L.raise('RPCError', 'RPC call to %s/%s failed with ubus code %d: %s',
+					req.object, req.method, msg.result[0], this.getStatusText(msg.result[0]));
+
 			ret = (msg.result.length > 1) ? msg.result[1] : msg.result[0];
 		}
 
@@ -183,7 +186,7 @@ return L.Class.extend(/** @lends LuCI.rpc.prototype */ {
 	 *    the corresponding args object sent to the remote procedure will be
 	 *    `{ foo: true, bar: false }`.
 	 *  - `params: [ "test" ], filter: function(reply, args, extra) { ... }` -
-	 *    When the resultung generated function is invoked with
+	 *    When the resulting generated function is invoked with
 	 *    `fn("foo", "bar", "baz")` then `{ "test": "foo" }` will be sent as
 	 *    argument to the remote procedure and the filter function will be
 	 *    invoked with `filterFn(reply, [ "foo" ], "bar", "baz")`
@@ -223,9 +226,13 @@ return L.Class.extend(/** @lends LuCI.rpc.prototype */ {
 	 *    be returned as default instead.
 	 *
 	 * @property {LuCI.rpc~filterFn} [filter]
-	 * Specfies an optional filter function which is invoked to transform the
+	 * Specifies an optional filter function which is invoked to transform the
 	 * received reply data before it is returned to the caller.
 	 *
+	 * @property {boolean} [reject=false]
+	 * If set to `true`, non-zero ubus call status codes are treated as fatal
+	 * error and lead to the rejection of the call promise. The default
+	 * behaviour is to resolve with the call return code value instead.
 	 */
 
 	/**
@@ -314,7 +321,8 @@ return L.Class.extend(/** @lends LuCI.rpc.prototype */ {
 					params:  params,
 					priv:    priv,
 					object:  options.object,
-					method:  options.method
+					method:  options.method,
+					raise:   options.reject
 				};
 
 				/* build message object */
@@ -371,7 +379,7 @@ return L.Class.extend(/** @lends LuCI.rpc.prototype */ {
 	/**
 	 * Set the RPC base URL to use.
 	 *
-	 * @param {string} sid
+	 * @param {string} url
 	 * Sets the RPC URL endpoint to issue requests against.
 	 */
 	setBaseURL: function(url) {
@@ -446,7 +454,7 @@ return L.Class.extend(/** @lends LuCI.rpc.prototype */ {
 	 * Registers a new interceptor function.
 	 *
 	 * @param {LuCI.rpc~interceptorFn} interceptorFn
-	 * The inteceptor function to register.
+	 * The interceptor function to register.
 	 *
 	 * @returns {LuCI.rpc~interceptorFn}
 	 * Returns the given function value.
@@ -461,7 +469,7 @@ return L.Class.extend(/** @lends LuCI.rpc.prototype */ {
 	 * Removes a registered interceptor function.
 	 *
 	 * @param {LuCI.rpc~interceptorFn} interceptorFn
-	 * The inteceptor function to remove.
+	 * The interceptor function to remove.
 	 *
 	 * @returns {boolean}
 	 * Returns `true` if the given function has been removed or `false`

@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-11-20 17:07+0000\n"
+"PO-Revision-Date: 2021-05-10 09:32+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsradicale/pt/>\n"
@@ -8,7 +8,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.10-dev\n"
+"X-Generator: Weblate 4.7-dev\n"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:268
 msgid ""
@@ -27,22 +27,6 @@ msgstr ""
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:272
 msgid "AUTO"
 msgstr "AUTO"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:734
-msgid "Access-Control-Allow-Headers"
-msgstr "Access-Control-Allow-Headers"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:726
-msgid "Access-Control-Allow-Methods"
-msgstr "Access-Control-Allow-Methods"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:718
-msgid "Access-Control-Allow-Origin"
-msgstr "Access-Control-Allow-Origin"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:742
-msgid "Access-Control-Expose-Headers"
-msgstr "Access-Control-Expose-Headers"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:706
 msgid "Additional HTTP headers"
@@ -95,7 +79,7 @@ msgstr ""
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:284
 msgid "Certificate file"
-msgstr "Arquivo do certificado"
+msgstr "Ficheiro do certificado"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:677
 msgid ""
@@ -104,10 +88,6 @@ msgid ""
 msgstr ""
 "Mude aqui a codificação que o Radicale usará em vez de 'UTF-8' para "
 "respostas a clientes ou para armazenar dados dentro das coleções."
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:334
-msgid "Ciphers"
-msgstr "Cifras"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:544
 msgid "Console Log level"
@@ -134,19 +114,11 @@ msgstr ""
 "etc.) em uma página web ser solicitado de outro domínio fora do domínio a "
 "partir do qual o recurso foi originado."
 
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:491
-msgid "Custom"
-msgstr "Personalizado"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:490
-msgid "Database"
-msgstr "Banco de Dados"
-
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:548
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:570
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:592
 msgid "Debug"
-msgstr "Depurar"
+msgstr "Depuração"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:191
 msgid "Delay (in seconds) during system boot before Radicale start"
@@ -218,7 +190,7 @@ msgstr "Nível de detalhamento dos registos(log) em ficheiros"
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:300
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:325
 msgid "File not found !"
-msgstr "Arquivo não encontrado!"
+msgstr "Ficheiro não encontrado!"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:488
 msgid "File-system"
@@ -252,6 +224,10 @@ msgstr "Caminho completo e nome do ficheiro do certificado"
 msgid "Full path and file name of private key"
 msgstr "Caminho e ficheiro nome completo da chave privada"
 
+#: applications/luci-app-radicale/root/usr/share/rpcd/acl.d/luci-app-radicale.json:3
+msgid "Grant UCI access for luci-app-radicale"
+msgstr "Conceder acesso UCI ao luci-app-radicale"
+
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:549
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:571
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:593
@@ -272,7 +248,7 @@ msgstr "Contagem Registro(log) de Backup"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:77
 msgid "Log-file Viewer"
-msgstr "Visualizador de Arquivo de Registros(log)"
+msgstr "Visualizador de Ficheiro de Registros(log)"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:610
 msgid "Log-file directory"
@@ -310,11 +286,6 @@ msgstr "Nenhum"
 msgid "Number of backup files of log to create."
 msgstr "Número de backups dos ficheiros de registros(log) a serem criados."
 
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:335
-msgid "OPTIONAL: See python's ssl module for available ciphers"
-msgstr ""
-"Opcional: veja o módulo SSL do python para conhecer as cifras disponíveis"
-
 #: applications/luci-app-radicale/luasrc/view/radicale/tabmap_nsections.htm:50
 msgid "One or more missing/invalid fields on tab"
 msgstr "Um ou campos inválidos/ausentes na aba"
@@ -342,7 +313,8 @@ msgstr "Por favor, instale a versão atual!"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:78
 msgid "Please press [Reload] button below to reread the file."
-msgstr "Por favor, pressione o botão [Recarregar] abaixo para reler o ficheiro."
+msgstr ""
+"Por favor, pressione o botão [Recarregar] abaixo para reler o ficheiro."
 
 #: applications/luci-app-radicale/luasrc/controller/radicale.lua:78
 msgid "Please update to current version !"
@@ -354,7 +326,7 @@ msgstr "Os porta abaixo de 1024 (portas privilegiadas) não são suportadas"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:309
 msgid "Private key file"
-msgstr "Arquivo da chave privada"
+msgstr "Ficheiro da chave privada"
 
 #: applications/luci-app-radicale/luasrc/controller/radicale.lua:19
 msgid "Radicale CalDAV/CardDAV Server"
@@ -377,7 +349,7 @@ msgstr "Somente leitura!"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:455
 msgid "RegExp file"
-msgstr "Arquivo de expressões regulares"
+msgstr "Ficheiro de expressões regulares"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:56
 msgid "Reload"
@@ -394,7 +366,7 @@ msgstr "Direitos"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:437
 msgid "Rights are based on a regexp-based file"
-msgstr "Os direitos são baseados em um ficheiro baseado em expressões regulares"
+msgstr "Os direitos são baseados num ficheiro baseado em expressões regulares"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:429
 msgid "Rights backend"
@@ -487,7 +459,7 @@ msgid ""
 "phones or computers."
 msgstr ""
 "Eles podem ser visualizados e editados pelos clientes de agenda e de "
-"contatos em telefones celulares ou computadores."
+"contactos em telemóveis ou computadores."
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:408
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:463
@@ -531,7 +503,7 @@ msgstr "Informação da Versão"
 msgid ""
 "WARNING: Only 'File-system' is documented and tested by Radicale development"
 msgstr ""
-"AVISO: Apenas 'Sistema de Arquivos está documentado e testado pelo "
+"AVISO: Apenas 'Sistema de Ficheiro está documentado e testado pelo "
 "desenvolvimento do Radicale"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:550
@@ -559,10 +531,6 @@ msgstr ""
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:390
 msgid "crypt"
 msgstr "cifrar"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:364
-msgid "custom"
-msgstr "personalizado"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:357
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:400
@@ -595,3 +563,31 @@ msgstr "necessário"
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:393
 msgid "salted SHA-1"
 msgstr "SHA-1 com salto"
+
+#~ msgid "Ciphers"
+#~ msgstr "Cifras"
+
+#~ msgid "Custom"
+#~ msgstr "Personalizado"
+
+#~ msgid "Database"
+#~ msgstr "Banco de Dados"
+
+#~ msgid "OPTIONAL: See python's ssl module for available ciphers"
+#~ msgstr ""
+#~ "Opcional: veja o módulo SSL do python para conhecer as cifras disponíveis"
+
+#~ msgid "custom"
+#~ msgstr "personalizado"
+
+#~ msgid "Access-Control-Allow-Headers"
+#~ msgstr "Access-Control-Allow-Headers"
+
+#~ msgid "Access-Control-Allow-Methods"
+#~ msgstr "Access-Control-Allow-Methods"
+
+#~ msgid "Access-Control-Allow-Origin"
+#~ msgstr "Access-Control-Allow-Origin"
+
+#~ msgid "Access-Control-Expose-Headers"
+#~ msgstr "Access-Control-Expose-Headers"

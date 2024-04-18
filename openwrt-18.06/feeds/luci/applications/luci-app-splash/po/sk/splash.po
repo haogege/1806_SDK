@@ -1,13 +1,20 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
-"Language: \n"
+"PO-Revision-Date: 2023-07-09 09:41+0000\n"
+"Last-Translator: MaycoH <hudec.marian@hotmail.com>\n"
+"Language-Team: Slovak <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationssplash/sk/>\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 5.0-dev\n"
+
+#: applications/luci-app-splash/luasrc/view/splash/splash.htm:53
+msgid "%s with the operator of this access point."
+msgstr ""
 
 #: applications/luci-app-splash/luasrc/view/splash/splash.htm:65
 #: applications/luci-app-splash/luasrc/view/splash_splash/splash.htm:13
@@ -57,7 +64,7 @@ msgstr ""
 
 #: applications/luci-app-splash/luasrc/model/cbi/splash/splash.lua:62
 msgid "Blacklist"
-msgstr ""
+msgstr "Čierna listina"
 
 #: applications/luci-app-splash/luasrc/view/splash/blocked.htm:12
 msgid "Blocked"
@@ -106,8 +113,7 @@ msgid "Clients upload speed is limited to this value (kbyte/s)"
 msgstr ""
 
 #: applications/luci-app-splash/luasrc/view/splash/blocked.htm:15
-#: applications/luci-app-splash/luasrc/view/splash/splash.htm:54
-msgid "Contact"
+msgid "Contact the owner"
 msgstr ""
 
 #: applications/luci-app-splash/luasrc/view/splash_splash/splash.htm:12
@@ -144,18 +150,22 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: applications/luci-app-splash/luasrc/view/splash/splash.htm:53
-msgid "Get in %s with the operator of this access point."
+#: applications/luci-app-splash/luasrc/view/splash/splash.htm:54
+msgid "Get in contact"
+msgstr ""
+
+#: applications/luci-app-splash/root/usr/share/rpcd/acl.d/luci-app-splash.json:3
+msgid "Grant UCI access for luci-app-splash"
 msgstr ""
 
 #: applications/luci-app-splash/luasrc/view/admin_status/splash.htm:205
 msgid "Hostname"
-msgstr ""
+msgstr "Názov hostiteľa"
 
 #: applications/luci-app-splash/luasrc/model/cbi/splash/splash.lua:76
 #: applications/luci-app-splash/luasrc/view/admin_status/splash.htm:206
 msgid "IP Address"
-msgstr ""
+msgstr "Adresa IP"
 
 #: applications/luci-app-splash/luasrc/view/splash/splash.htm:98
 msgid ""
@@ -176,7 +186,7 @@ msgstr ""
 
 #: applications/luci-app-splash/luasrc/model/cbi/splash/splash.lua:21
 msgid "Interfaces"
-msgstr ""
+msgstr "Rozhranie"
 
 #: applications/luci-app-splash/luasrc/model/cbi/splash/splash.lua:21
 msgid "Interfaces that are used for Splash."
@@ -199,8 +209,9 @@ msgstr ""
 #: applications/luci-app-splash/luasrc/model/cbi/splash/splash.lua:59
 #: applications/luci-app-splash/luasrc/model/cbi/splash/splash.lua:68
 #: applications/luci-app-splash/luasrc/view/admin_status/splash.htm:207
+#, fuzzy
 msgid "MAC Address"
-msgstr ""
+msgstr "Adresa MAC"
 
 #: applications/luci-app-splash/luasrc/model/cbi/splash/splash.lua:63
 msgid "MAC addresses in this list are blocked."
@@ -218,7 +229,7 @@ msgstr ""
 
 #: applications/luci-app-splash/luasrc/model/cbi/splash/splash.lua:37
 msgid "Network"
-msgstr ""
+msgstr "Sieť"
 
 #: applications/luci-app-splash/luasrc/view/admin_status/splash.htm:147
 #: applications/luci-app-splash/luasrc/view/admin_status/splash.htm:261
@@ -246,7 +257,7 @@ msgstr ""
 #: applications/luci-app-splash/luasrc/view/admin_status/splash.htm:182
 #: applications/luci-app-splash/luasrc/view/admin_status/splash.htm:248
 msgid "Save"
-msgstr ""
+msgstr "Uložiť"
 
 #: applications/luci-app-splash/luasrc/model/cbi/splash/splash.lua:30
 msgid "Splash rules are integrated in this firewall zone"
@@ -383,7 +394,7 @@ msgstr ""
 #: applications/luci-app-splash/luasrc/view/admin_status/splash.htm:230
 #: applications/luci-app-splash/luasrc/view/admin_status/splash.htm:231
 msgid "unknown"
-msgstr ""
+msgstr "neznámy"
 
 #: applications/luci-app-splash/luasrc/view/splash/splash.htm:83
 msgid "use filesharing applications on this network"

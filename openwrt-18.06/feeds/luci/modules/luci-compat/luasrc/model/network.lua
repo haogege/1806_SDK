@@ -25,7 +25,7 @@ IFACE_PATTERNS_WIRELESS = { "^wlan%d", "^wl%d", "^ath%d", "^%w+%.network%d" }
 
 IFACE_ERRORS = {
 	CONNECT_FAILED			= lng.translate("Connection attempt failed"),
-	INVALID_ADDRESS			= lng.translate("IP address in invalid"),
+	INVALID_ADDRESS			= lng.translate("IP address is invalid"),
 	INVALID_GATEWAY			= lng.translate("Gateway address is invalid"),
 	INVALID_LOCAL_ADDRESS	= lng.translate("Local IP address is invalid"),
 	MISSING_ADDRESS			= lng.translate("IP address is missing"),
@@ -371,6 +371,7 @@ function init(cursor)
 					b.ifnames[1].bridge = b
 				end
 				_bridge[r[1]] = b
+				_interfaces[r[1]].bridge = b
 			elseif b then
 				b.ifnames[#b.ifnames+1] = _interfaces[r[2]]
 				b.ifnames[#b.ifnames].bridge = b
@@ -462,10 +463,6 @@ end
 function commit(self, ...)
 	_uci:commit(...)
 	_uci:load(...)
-end
-
-function changes(self, ...)
-    return  _uci:changes()
 end
 
 function ifnameof(self, x)
@@ -875,18 +872,6 @@ function get_status_by_address(self, addr)
 			end
 		end
 	end
-end
-
-function get_wandev(self)
-	local v
-	local stat = { }
-	local wan_devs = { }
-	local route_statuses = self:get_status_by_route("0.0.0.0", 0)
-	for _, v in pairs(route_statuses) do
-		wan_devs[#wan_devs+1] = v
-	end
-	stat = wan_devs[1]
-	return stat and interface(stat.l3_device or stat.device)
 end
 
 function get_wan_networks(self)
@@ -1463,20 +1448,21 @@ function interface.ports(self)
 		for _, iface in ipairs(members) do
 			ifaces[#ifaces+1] = interface(iface)
 		end
+		return ifaces
 	end
 end
 
 function interface.bridge_id(self)
-	if self.br then
-		return self.br.id
+	if self.dev and self.dev.bridge then
+		return self.dev.bridge.id
 	else
 		return nil
 	end
 end
 
 function interface.bridge_stp(self)
-	if self.br then
-		return self.br.stp
+	if self.dev and self.dev.bridge then
+		return self.dev.bridge.stp
 	else
 		return false
 	end
@@ -1495,7 +1481,8 @@ function interface.is_bridge(self)
 end
 
 function interface.is_bridgeport(self)
-	return self.dev and self.dev.bridge and true or false
+	return self.dev and self.dev.bridge and
+	       (self.dev.bridge.name ~= self:name()) and true or false
 end
 
 function interface.tx_bytes(self)
@@ -1774,7 +1761,7 @@ function wifinet.active_mode(self)
 	if     m == "ap"      then m = "Master"
 	elseif m == "sta"     then m = "Client"
 	elseif m == "adhoc"   then m = "Ad-Hoc"
-	elseif m == "mesh"    then m = "Mesh"
+	elseif m == "mesh"    then m = "Mesh Point"
 	elseif m == "monitor" then m = "Monitor"
 	end
 

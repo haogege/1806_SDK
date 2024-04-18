@@ -8,19 +8,20 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=libtins
-PKG_VERSION:=4.2
-PKG_RELEASE:=2
+PKG_VERSION:=4.5
+PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/mfontanini/libtins/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=a9fed73e13f06b06a4857d342bb30815fa8c359d00bd69547e567eecbbb4c3a1
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_VERSION:=v$(PKG_VERSION)
+PKG_SOURCE_URL:=https://github.com/mfontanini/libtins
+PKG_MIRROR_HASH:=85c5a15beca56552ba3f33e10f2a82ee4c47be2b3334d163304362188a37b13a
 
 PKG_MAINTAINER:= Steven Hessing <steven.hessing@gmail.com>
 PKG_LICENSE:=BSD-2-Clause
 PKG_LICENSE_FILES:=LICENSE
 
-PKG_BUILD_PARALLEL:=1
 CMAKE_INSTALL:=1
+PKG_BUILD_FLAGS:=gc-sections lto
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
@@ -30,7 +31,12 @@ define Package/libtins
   CATEGORY:=Libraries
   TITLE:=libtins
   URL:=https://libtins.github.io/
-  DEPENDS:=+libstdcpp +libpcap
+  DEPENDS:=+libstdcpp +LIBTINS_ENABLE_PCAP:libpcap +LIBTINS_ENABLE_WPA2:libopenssl
+  MENU:=1
+endef
+
+define Package/libtins/config
+	source "$(SOURCE)/Config.in"
 endef
 
 define Package/libtins/description
@@ -41,15 +47,14 @@ CMAKE_OPTIONS += \
 	-D_RUN_RESULT_VAR=FORCE \
 	-DLIBTINS_BUILD_EXAMPLES=OFF \
 	-DLIBTINS_BUILD_TESTS=OFF \
-	-DLIBTINS_ENABLE_ACK_TRACKER=OFF \
-	-DLIBTINS_ENABLE_CXX11=ON \
-	-DLIBTINS_ENABLE_DOT11=OFF \
-	-DLIBTINS_ENABLE_PCAP=ON \
-	-DLIBTINS_ENABLE_TCP_STREAM_CUSTOM_DATA=OFF \
-	-DLIBTINS_ENABLE_WPA2=OFF
+	-DLIBTINS_ENABLE_ACK_TRACKER=$(if $(CONFIG_LIBTINS_ENABLE_ACK_TRACKER),ON,OFF) \
+	-DLIBTINS_ENABLE_CXX11=$(if $(CONFIG_LIBTINS_ENABLE_CXX11),ON,OFF) \
+	-DLIBTINS_ENABLE_DOT11=$(if $(CONFIG_LIBTINS_ENABLE_DOT11),ON,OFF) \
+	-DLIBTINS_ENABLE_PCAP=$(if $(CONFIG_LIBTINS_ENABLE_PCAP),ON,OFF) \
+	-DLIBTINS_ENABLE_TCP_STREAM_CUSTOM_DATA=$(if $(CONFIG_LIBTINS_ENABLE_TCP_STREAM_CUSTOM_DATA),ON,OFF) \
+	-DLIBTINS_ENABLE_WPA2=$(if $(CONFIG_LIBTINS_ENABLE_WPA2),ON,OFF)
 
-TARGET_CXXFLAGS += -ffunction-sections -fdata-sections -flto
-TARGET_LDFLAGS += -Wl,--gc-sections,--as-needed
+TARGET_LDFLAGS += -Wl,--as-needed
 
 define Package/libtins/install
 	$(INSTALL_DIR) $(1)/usr/lib

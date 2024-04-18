@@ -1,12 +1,14 @@
 'use strict';
+'require view';
 'require rpc';
 'require uci';
 'require form';
 'require network';
 'require firewall';
+'require tools.firewall as fwtool';
 'require tools.widgets as widgets';
 
-return L.view.extend({
+return view.extend({
 	callConntrackHelpers: rpc.declare({
 		object: 'luci',
 		method: 'getConntrackHelpers',
@@ -21,9 +23,17 @@ return L.view.extend({
 	},
 
 	render: function(data) {
+		if (fwtool.checkLegacySNAT())
+			return fwtool.renderMigration();
+		else
+			return this.renderZones(data);
+	},
+
+	renderZones: function(data) {
 		var ctHelpers = data[0],
 		    fwDefaults = data[1],
 		    m, s, o, inp, out;
+		var fw4 = L.hasSystemFeature('firewall4');
 
 		m = new form.Map('firewall', _('Firewall - Zone Settings'),
 			_('The firewall creates zones over your network interfaces to control network traffic flow.'));
@@ -32,7 +42,20 @@ return L.view.extend({
 		s.anonymous = true;
 		s.addremove = false;
 
-		o = s.option(form.Flag, 'syn_flood', _('Enable SYN-flood protection'));
+		o = s.option(form.Flag, 'synflood_protect', _('Enable SYN-flood protection'));
+		o.cfgvalue = function(section_id) {
+			var val = uci.get('firewall', section_id, 'synflood_protect');
+			return (val != null) ? val : uci.get('firewall', section_id, 'syn_flood');
+		};
+		o.write = function(section_id, value) {
+			uci.unset('firewall', section_id, 'syn_flood');
+			uci.set('firewall', section_id, 'synflood_protect', value);
+		};
+		o.remove = function(section_id) {
+			uci.unset('firewall', section_id, 'syn_flood');
+			uci.unset('firewall', section_id, 'synflood_protect');
+		};
+
 		o = s.option(form.Flag, 'drop_invalid', _('Drop invalid packets'));
 
 		var p = [
@@ -63,7 +86,7 @@ return L.view.extend({
 
 			o = s.option(form.Flag, 'flow_offloading_hw',
 				_('Hardware flow offloading'),
-				_('Requires hardware NAT support. Implemented at least for mt7621'));
+				_('Requires hardware NAT support.'));
 			o.optional = true;
 			o.depends('flow_offloading', '1');
 		}
@@ -73,6 +96,13 @@ return L.view.extend({
 		s.addremove = true;
 		s.anonymous = true;
 		s.sortable  = true;
+		s.nodescriptions = true;
+
+		s.handleRemove = function(section_id, ev) {
+			return firewall.deleteZone(section_id).then(L.bind(function() {
+				return this.super('handleRemove', [section_id, ev]);
+			}, this));
+		};
 
 		s.tab('general', _('General Settings'));
 		s.tab('advanced', _('Advanced Settings'));
@@ -114,7 +144,7 @@ return L.view.extend({
 		var p = [
 			s.taboption('general', form.ListValue, 'input', _('Input')),
 			s.taboption('general', form.ListValue, 'output', _('Output')),
-			s.taboption('general', form.ListValue, 'forward', _('Forward'))
+			s.taboption('general', form.ListValue, 'forward', _('Intra zone forward'))
 		];
 
 		for (var i = 0; i < p.length; i++) {
@@ -128,8 +158,18 @@ return L.view.extend({
 		p[1].default = fwDefaults.getOutput();
 		p[2].default = fwDefaults.getForward();
 
-		o = s.taboption('general', form.Flag, 'masq', _('Masquerading'));
+		o = s.taboption('general', form.Flag, 'masq', _('Masquerading'),
+			_('Enable network address and port translation IPv4 (NAT4 or NAPT4) for outbound traffic on this zone. This is typically enabled on the <em>wan</em> zone.'));
 		o.editable = true;
+		o.tooltip = function(section_id) {
+			var family = uci.get('firewall', section_id, 'family')
+			var masq_src = uci.get('firewall', section_id, 'masq_src')
+			var masq_dest = uci.get('firewall', section_id, 'masq_dest')
+			if ((!family || family.indexOf('6') == -1) && (masq_src || masq_dest))
+				return _('Limited masquerading enabled');
+
+			return null;
+		};
 
 		o = s.taboption('general', form.Flag, 'mtu_fix', _('MSS clamping'));
 		o.modalonly = true;
@@ -137,31 +177,38 @@ return L.view.extend({
 		o = s.taboption('general', widgets.NetworkSelect, 'network', _('Covered networks'));
 		o.modalonly = true;
 		o.multiple = true;
+		o.cfgvalue = function(section_id) {
+			return uci.get('firewall', section_id, 'network');
+		};
 		o.write = function(section_id, formvalue) {
 			var name = uci.get('firewall', section_id, 'name'),
-			    cfgvalue = this.cfgvalue(section_id);
+			    cfgvalue = this.cfgvalue(section_id),
+			    oldNetworks = L.toArray(cfgvalue),
+			    newNetworks = L.toArray(formvalue);
 
-			if (typeof(cfgvalue) == 'string' && Array.isArray(formvalue) && (cfgvalue == formvalue.join(' ')))
+			oldNetworks.sort();
+			newNetworks.sort();
+
+			if (oldNetworks.join(' ') == newNetworks.join(' '))
 				return;
 
 			var tasks = [ firewall.getZone(name) ];
 
 			if (Array.isArray(formvalue))
-				for (var i = 0; i < formvalue.length; i++) {
-					var netname = formvalue[i];
-					tasks.push(network.getNetwork(netname).then(function(net) {
+				for (var i = 0; i < newNetworks.length; i++) {
+					var netname = newNetworks[i];
+					tasks.push(network.getNetwork(netname).then(L.bind(function(netname, net) {
 						return net || network.addNetwork(netname, { 'proto': 'none' });
-					}));
+					}, this, netname)));
 				}
 
 			return Promise.all(tasks).then(function(zone_networks) {
-				if (zone_networks[0])
+				if (zone_networks[0]) {
+					zone_networks[0].clearNetworks();
 					for (var i = 1; i < zone_networks.length; i++)
 						zone_networks[0].addNetwork(zone_networks[i].getName());
+				}
 			});
-		};
-		o.remove = function(section_id) {
-			return uci.set('firewall', section_id, 'network', ' ');
 		};
 
 		o = s.taboption('advanced', form.DummyValue, '_advancedinfo');
@@ -181,9 +228,23 @@ return L.view.extend({
 		o.multiple = true;
 
 		o = s.taboption('advanced', form.DynamicList, 'subnet', _('Covered subnets'), _('Use this option to classify zone traffic by source or destination subnet instead of networks or devices.'));
-		o.datatype = 'neg(cidr)';
+		o.datatype = 'neg(cidr("true"))';
 		o.modalonly = true;
 		o.multiple = true;
+
+		if (fw4) {
+			o = s.taboption('advanced', form.Flag, 'masq6', _('IPv6 Masquerading'),
+				_('Enable network address and port translation IPv6 (NAT6 or NAPT6) for outbound traffic on this zone.'));
+			o.modalonly = true;
+			o.tooltip = function(section_id) {
+				var family = uci.get('firewall', section_id, 'family')
+				var masq_src = uci.get('firewall', section_id, 'masq_src')
+				var masq_dest = uci.get('firewall', section_id, 'masq_dest')
+				if ((!family || family.indexOf('6') >= 0) && (masq_src || masq_dest))
+					return _('Limited masquerading enabled');
+				return null;
+			};
+		}
 
 		o = s.taboption('advanced', form.ListValue, 'family', _('Restrict to address family'));
 		o.value('', _('IPv4 and IPv6'));
@@ -192,16 +253,24 @@ return L.view.extend({
 		o.modalonly = true;
 
 		o = s.taboption('advanced', form.DynamicList, 'masq_src', _('Restrict Masquerading to given source subnets'));
-		o.depends('family', '');
-		o.depends('family', 'ipv4');
-		o.datatype = 'list(neg(or(uciname,hostname,ipmask4)))';
+		if (fw4) {
+			o.datatype = 'list(neg(or(uciname,hostname,ipmask)))';
+		} else {
+			o.depends('family', '');
+			o.depends('family', 'ipv4');
+			o.datatype = 'list(neg(or(uciname,hostname,ipmask4)))';
+		}
 		o.placeholder = '0.0.0.0/0';
 		o.modalonly = true;
 
 		o = s.taboption('advanced', form.DynamicList, 'masq_dest', _('Restrict Masquerading to given destination subnets'));
-		o.depends('family', '');
-		o.depends('family', 'ipv4');
-		o.datatype = 'list(neg(or(uciname,hostname,ipmask4)))';
+		if (fw4) {
+			o.datatype = 'list(neg(or(uciname,hostname,ipmask)))';
+		} else {
+			o.depends('family', '');
+			o.depends('family', 'ipv4');
+			o.datatype = 'list(neg(or(uciname,hostname,ipmask4)))';
+		}
 		o.placeholder = '0.0.0.0/0';
 		o.modalonly = true;
 
@@ -216,7 +285,7 @@ return L.view.extend({
 		o.depends('auto_helper', '0');
 		o.modalonly = true;
 		for (var i = 0; i < ctHelpers.length; i++)
-			o.value(ctHelpers[i].name, '<span class="hide-close">%s (%s)</span><span class="hide-open">%s</span>'.format(ctHelpers[i].description, ctHelpers[i].name.toUpperCase(), ctHelpers[i].name.toUpperCase()));
+			o.value(ctHelpers[i].name, E('<span><span class="hide-close">%s (%s)</span><span class="hide-open">%s</span></span>'.format(ctHelpers[i].description, ctHelpers[i].name.toUpperCase(), ctHelpers[i].name.toUpperCase())));
 
 		o = s.taboption('advanced', form.Flag, 'log', _('Enable logging on this zone'));
 		o.modalonly = true;
@@ -226,32 +295,34 @@ return L.view.extend({
 		o.placeholder = '10/minute';
 		o.modalonly = true;
 
-		o = s.taboption('extra', form.DummyValue, '_extrainfo');
-		o.rawhtml = true;
-		o.modalonly = true;
-		o.cfgvalue = function(section_id) {
-			return _('Passing raw iptables arguments to source and destination traffic classification rules allows to match packets based on other criteria than interfaces or subnets. These options should be used with extreme care as invalid values could render the firewall ruleset broken, completely exposing all services.');
-		};
+		if (!L.hasSystemFeature('firewall4')) {
+			o = s.taboption('extra', form.DummyValue, '_extrainfo');
+			o.rawhtml = true;
+			o.modalonly = true;
+			o.cfgvalue = function(section_id) {
+				return _('Passing raw iptables arguments to source and destination traffic classification rules allows to match packets based on other criteria than interfaces or subnets. These options should be used with extreme care as invalid values could render the firewall ruleset broken, completely exposing all services.');
+			};
 
-		o = s.taboption('extra', form.Value, 'extra_src', _('Extra source arguments'), _('Additional raw <em>iptables</em> arguments to classify zone source traffic, e.g. <code>-p tcp --sport 443</code> to only match inbound HTTPS traffic.'));
-		o.modalonly = true;
-		o.cfgvalue = function(section_id) {
-			return uci.get('firewall', section_id, 'extra_src') || uci.get('firewall', section_id, 'extra');
-		};
-		o.write = function(section_id, value) {
-			uci.unset('firewall', section_id, 'extra');
-			uci.set('firewall', section_id, 'extra_src', value);
-		};
+			o = s.taboption('extra', form.Value, 'extra_src', _('Extra source arguments'), _('Additional raw <em>iptables</em> arguments to classify zone source traffic, e.g. <code>-p tcp --sport 443</code> to only match inbound HTTPS traffic.'));
+			o.modalonly = true;
+			o.cfgvalue = function(section_id) {
+				return uci.get('firewall', section_id, 'extra_src') || uci.get('firewall', section_id, 'extra');
+			};
+			o.write = function(section_id, value) {
+				uci.unset('firewall', section_id, 'extra');
+				uci.set('firewall', section_id, 'extra_src', value);
+			};
 
-		o = s.taboption('extra', form.Value, 'extra_dest', _('Extra destination arguments'), _('Additional raw <em>iptables</em> arguments to classify zone destination traffic, e.g. <code>-p tcp --dport 443</code> to only match outbound HTTPS traffic.'));
-		o.modalonly = true;
-		o.cfgvalue = function(section_id) {
-			return uci.get('firewall', section_id, 'extra_dest') || uci.get('firewall', section_id, 'extra_src') || uci.get('firewall', section_id, 'extra');
-		};
-		o.write = function(section_id, value) {
-			uci.unset('firewall', section_id, 'extra');
-			uci.set('firewall', section_id, 'extra_dest', value);
-		};
+			o = s.taboption('extra', form.Value, 'extra_dest', _('Extra destination arguments'), _('Additional raw <em>iptables</em> arguments to classify zone destination traffic, e.g. <code>-p tcp --dport 443</code> to only match outbound HTTPS traffic.'));
+			o.modalonly = true;
+			o.cfgvalue = function(section_id) {
+				return uci.get('firewall', section_id, 'extra_dest') || uci.get('firewall', section_id, 'extra_src') || uci.get('firewall', section_id, 'extra');
+			};
+			o.write = function(section_id, value) {
+				uci.unset('firewall', section_id, 'extra');
+				uci.set('firewall', section_id, 'extra_dest', value);
+			};
+		}
 
 		o = s.taboption('general', form.DummyValue, '_forwardinfo');
 		o.rawhtml = true;

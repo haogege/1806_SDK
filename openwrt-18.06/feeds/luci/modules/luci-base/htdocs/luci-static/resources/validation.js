@@ -1,6 +1,24 @@
 'use strict';
+'require baseclass';
 
-var Validator = L.Class.extend({
+function bytelen(x) {
+	return new Blob([x]).size;
+}
+
+function arrayle(a, b) {
+	if (!Array.isArray(a) || !Array.isArray(b))
+		return false;
+
+	for (var i = 0; i < a.length; i++)
+		if (a[i] > b[i])
+			return false;
+		else if (a[i] < b[i])
+			return true;
+
+	return true;
+}
+
+var Validator = baseclass.extend({
 	__name__: 'Validation',
 
 	__init__: function(field, type, optional, vfunc, validatorFactory) {
@@ -56,9 +74,15 @@ var Validator = L.Class.extend({
 			valid = this.vstack[0].apply(this, this.vstack[1]);
 
 		if (valid !== true) {
-			this.field.setAttribute('data-tooltip', _('Expecting: %s').format(this.error));
+			var message = _('Expecting: %s').format(this.error);
+			this.field.setAttribute('data-tooltip', message);
 			this.field.setAttribute('data-tooltip-style', 'error');
-			this.field.dispatchEvent(new CustomEvent('validation-failure', { bubbles: true }));
+			this.field.dispatchEvent(new CustomEvent('validation-failure', {
+				bubbles: true,
+				detail: {
+					message: message
+				}
+			}));
 			return false;
 		}
 
@@ -69,7 +93,12 @@ var Validator = L.Class.extend({
 			this.assert(false, valid);
 			this.field.setAttribute('data-tooltip', valid);
 			this.field.setAttribute('data-tooltip-style', 'error');
-			this.field.dispatchEvent(new CustomEvent('validation-failure', { bubbles: true }));
+			this.field.dispatchEvent(new CustomEvent('validation-failure', {
+				bubbles: true,
+				detail: {
+					message: valid
+				}
+			}));
 			return false;
 		}
 
@@ -81,7 +110,7 @@ var Validator = L.Class.extend({
 
 });
 
-var ValidatorFactory = L.Class.extend({
+var ValidatorFactory = baseclass.extend({
 	__name__: 'ValidatorFactory',
 
 	create: function(field, type, optional, vfunc) {
@@ -221,7 +250,7 @@ var ValidatorFactory = L.Class.extend({
 
 	types: {
 		integer: function() {
-			return this.assert(this.factory.parseInteger(this.value) !== NaN, _('valid integer value'));
+			return this.assert(!isNaN(this.factory.parseInteger(this.value)), _('valid integer value'));
 		},
 
 		uinteger: function() {
@@ -229,7 +258,7 @@ var ValidatorFactory = L.Class.extend({
 		},
 
 		float: function() {
-			return this.assert(this.factory.parseDecimal(this.value) !== NaN, _('valid decimal value'));
+			return this.assert(!isNaN(this.factory.parseDecimal(this.value)), _('valid decimal value'));
 		},
 
 		ufloat: function() {
@@ -267,18 +296,21 @@ var ValidatorFactory = L.Class.extend({
 				_('valid IPv6 prefix value (0-128)'));
 		},
 
-		cidr: function() {
-			return this.assert(this.apply('cidr4') || this.apply('cidr6'), _('valid IPv4 or IPv6 CIDR'));
+		cidr: function(negative) {
+			return this.assert(this.apply('cidr4', null, [negative]) || this.apply('cidr6', null, [negative]),
+				_('valid IPv4 or IPv6 CIDR'));
 		},
 
-		cidr4: function() {
-			var m = this.value.match(/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\/(\d{1,2})$/);
-			return this.assert(m && this.factory.parseIPv4(m[1]) && this.apply('ip4prefix', m[2]), _('valid IPv4 CIDR'));
+		cidr4: function(negative) {
+			var m = this.value.match(/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\/(-)?(\d{1,2})$/);
+			return this.assert(m && this.factory.parseIPv4(m[1]) && (negative || !m[2]) && this.apply('ip4prefix', m[3]),
+				_('valid IPv4 CIDR'));
 		},
 
-		cidr6: function() {
-			var m = this.value.match(/^([0-9a-fA-F:.]+)\/(\d{1,3})$/);
-			return this.assert(m && this.factory.parseIPv6(m[1]) && this.apply('ip6prefix', m[2]), _('valid IPv6 CIDR'));
+		cidr6: function(negative) {
+			var m = this.value.match(/^([0-9a-fA-F:.]+)\/(-)?(\d{1,3})$/);
+			return this.assert(m && this.factory.parseIPv6(m[1]) && (negative || !m[2]) && this.apply('ip6prefix', m[3]),
+				_('valid IPv6 CIDR'));
 		},
 
 		ipnet4: function() {
@@ -299,19 +331,36 @@ var ValidatorFactory = L.Class.extend({
 			return this.assert(!(!v6 || v6[0] || v6[1] || v6[2] || v6[3]), _('valid IPv6 host id'));
 		},
 
-		ipmask: function() {
-			return this.assert(this.apply('ipmask4') || this.apply('ipmask6'),
+		ipmask: function(negative) {
+			return this.assert(this.apply('ipmask4', null, [negative]) || this.apply('ipmask6', null, [negative]),
 				_('valid network in address/netmask notation'));
 		},
 
-		ipmask4: function() {
-			return this.assert(this.apply('cidr4') || this.apply('ipnet4') || this.apply('ip4addr'),
+		ipmask4: function(negative) {
+			return this.assert(this.apply('cidr4', null, [negative]) || this.apply('ipnet4') || this.apply('ip4addr'),
 				_('valid IPv4 network'));
 		},
 
-		ipmask6: function() {
-			return this.assert(this.apply('cidr6') || this.apply('ipnet6') || this.apply('ip6addr'),
+		ipmask6: function(negative) {
+			return this.assert(this.apply('cidr6', null, [negative]) || this.apply('ipnet6') || this.apply('ip6addr'),
 				_('valid IPv6 network'));
+		},
+
+		iprange: function(negative) {
+			return this.assert(this.apply('iprange4', null, [negative]) || this.apply('iprange6', null, [negative]),
+				_('valid IP address range'));
+		},
+
+		iprange4: function(negative) {
+			var m = this.value.split('-');
+			return this.assert(m.length == 2 && arrayle(this.factory.parseIPv4(m[0]), this.factory.parseIPv4(m[1])),
+				_('valid IPv4 address range'));
+		},
+
+		iprange6: function(negative) {
+			var m = this.value.split('-');
+			return this.assert(m.length == 2 && arrayle(this.factory.parseIPv6(m[0]), this.factory.parseIPv6(m[1])),
+				_('valid IPv6 address range'));
 		},
 
 		port: function() {
@@ -330,13 +379,14 @@ var ValidatorFactory = L.Class.extend({
 			return this.assert(this.apply('port'), _('valid port or port range (port1-port2)'));
 		},
 
-		macaddr: function() {
-			return this.assert(this.value.match(/^([a-fA-F0-9]{2}:){5}[a-fA-F0-9]{2}$/) != null,
-				_('valid MAC address'));
+		macaddr: function(multicast) {
+			var m = this.value.match(/^([a-fA-F0-9]{2}):([a-fA-F0-9]{2}:){4}[a-fA-F0-9]{2}$/);
+			return this.assert(m != null && !(+m[1] & 1) == !multicast,
+				multicast ? _('valid multicast MAC address') : _('valid MAC address'));
 		},
 
 		host: function(ipv4only) {
-			return this.assert(this.apply('hostname') || this.apply(ipv4only == 1 ? 'ip4addr' : 'ipaddr'),
+			return this.assert(this.apply('hostname') || this.apply(ipv4only == 1 ? 'ip4addr' : 'ipaddr', null, ['nomask']),
 				_('valid hostname or IP address'));
 		},
 
@@ -353,8 +403,8 @@ var ValidatorFactory = L.Class.extend({
 		},
 
 		network: function() {
-			return this.assert(this.apply('uciname') || this.apply('host'),
-				_('valid UCI identifier, hostname or IP address'));
+			return this.assert(this.apply('uciname') || this.apply('hostname') || this.apply('ip4addr') || this.apply('ip6addr'),
+				_('valid UCI identifier, hostname or IP address range'));
 		},
 
 		hostport: function(ipv4only) {
@@ -406,6 +456,15 @@ var ValidatorFactory = L.Class.extend({
 			return this.assert(this.value.match(/^[a-zA-Z0-9_]+$/), _('valid UCI identifier'));
 		},
 
+		netdevname: function() {
+			var v = this.value;
+
+			if (v == '.' || v == '..')
+				return this.assert(false, _('valid network device name, not "." or ".."'));
+
+			return this.assert(v.match(/^[^:\/%\s]{1,15}$/), _('valid network device name between 1 and 15 characters not containing ":", "/", "%" or spaces'));
+		},
+
 		range: function(min, max) {
 			var val = this.factory.parseDecimal(this.value);
 			return this.assert(val >= +min && val <= +max, _('value between %f and %f').format(min, max));
@@ -420,24 +479,23 @@ var ValidatorFactory = L.Class.extend({
 		},
 
 		length: function(len) {
-			var val = '' + this.value;
-			return this.assert(val.length == +len,
+			return this.assert(bytelen(this.value) == +len,
 				_('value with %d characters').format(len));
 		},
 
 		rangelength: function(min, max) {
-			var val = '' + this.value;
-			return this.assert((val.length >= +min) && (val.length <= +max),
+			var len = bytelen(this.value);
+			return this.assert((len >= +min) && (len <= +max),
 				_('value between %d and %d characters').format(min, max));
 		},
 
 		minlength: function(min) {
-			return this.assert((''+this.value).length >= +min,
+			return this.assert(bytelen(this.value) >= +min,
 				_('value with at least %d characters').format(min));
 		},
 
 		maxlength: function(max) {
-			return this.assert((''+this.value).length <= +max,
+			return this.assert(bytelen(this.value) <= +max,
 				_('value with at most %d characters').format(max));
 		},
 
@@ -505,7 +563,7 @@ var ValidatorFactory = L.Class.extend({
 		},
 
 		timehhmmss: function() {
-			return this.assert(this.value.match(/^[0-6][0-9]:[0-6][0-9]:[0-6][0-9]$/),
+			return this.assert(this.value.match(/^(?:[01]\d|2[0-3]):[0-5]\d:(?:[0-5]\d|60)$/),
 				_('valid time (HH:MM:SS)'));
 		},
 
@@ -561,11 +619,23 @@ var ValidatorFactory = L.Class.extend({
 		},
 
 		hexstring: function() {
-			return this.assert(this.value.match(/^([a-f0-9][a-f0-9]|[A-F0-9][A-F0-9])+$/),
+			return this.assert(this.value.match(/^([A-F0-9]{2})+$/i),
 				_('hexadecimal encoded value'));
 		},
 
 		string: function() {
+			return true;
+		},
+
+		directory: function() {
+			return true;
+		},
+
+		file: function() {
+			return true;
+		},
+
+		device: function() {
 			return true;
 		}
 	}

@@ -6,25 +6,23 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mjpg-streamer
-PKG_VERSION:=2018-10-25
-PKG_RELEASE:=3
+PKG_VERSION:=1.0.0
+PKG_RELEASE:=5
+
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://codeload.github.com/jacksonliam/mjpg-streamer/tar.gz/v$(PKG_VERSION)?
+PKG_HASH:=31850cd533b0290640cbdf4da44f7a774bfba050647cb0a0c84a435e90b08598
+
 PKG_MAINTAINER:=Roger D <rogerdammit@gmail.com>, \
 		Ted Hess <thess@kitschensync.net>
-
-PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/jacksonliam/mjpg-streamer.git
-PKG_SOURCE_VERSION:=ddb69b7b4f114f3c2ca01adf55712792ca8aed43
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
-PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-PKG_MIRROR_HASH:=d87ebff5de0c17a35a5b81adad5aa234bc70fe2bb17d1c6277c726845dc043bb
-
-PKG_LICENSE:=GPL-2.0
+PKG_LICENSE:=GPL-2.0-or-later
 PKG_LICENSE_FILES:=LICENSE
+
+PKG_UNPACK=$(HOST_TAR) -C $(PKG_BUILD_DIR) --strip=2 -xf $(DL_DIR)/$(PKG_SOURCE)
+PKG_BUILD_DEPENDS:=MJPG_STREAMER_V4L2:libv4l zmq protobuf-c/host
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
-
-PKG_BUILD_DEPENDS:=MJPG_STREAMER_V4L2:libv4l zmq protobuf-c/host
 
 define Package/mjpg-streamer
   SECTION:=multimedia
@@ -177,6 +175,8 @@ $(call Package/mjpg-streamer/Default/description)
 This package provides simple version of the web content.
 endef
 
+CMAKE_OPTIONS += -DCMAKE_SKIP_RPATH=FALSE
+
 CAMBOZOLA:=cambozola-0.936.tar.gz
 
 # Distribution URL doesn't always have the correct version
@@ -191,10 +191,7 @@ endef
 # redefine prepare to extract to our build dir
 # apply patches
 define Build/Prepare
-	rm -rf $(PKG_BUILD_DIR)/
-	mkdir -p $(PKG_BUILD_DIR)/
-	$(TAR) -xJf $(DL_DIR)/$(PKG_SOURCE) -C $(PKG_BUILD_DIR) --strip=2
-	$(Build/Patch)
+    $(Build/Prepare/Default)
     # Fetch latest cambozola that works with latest Java(s)
     # Yes, I know this is ugly
     ifneq ($(CONFIG_PACKAGE_mjpg-streamer-www),)

@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dump1090
-PKG_VERSION:=3.7.2
-PKG_RELEASE:=1
+PKG_VERSION:=9.0
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/flightaware/dump1090/tar.gz/v${PKG_VERSION}?
-PKG_HASH:=a4f8edd051e0a663a92b848bde4ab7c47cb8bce812bb368cba42bbb4b5c83f71
+PKG_HASH:=6190622c3625713ec9cff882a9d6f6a51b6d2f83ef20e6e1905a3902c7b08483
 
 PKG_MAINTAINER:=Álvaro Fernández Rojas <noltari@gmail.com>
 PKG_LICENSE:=GPL-2.0-or-later
@@ -21,6 +21,7 @@ PKG_LICENSE_FILES:=COPYING LICENSE
 
 PKG_BUILD_DEPENDS:=libusb
 PKG_BUILD_PARALLEL:=1
+PKG_BUILD_FLAGS:=gc-sections lto
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -28,7 +29,7 @@ define Package/dump1090/Default
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=Mode S decoder for the Realtek RTL2832U
-  URL:=https://github.com/mutability/dump1090
+  URL:=https://github.com/flightaware/dump1090
 endef
 
 define Package/dump1090
@@ -52,12 +53,20 @@ define Package/view1090/description
 endef
 
 MAKE_FLAGS += \
+	DUMP1090_VERSION=$(PKG_VERSION) \
 	BLADERF=no \
 	CFLAGS="$(TARGET_CFLAGS)" \
 	UNAME="Linux"
 
-TARGET_CFLAGS += -ffunction-sections -fdata-sections -flto
-TARGET_LDFLAGS += -Wl,--gc-sections,--as-needed
+ifeq ($(CONFIG_SOFT_FLOAT),y)
+MAKE_FLAGS += CPUFEATURES=no
+endif
+
+TARGET_LDFLAGS += -Wl,--as-needed
+
+define Package/dump1090/conffiles
+/etc/config/dump1090
+endef
 
 define Package/dump1090/install
 	$(INSTALL_DIR) $(1)/etc/init.d

@@ -1,8 +1,9 @@
 'use strict';
+'require view';
 'require fs';
 'require ui';
 
-return L.view.extend({
+return view.extend({
 	load: function() {
 		return L.resolveDefault(fs.read('/etc/firewall.user'), '');
 	},
@@ -23,7 +24,7 @@ return L.view.extend({
 		return E([
 			E('h2', _('Firewall - Custom Rules')),
 			E('p', {}, _('Custom rules allow you to execute arbitrary iptables commands which are not otherwise covered by the firewall framework. The commands are executed after each firewall restart, right after the default ruleset has been loaded.')),
-			E('p', {}, E('textarea', { 'style': 'width:100%', 'rows': 10 }, [ fwuser != null ? fwuser : '' ]))
+			E('p', {}, E('textarea', { 'style': 'width:100%', 'rows': 25 }, [ fwuser != null ? fwuser : '' ]))
 		]);
 	},
 

@@ -8,19 +8,23 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=siproxd
-PKG_VERSION:=0.8.2
-PKG_RELEASE:=5
+PKG_RELEASE:=2
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=@SF/siproxd
-PKG_HASH:=526ce491b0cc189e2766c62432aff3ebb995e551d7261ea32c02a90c7bf7ccd0
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_URL:=https://github.com/hb9xar/siproxd.git
+PKG_SOURCE_DATE:=2022-02-18
+PKG_SOURCE_VERSION:=4750bea4ffedb4543a404dafc979c2b16b53e523
+PKG_MIRROR_HASH:=9b2fa84b4c05d68f758a35070af970c852ff4cb8beea3d7f93663b10a17e1df8
 
 PKG_FIXUP:=autoreconf
 PKG_INSTALL:=1
 PKG_BUILD_PARALLEL:=1
 
+PKG_CONFIG_DEPENDS:=CONFIG_SIPROXD_MAX_CLIENTS
+
 PKG_LICENSE:=GPL-2.0+
 PKG_LICENSE_FILES:=COPYING
+PKG_MAINTAINER:=Tony Ambardar <itugrok@yahoo.com>
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -46,13 +50,37 @@ define Package/siproxd/conffiles
 /etc/config/siproxd
 endef
 
+define Package/siproxd/config
+	config SIPROXD_MAX_CLIENTS
+		int "Max supported clients"
+		default 32
+		depends on PACKAGE_siproxd
+		help
+		  Default 32 is sufficient for home environments. Larger values
+		  consume more memory (e.g. RSS of 17 MB with upstream default 512).
+endef
+
 CONFIGURE_ARGS+= \
+	--enable-reproducible-build \
 	--with-libosip-prefix="$(STAGING_DIR)/usr" \
-	--disable-ltdl-convenience \
+	--without-included-ltdl \
 	--disable-doc
 
 MAKE_FLAGS+= \
 	SUBDIRS="src scripts contrib"
+
+TARGET_CFLAGS+= \
+	-Wno-unused-const-variable
+
+URLMAP:=$(CONFIG_SIPROXD_MAX_CLIENTS)
+RTPPROXY:=$(shell expr $(URLMAP) \* 2)
+
+define Build/Configure
+	$(call Build/Configure/Default)
+	$(ESED) 's;^(#define[[:space:]]+URLMAP_SIZE).*$$$$;\1 $(URLMAP);' \
+		-e 's;^(#define[[:space:]]+RTPPROXY_SIZE).*$$$$;\1 $(RTPPROXY);' \
+		$(PKG_BUILD_DIR)/src/siproxd.h
+endef
 
 define Package/siproxd/install
 	$(INSTALL_DIR) $(1)/usr/sbin
@@ -67,18 +95,20 @@ define BuildPlugin
   define Package/siproxd-mod-$(subst _,-,$(1))
     $$(call Package/siproxd/Default)
     TITLE:= siproxd $(1) plugin
-    DEPENDS:=siproxd
+    DEPENDS:=siproxd $(2)
   endef
 
   define Package/siproxd-mod-$(subst _,-,$(1))/install
 	$(INSTALL_DIR) $$(1)/usr/lib/siproxd
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/siproxd/plugin_$(1).so $$(1)/usr/lib/siproxd
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/siproxd/plugin_$(1).so \
+		$$(1)/usr/lib/siproxd
   endef
 
   $$(eval $$(call BuildPackage,siproxd-mod-$(subst _,-,$(1))))
 endef
 
 $(eval $(call BuildPackage,siproxd))
+$(eval $(call BuildPlugin,blacklist,+libsqlite3))
 $(eval $(call BuildPlugin,codecfilter))
 $(eval $(call BuildPlugin,defaulttarget))
 $(eval $(call BuildPlugin,demo))
@@ -89,6 +119,7 @@ $(eval $(call BuildPlugin,logcall))
 $(eval $(call BuildPlugin,prefix))
 $(eval $(call BuildPlugin,regex))
 $(eval $(call BuildPlugin,shortdial))
+$(eval $(call BuildPlugin,stats))
 $(eval $(call BuildPlugin,stripheader))
 $(eval $(call BuildPlugin,stun))
 $(eval $(call BuildPlugin,siptrunk))

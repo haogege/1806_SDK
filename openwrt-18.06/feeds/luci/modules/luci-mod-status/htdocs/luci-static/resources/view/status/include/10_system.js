@@ -1,6 +1,12 @@
 'use strict';
+'require baseclass';
 'require fs';
 'require rpc';
+
+var callLuciVersion = rpc.declare({
+	object: 'luci',
+	method: 'getVersion'
+});
 
 var callSystemBoard = rpc.declare({
 	object: 'system',
@@ -12,14 +18,14 @@ var callSystemInfo = rpc.declare({
 	method: 'info'
 });
 
-return L.Class.extend({
+return baseclass.extend({
 	title: _('System'),
 
 	load: function() {
 		return Promise.all([
 			L.resolveDefault(callSystemBoard(), {}),
 			L.resolveDefault(callSystemInfo(), {}),
-			fs.lines('/usr/lib/lua/luci/version.lua')
+			L.resolveDefault(callLuciVersion(), { revision: _('unknown version'), branch: 'LuCI' })
 		]);
 	},
 
@@ -28,11 +34,7 @@ return L.Class.extend({
 		    systeminfo  = data[1],
 		    luciversion = data[2];
 
-		luciversion = luciversion.filter(function(l) {
-			return l.match(/^\s*(luciname|luciversion)\s*=/);
-		}).map(function(l) {
-			return l.replace(/^\s*\w+\s*=\s*['"]([^'"]+)['"].*$/, '$1');
-		}).join(' ');
+		luciversion = luciversion.branch + ' ' + luciversion.revision;
 
 		var datestr = null;
 
@@ -53,6 +55,7 @@ return L.Class.extend({
 			_('Hostname'),         boardinfo.hostname,
 			_('Model'),            boardinfo.model,
 			_('Architecture'),     boardinfo.system,
+			_('Target Platform'),  (L.isObject(boardinfo.release) ? boardinfo.release.target : ''),
 			_('Firmware Version'), (L.isObject(boardinfo.release) ? boardinfo.release.description + ' / ' : '') + (luciversion || ''),
 			_('Kernel Version'),   boardinfo.kernel,
 			_('Local Time'),       datestr,
@@ -64,12 +67,12 @@ return L.Class.extend({
 			) : null
 		];
 
-		var table = E('div', { 'class': 'table' });
+		var table = E('table', { 'class': 'table' });
 
 		for (var i = 0; i < fields.length; i += 2) {
-			table.appendChild(E('div', { 'class': 'tr' }, [
-				E('div', { 'class': 'td left', 'width': '33%' }, [ fields[i] ]),
-				E('div', { 'class': 'td left' }, [ (fields[i + 1] != null) ? fields[i + 1] : '?' ])
+			table.appendChild(E('tr', { 'class': 'tr' }, [
+				E('td', { 'class': 'td left', 'width': '33%' }, [ fields[i] ]),
+				E('td', { 'class': 'td left' }, [ (fields[i + 1] != null) ? fields[i + 1] : '?' ])
 			]));
 		}
 

@@ -12,14 +12,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: es\n"
 
-#: applications/luci-app-bmx7/root/www/luci-static/resources/bmx7/js/netjsongraph.js:510
-msgid "+ d.x +"
-msgstr "+ d.x +"
-
-#: applications/luci-app-bmx7/root/www/luci-static/resources/bmx7/js/netjsongraph.js:173
-msgid "+ d3.event.translate +"
-msgstr "+ d3.evento.traducción +"
-
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/bmx7/tunnels_j.htm:33
 msgid "Announcements"
 msgstr "Anuncios"
@@ -29,7 +21,7 @@ msgid "BMX7 revision"
 msgstr "Revisión de BMX7"
 
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/bmx7/tunnels_j.htm:41
-msgid "Bandwith"
+msgid "Bandwidth"
 msgstr "Ancho de banda"
 
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/admin_status/index/bmx7_nodes.htm:3
@@ -63,7 +55,7 @@ msgid "Link key"
 msgstr "Clave de enlace"
 
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/bmx7/status_j.htm:61
-msgid "LinkLocal Ipv6"
+msgid "Link-local IPv6"
 msgstr "Enlace Local Ipv6"
 
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/bmx7/status_j.htm:71
@@ -160,7 +152,7 @@ msgid "Rating"
 msgstr "Clasificación"
 
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/bmx7/status_j.htm:78
-msgid "Remote linklocal IPv6"
+msgid "Remote link-local IPv6"
 msgstr "Enlace remoto local IPv6"
 
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/bmx7/status_j.htm:82
@@ -227,3 +219,9 @@ msgstr "Tiempo de actividad"
 #: applications/luci-app-bmx7/root/usr/lib/lua/luci/view/bmx7/nodes_j.htm:79
 msgid "Via Neighbour"
 msgstr "Vía vecino"
+
+#~ msgid "+ d.x +"
+#~ msgstr "+ d.x +"
+
+#~ msgid "+ d3.event.translate +"
+#~ msgstr "+ d3.evento.traducción +"

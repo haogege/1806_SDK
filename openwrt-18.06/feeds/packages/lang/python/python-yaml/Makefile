@@ -8,64 +8,42 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=python-yaml
-PKG_VERSION:=5.1.2
-PKG_RELEASE:=1
+PKG_VERSION:=6.0.1
+PKG_RELEASE:=2
 
 PYPI_NAME:=PyYAML
-PKG_HASH:=01adf0b6c6f61bd11af6e10ca52b7d4057dd0be0343eb9283c878cf3af56aee4
+PKG_HASH:=bfdf460b1736c775f2ba9f6a92bca30bc2095067b8a9d77876d1fad6cc3b4a43
 
-PKG_MAINTAINER:=Josef Schlehofer <josef.schlehofer@nic.cz>
+PKG_MAINTAINER:=Josef Schlehofer <pepe.schlehofer@gmail.com>
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
-PKG_CPE_ID:=cpe:/a:pyyaml_project:pyyaml
+PKG_CPE_ID:=cpe:/a:pyyaml:pyyaml
+
+PKG_BUILD_DEPENDS:=python-cython/host
+HOST_BUILD_DEPENDS:=python-cython/host
 
 include ../pypi.mk
 include $(INCLUDE_DIR)/package.mk
-include ../python-package.mk
+include $(INCLUDE_DIR)/host-build.mk
 include ../python3-package.mk
+include ../python3-host-build.mk
 
-define Package/python-yaml/Default
+define Package/python3-yaml
   SECTION:=lang
   CATEGORY:=Languages
   SUBMENU:=Python
-  TITLE:=YAML parser and emitter for Python
+  TITLE:=YAML parser and emitter
   URL:=https://github.com/yaml/pyyaml
-  DEPENDS:=+libyaml
-endef
-
-define Package/python-yaml
-$(call Package/python-yaml/Default)
-  DEPENDS+= \
-	+PACKAGE_python-yaml:python-light \
-	+PACKAGE_python-yaml:python-codecs
-  VARIANT:=python
-endef
-
-define Package/python3-yaml
-$(call Package/python-yaml/Default)
-  DEPENDS+=+PACKAGE_python3-yaml:python3-light
-  VARIANT:=python3
-endef
-
-define Package/python-yaml/description
-  PyYAML is a YAML parser and emitter for the Python programming language.
+  DEPENDS:=+libyaml +python3-light
 endef
 
 define Package/python3-yaml/description
-$(call Package/python-yaml/description)
-.
-(Variant for Python3)
+  PyYAML is a YAML parser and emitter for the Python programming language.
 endef
 
-PYTHON_PKG_SETUP_GLOBAL_ARGS:=--with-libyaml
-PYTHON_PKG_SETUP_ARGS:=
-PYTHON3_PKG_SETUP_GLOBAL_ARGS:=--with-libyaml
-PYTHON3_PKG_SETUP_ARGS:=
-
-$(eval $(call PyPackage,python-yaml))
-$(eval $(call BuildPackage,python-yaml))
-$(eval $(call BuildPackage,python-yaml-src))
+PYTHON3_PKG_BUILD_VARS:=PYYAML_FORCE_LIBYAML=1
 
 $(eval $(call Py3Package,python3-yaml))
 $(eval $(call BuildPackage,python3-yaml))
 $(eval $(call BuildPackage,python3-yaml-src))
+$(eval $(call HostBuild))

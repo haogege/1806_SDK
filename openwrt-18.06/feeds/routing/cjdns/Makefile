@@ -17,13 +17,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=cjdns
-PKG_VERSION:=v20.4
-PKG_RELEASE:=3
+PKG_VERSION:=21.1
+PKG_RELEASE:=6
 
-PKG_SOURCE_VERSION:=$(PKG_NAME)-$(PKG_VERSION)
-PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/cjdelisle/cjdns.git
-PKG_MIRROR_HASH:=5e0036660626c3acf0050cf2e47aa87d262474184efb9d69538dbab4512113f8
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://codeload.github.com/cjdelisle/cjdns/tar.gz/$(PKG_NAME)-v$(PKG_VERSION)?
+PKG_HASH:=a6158ce7847159aa44e86f74ccc7b6ded6910a230ed8f3830db53cda5838f0b0
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_NAME)-v$(PKG_VERSION)
 
 PKG_MAINTAINER:=William Fleurant <meshnet@protonmail.com>
 PKG_LICENSE:=GPL-3.0-or-later
@@ -75,19 +75,19 @@ PKG_DO_VARS+= UCLIBC=1
 endif
 
 define Build/Compile
-	$(INSTALL_DIR) $(BUILD_DIR)/$(PKG_SOURCE_VERSION)/tmp
-	(cd $(BUILD_DIR)/$(PKG_SOURCE_VERSION) && \
+	$(INSTALL_DIR) $(PKG_BUILD_DIR)/tmp
+	(cd $(PKG_BUILD_DIR) && \
 	CROSS="true" \
-	CC="$(TARGET_CC)" \
+	CC="$(TARGET_CC_NOCACHE)" \
 	AR="$(TARGET_AR)" \
 	RANLIB="$(TARGET_RANLIB)" \
-	CFLAGS="$(TARGET_CFLAGS) -U_FORTIFY_SOURCE" \
+	CFLAGS="$(TARGET_CFLAGS) -U_FORTIFY_SOURCE -Wno-error=array-bounds -Wno-error=stringop-overflow -Wno-error=stringop-overread" \
 	LDFLAGS="$(TARGET_LDFLAGS)" \
 	SYSTEM="linux" \
 	TARGET_ARCH="$(CONFIG_ARCH)" \
 	SSP_SUPPORT="$(CONFIG_SSP_SUPPORT)" \
 	GYP_ADDITIONAL_ARGS="-f make-linux" \
-	CJDNS_BUILD_TMPDIR="$(BUILD_DIR)/$(PKG_SOURCE_VERSION)/tmp" \
+	CJDNS_BUILD_TMPDIR="$(PKG_BUILD_DIR)/tmp" \
 	$(PKG_DO_VARS) \
 	exec ./do)
 endef
@@ -99,18 +99,19 @@ define Package/cjdns/install
 		$(1)/etc/config \
 		$(1)/etc/init.d \
 		$(1)/etc/uci-defaults \
-		$(1)/usr/lib/lua/cjdns
+		$(1)/usr/lib/lua/cjdns \
+		$(1)/usr/share/ucitrack
 
 	$(INSTALL_BIN) \
 		./files/cjdrouteconf \
 		$(1)/usr/bin
 
 	$(INSTALL_BIN) \
-		$(BUILD_DIR)/$(PKG_SOURCE_VERSION)/cjdroute \
+		$(PKG_BUILD_DIR)/cjdroute \
 		$(1)/usr/sbin
 
 	$(INSTALL_BIN) \
-		$(BUILD_DIR)/$(PKG_SOURCE_VERSION)/publictoip6 \
+		$(PKG_BUILD_DIR)/publictoip6 \
 		$(1)/usr/bin
 
 	$(INSTALL_BIN) \
@@ -120,6 +121,10 @@ define Package/cjdns/install
 	$(INSTALL_BIN) \
 		./files/cjdns.defaults \
 		$(1)/etc/uci-defaults/cjdns
+
+	$(INSTALL_DATA) \
+		./files/luci-app-cjdns.json \
+		$(1)/usr/share/ucitrack
 
 	$(CP) \
 		./lua/cjdns/* \
@@ -138,7 +143,7 @@ endef
 define Package/cjdns-tests/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) \
-		$(BUILD_DIR)/$(PKG_SOURCE_VERSION)/build_linux/test_testcjdroute_c \
+		$(PKG_BUILD_DIR)/build_linux/test_testcjdroute_c \
 		$(1)/usr/bin
 endef
 

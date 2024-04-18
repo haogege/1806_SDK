@@ -1,8 +1,14 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2020-01-14 15:23+0000\n"
+"Last-Translator: Franco Castillo <castillofrancodamian@gmail.com>\n"
+"Language-Team: Hindi <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationsdynapoint/hi/>\n"
 "Language: hi\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.11-dev\n"
 
 #: applications/luci-app-dynapoint/luasrc/model/cbi/dynapoint.lua:90
 msgid "Activate this wVIF if status is:"
@@ -37,7 +43,7 @@ msgstr ""
 msgid "Disabled"
 msgstr ""
 
-#: applications/luci-app-dynapoint/luasrc/controller/dynapoint.lua:7
+#: applications/luci-app-dynapoint/root/usr/share/luci/menu.d/luci-app-dynapoint.json:3
 msgid "DynaPoint"
 msgstr ""
 
@@ -53,6 +59,10 @@ msgstr ""
 msgid ""
 "Failure counter after how many failed download attempts, the state is "
 "considered as offline"
+msgstr ""
+
+#: applications/luci-app-dynapoint/root/usr/share/rpcd/acl.d/luci-app-dynapoint.json:3
+msgid "Grant UCI access for luci-app-dynapoint"
 msgstr ""
 
 #: applications/luci-app-dynapoint/luasrc/model/cbi/dynapoint.lua:56
@@ -86,7 +96,7 @@ msgstr ""
 
 #: applications/luci-app-dynapoint/luasrc/model/cbi/dynapoint.lua:87
 msgid "SSID"
-msgstr ""
+msgstr "SSID"
 
 #: applications/luci-app-dynapoint/luasrc/model/cbi/dynapoint.lua:47
 msgid "Software Section"

@@ -42,7 +42,7 @@ local basicParams = {
 	{ ListValue,
 		"comp_lzo",
 		{"yes","no","adaptive"},
-		translate("Use fast LZO compression") },
+		translate("Security recommendation: It is recommended to not enable compression and set this parameter to `no`")},
 	{ Value,
 		"keepalive",
 		"10 60",
@@ -58,7 +58,7 @@ local basicParams = {
 	{ DynamicList,
 		"remote",
 		"vpnserver.example.org",
-		translate("Remote host name or ip address") },
+		translate("Remote host name or IP address") },
 	{ FileUpload,
 		"secret",
 		"/etc/openvpn/secret.key",
@@ -78,7 +78,7 @@ local basicParams = {
 	{ FileUpload,
 		"dh",
 		"/etc/easy-rsa/keys/dh1024.pem",
-		translate("Diffie Hellman parameters") },
+		translate("Diffie-Hellman parameters") },
 	{ FileUpload,
 		"cert",
 		"/etc/easy-rsa/keys/some-client.crt",
@@ -127,6 +127,8 @@ for _, option in ipairs(basicParams) do
 	if option[1] == DummyValue then
 		o.value = option[3]
 	elseif option[1] == FileUpload then
+
+		o.initial_directory = "/etc/openvpn"
 
 		function o.cfgvalue(self, section)
 			local cfg_val = AbstractValue.cfgvalue(self, section)

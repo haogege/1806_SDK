@@ -8,23 +8,20 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=libarchive
-PKG_VERSION:=3.4.0
+PKG_VERSION:=3.7.3
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/libarchive/libarchive/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=c160d3c45010a51a924208f13f6b7b956dabdf8c5c60195df188a599028caa7c
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
+PKG_SOURCE_URL:=https://www.libarchive.org/downloads
+PKG_HASH:=63e7a7174638fc7d6b79b4c8b0ad954e0f4f45abe7239c1ecb200232aa9a43d2
 
 PKG_MAINTAINER:=Johannes Morgenroth <morgenroth@ibr.cs.tu-bs.de>
 PKG_LICENSE:=BSD-2-Clause
 PKG_LICENSE_FILES:=COPYING
 PKG_CPE_ID:=cpe:/a:libarchive:libarchive
 
-PKG_BUILD_PARALLEL:=1
-PKG_INSTALL:=1
-PKG_FIXUP:=autoreconf
-
 include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/cmake.mk
 
 define Package/libarchive/Default
   SECTION:=libs
@@ -35,12 +32,13 @@ define Package/libarchive/Default
 endef
 
 define Package/libarchive
-	$(call Package/libarchive/Default)
+  $(call Package/libarchive/Default)
   DEPENDS += +libopenssl
+  CONFLICTS:=libarchive-noopenssl
 endef
 
 define Package/libarchive-noopenssl
-	$(call Package/libarchive/Default)
+  $(call Package/libarchive/Default)
   TITLE += (without OpenSSL dependency)
   VARIANT:=noopenssl
 endef
@@ -54,12 +52,13 @@ define Package/bsdtar/Default
 endef
 
 define Package/bsdtar
-	$(call Package/bsdtar/Default)
+  $(call Package/bsdtar/Default)
   DEPENDS:= +libarchive
+  CONFLICTS:=bsdtar-noopenssl
 endef
 
 define Package/bsdtar-noopenssl
-	$(call Package/bsdtar/Default)
+  $(call Package/bsdtar/Default)
   TITLE += (without OpenSSL dependency)
   DEPENDS:= +libarchive-noopenssl
   VARIANT:=noopenssl
@@ -72,25 +71,37 @@ define Package/bsdtar/description
   archives compressed with gzip, bzip2, lzip, xz, lzma or compress.
 endef
 
-CONFIGURE_ARGS += \
-	--enable-bsdtar=shared \
-	--disable-bsdcpio \
-	--disable-rpath \
-	--disable-acl \
-	--disable-xattr \
-	--without-cng \
-	--without-iconv \
-	--without-lz4 \
-	--without-lzo2 \
-	--without-nettle \
-	--without-xml2 \
-	--without-zstd
+CMAKE_OPTIONS += \
+	-DENABLE_LIBB2=OFF \
+	-DENABLE_LZ4=OFF \
+	\
+	-DENABLE_ZSTD=OFF \
+	-DENABLE_LIBXML2=OFF \
+	-DENABLE_PCREPOSIX=OFF \
+	-DENABLE_LibGCC=OFF \
+	-DENABLE_CNG=OFF \
+	\
+	-DENABLE_TAR_SHARED=ON \
+	-DENABLE_CPIO=OFF \
+	-DENABLE_CAT=OFF \
+	-DENABLE_XATTR=OFF \
+	-DENABLE_ACL=OFF \
+	-DENABLE_ICONV=OFF \
+	-DENABLE_TEST=OFF
 
 ifeq ($(BUILD_VARIANT),noopenssl)
-	CONFIGURE_ARGS += --without-openssl
+	CMAKE_OPTIONS += -DENABLE_OPENSSL=OFF
 else
-	CONFIGURE_ARGS += --with-openssl
+	CMAKE_OPTIONS += -DENABLE_OPENSSL=ON
 endif
+
+EXTRA_CFLAGS += "-I$(PKG_BUILD_DIR)/extra-includes"
+
+define Build/Configure
+	$(INSTALL_DIR) $(PKG_BUILD_DIR)/extra-includes/
+	$(CP) -R $(STAGING_DIR_HOST)/include/ext2fs $(PKG_BUILD_DIR)/extra-includes/
+	$(Build/Configure/Default)
+endef
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include

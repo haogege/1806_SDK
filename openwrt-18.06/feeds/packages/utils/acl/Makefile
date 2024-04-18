@@ -8,16 +8,17 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=acl
-PKG_VERSION:=2.2.53
+PKG_VERSION:=2.3.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://git.savannah.nongnu.org/cgit/acl.git/snapshot
-PKG_HASH:=9e905397ac10d06768c63edd0579c34b8431555f2ea8e8f2cee337b31f856805
+PKG_HASH:=0fc318808c1e91925398cbe41399a33b74dcf788a1c0af4feae8f7a322c6e6fd
 PKG_MAINTAINER:=Maxim Storchak <m.storchak@gmail.com>
 
 PKG_LICENSE:=LGPL-2.1 GPL-2.0
 PKG_LICENSE_FILES:=doc/COPYING doc/COPYING.LGPL
+PKG_CPE_ID:=cpe:/a:acl_project:acl
 
 PKG_INSTALL:=1
 PKG_FIXUP:=autoreconf

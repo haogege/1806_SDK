@@ -5,9 +5,9 @@ PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/jow-/nlbwmon.git
-PKG_SOURCE_DATE:=2019-06-06
-PKG_SOURCE_VERSION:=4574e6e80e3a5ab8de65886baa0d563dfee589ff
-PKG_MIRROR_HASH:=559a8b04e8942c83e31a6a5e2576a5308fdc16349ed29e0b2d9fc182d715976d
+PKG_SOURCE_DATE:=2024-02-21
+PKG_SOURCE_VERSION:=c7616bcfaaef440848152f4dc738c990b2d0b90b
+PKG_MIRROR_HASH:=98758dbd14d230f21887b4da5f4f26ea5cb6ecff38ee70322b8fa28630c4d6bb
 
 CMAKE_INSTALL:=1
 
@@ -25,7 +25,7 @@ define Package/nlbwmon
   SECTION:=net
   CATEGORY:=Network
   DEPENDS:=+libubox +libnl-tiny +zlib +kmod-nf-conntrack-netlink
-  TITLE:=LEDE Traffic Usage Monitor
+  TITLE:=OpenWrt Traffic Usage Monitor
 endef
 
 define Package/nlbwmon/install
@@ -38,9 +38,12 @@ define Package/nlbwmon/install
 	$(INSTALL_BIN) ./files/nlbwmon.init $(1)/etc/init.d/nlbwmon
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_CONF) ./files/nlbwmon.config $(1)/etc/config/nlbwmon
+	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
+	$(INSTALL_BIN) ./files/nlbwmon.hotplug $(1)/etc/hotplug.d/iface/30-nlbwmon
 endef
 
 define Package/nlbwmon/conffiles
+/etc/config/nlbwmon
 /usr/share/nlbwmon/protocols
 endef
 

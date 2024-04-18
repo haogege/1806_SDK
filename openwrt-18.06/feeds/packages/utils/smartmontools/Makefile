@@ -6,22 +6,23 @@
 #
 
 include $(TOPDIR)/rules.mk
-include $(INCLUDE_DIR)/uclibc++.mk
 
 PKG_NAME:=smartmontools
-PKG_VERSION:=7.0
-PKG_RELEASE:=3
+PKG_VERSION:=7.4
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=@SF/smartmontools
-PKG_HASH:=e5e1ac2786bc87fdbd6f92d0ee751b799fbb3e1a09c0a6a379f9eb64b3e8f61c
+PKG_HASH:=e9a61f641ff96ca95319edfb17948cd297d0cd3342736b2c49c99d4716fb993d
 
 PKG_MAINTAINER:=Maxim Storchak <m.storchak@gmail.com>
 PKG_LICENSE:=GPL-2.0-or-later
 PKG_LICENSE_FILES:=COPYING
+PKG_CPE_ID:=cpe:/a:smartmontools:smartmontools
 
 PKG_BUILD_PARALLEL:=1
 PKG_INSTALL:=1
+PKG_BUILD_FLAGS:=lto
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -34,7 +35,7 @@ endef
 
 define Package/smartmontools
   $(call Package/smartmontools/Default)
-  DEPENDS:=$(CXX_DEPENDS)
+  DEPENDS:=+libstdcpp
   TITLE+= Tool
 endef
 
@@ -47,7 +48,7 @@ endef
 
 define Package/smartd
   $(call Package/smartmontools/Default)
-  DEPENDS:=$(CXX_DEPENDS)
+  DEPENDS:=+libstdcpp
   TITLE+= Daemon
 endef
 
@@ -68,14 +69,18 @@ define Package/smartmontools-drivedb/description
   Database of known drives and USB bridges for smartctl and smartd.
 endef
 
-ifeq ($(CONFIG_USE_UCLIBCXX),y)
-TARGET_LDFLAGS +=-nodefaultlibs
-else
-CONFIGURE_VARS += with_cxx11_regex=yes
-endif
-TARGET_LDFLAGS += -flto
+define Package/smartd-mail
+  $(call Package/smartmontools/Default)
+  TITLE+= Email notifications
+  PKGARCH=all
+  DEPENDS+= +smartd +nail +msmtp-mta
+endef
 
-TARGET_CXXFLAGS +=-fno-rtti -flto
+define Package/smartd-mail/description
+  A script for mailing about SMART issues
+endef
+
+TARGET_CXXFLAGS +=-fno-rtti
 MAKE_FLAGS +=BUILD_INFO='"(localbuild)"'
 
 CONFIGURE_ARGS += \
@@ -86,6 +91,7 @@ CONFIGURE_ARGS += \
 
 #lower file size vs. CONFIGURE_ARGS
 CONFIGURE_VARS += \
+	with_cxx11_regex=yes \
 	with_smartdplugindir=no \
 	with_systemdenvfile=no \
 	with_systemdsystemunitdir=no \
@@ -110,6 +116,11 @@ define Package/smartmontools-drivedb/install
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/share/smartmontools/drivedb.h $(1)/usr/share/smartmontools/
 endef
 
+define Package/smartd-mail/install
+	$(INSTALL_DIR) $(1)/etc
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/etc/smartd_warning.sh $(1)/etc
+endef
+
 define Package/smartd/conffiles
 /etc/smartd.conf
 endef
@@ -117,3 +128,4 @@ endef
 $(eval $(call BuildPackage,smartmontools))
 $(eval $(call BuildPackage,smartd))
 $(eval $(call BuildPackage,smartmontools-drivedb))
+$(eval $(call BuildPackage,smartd-mail))

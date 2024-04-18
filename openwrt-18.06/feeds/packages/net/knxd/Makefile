@@ -11,12 +11,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=knxd
-PKG_VERSION:=0.14.29
-PKG_RELEASE:=3
+PKG_VERSION:=0.14.61
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/knxd/knxd/tar.gz/$(PKG_VERSION)?
-PKG_HASH:=4513328dd5ecfc17955e6884e938d652dbd33b82797893ae9ad768a247a0f63e
+PKG_HASH:=b5284c89a55a2c53e0ff769ec4f736fc1ad4b55afdd2a18b9258fa95f708d798
 
 PKG_MAINTAINER:=Othmar Truniger <github@truniger.ch>
 PKG_LICENSE:=GPL-2.0-or-later
@@ -47,6 +47,8 @@ endef
 
 CONFIGURE_ARGS+= \
 	--disable-systemd
+
+TARGET_LDFLAGS += $(if $(CONFIG_USE_GLIBC),-lm)
 
 define Package/knxd/install
 	$(INSTALL_DIR) $(1)/usr/lib

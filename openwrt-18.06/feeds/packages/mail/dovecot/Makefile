@@ -8,19 +8,18 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dovecot
-PKG_VERSION:=2.3.8
+PKG_VERSION:=2.3.21
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://dovecot.org/releases/2.3
-PKG_HASH:=c5778d03bf26ab34a605854098035badec455d07adfab38d974f610c8f78b649
+PKG_HASH:=05b11093a71c237c2ef309ad587510721cc93bbee6828251549fc1586c36502d
 
 PKG_MAINTAINER:=Lucian Cristian <lucian.cristian@gmail.com>
 PKG_LICENSE:=LGPL-2.1-only MIT BSD-3-Clause
 PKG_LICENSE_FILES:=COPYING COPYING.LGPL COPYING.MIT
 PKG_CPE_ID:=cpe:/a:dovecot:dovecot
 
-PKG_BUILD_DEPENDS:=libiconv
 PKG_CONFIG_DEPENDS:= \
 	CONFIG_DOVECOT_GSSAPI \
 	CONFIG_DOVECOT_LDAP \
@@ -37,6 +36,9 @@ include $(INCLUDE_DIR)/package.mk
 # iconv is needed when compiling with MySQL support. iconv will also be used by
 # dovecot itself.
 include $(INCLUDE_DIR)/nls.mk
+
+# need iconv.m4, otherwise error during autoreconf
+PKG_BUILD_DEPENDS:=gettext-full
 
 define Package/dovecot
   SECTION:=mail
@@ -69,11 +71,13 @@ endef
 
 CONFIGURE_ARGS += \
 	--libexecdir=/usr/libexec \
+	--without-libunwind \
 	--without-pam \
 	--with-notify=dnotify \
 	--without-lzma \
 	--without-lz4 \
 	--without-sodium \
+	--without-zstd \
 	$(if $(CONFIG_DOVECOT_GSSAPI),--with-gssapi=yes,--with-gssapi=no) \
 	$(if $(CONFIG_DOVECOT_LDAP),--with-ldap=yes,--with-ldap=no) \
 	$(if $(CONFIG_DOVECOT_MYSQL),--with-mysql=yes,--with-mysql=no) \

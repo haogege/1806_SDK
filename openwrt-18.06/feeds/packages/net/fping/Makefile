@@ -8,18 +8,19 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=fping
-PKG_VERSION:=4.2
+PKG_VERSION:=5.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://fping.org/dist/
-PKG_HASH:=7d339674b6a95aae1d8ad487ff5056fd95b474c3650938268f6a905c3771b64a
+PKG_SOURCE_URL:=https://fping.org/dist
+PKG_HASH:=1ee5268c063d76646af2b4426052e7d81a42b657e6a77d8e7d3d2e60fd7409fe
 
 PKG_MAINTAINER:=Nikil Mehta <nikil.mehta@gmail.com>
 PKG_LICENSE:=BSD-4-Clause
 PKG_LICENSE_FILES:=COPYING
 
 PKG_INSTALL:=1
+PKG_BUILD_PARALLEL:=1
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -30,23 +31,21 @@ define Package/fping
   URL:=https://fping.org/
 endef
 
-
 define Package/fping/description
-	fping is a ping like program which uses the Internet Control Message Protocol
-	(ICMP) echo request to determine if a target host is responding.  fping
-	differs from ping in that you can specify any number of targets on the command
-	line, or specify a file containing the lists of targets to ping.  Instead of
-	sending to one target until it times out or replies, fping will send out a
-	ping packet and move on to the next target in a round-robin fashion.
+  fping is a ping like program which uses the Internet Control Message Protocol
+  (ICMP) echo request to determine if a target host is responding.  fping
+  differs from ping in that you can specify any number of targets on the command
+  line, or specify a file containing the lists of targets to ping.  Instead of
+  sending to one target until it times out or replies, fping will send out a
+  ping packet and move on to the next target in a round-robin fashion.
 endef
 
-CONFIGURE_ARGS+= \
-	--enable-ipv4 \
-	--enable-ipv6
+CONFIGURE_ARGS += \
+	$(if $(CONFIG_IPV6),en,dis)able-ipv6
 
 define Package/fping/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/fping $(1)/usr/bin/
+	$(INSTALL_SUID) $(PKG_INSTALL_DIR)/usr/sbin/fping $(1)/usr/bin/
 endef
 
 $(eval $(call BuildPackage,fping))

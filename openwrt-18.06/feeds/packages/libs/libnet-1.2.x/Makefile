@@ -16,6 +16,7 @@ PKG_SOURCE_URL:=@SF/libnet-dev
 PKG_HASH:=72c380785ad44183005e654b47cc12485ee0228d7fa6b0a87109ff7614be4a63
 PKG_MAINTAINER:=Mislav Novakovic <mislav.novakovic@sartura.hr>
 PKG_LICENSE:=GPL-2.0
+PKG_CPE_ID:=cpe:/a:libnet_project:libnet
 
 PKG_FIXUP:=autoreconf
 PKG_INSTALL:=1
@@ -55,6 +56,10 @@ endef
 define Build/InstallDev
 	$(INSTALL_DIR) $(STAGING_DIR)/usr/include
 	$(CP) $(PKG_INSTALL_DIR)/usr/include/libnet.h $(STAGING_DIR)/usr/include
+
+	$(INSTALL_DIR) $(STAGING_DIR)
+	$(CP) $(PKG_BUILD_DIR)/libnet-config $(STAGING_DIR)/usr
+	chmod a+x $(STAGING_DIR)/usr/libnet-config
 
 	$(INSTALL_DIR) $(STAGING_DIR)/usr/include/libnet
 	$(CP) $(PKG_INSTALL_DIR)/usr/include/libnet/libnet-*.h $(STAGING_DIR)/usr/include/libnet

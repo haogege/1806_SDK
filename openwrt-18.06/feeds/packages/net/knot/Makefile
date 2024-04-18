@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2014-2019 CZ.NIC, z.s.p.o. <knot-dns@labs.nic.cz>
+# Copyright (C) 2014-2021 CZ.NIC, z.s.p.o. <knot-dns@labs.nic.cz>
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=knot
-PKG_VERSION:=2.9.1
+PKG_VERSION:=3.3.5
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=https://secure.nic.cz/files/knot-dns/
-PKG_HASH:=f19121956caa360c387923654f13e4c97b3fb9093d242e110d7e0916b8d8a04d
+PKG_HASH:=0e0bf04319581280660e8e62ab04be64a7d632331e40fc9c87e76861305db3ad
 
 PKG_MAINTAINER:=Daniel Salzman <daniel.salzman@nic.cz>
 PKG_LICENSE:=GPL-3.0 LGPL-2.0 0BSD BSD-3-Clause OLDAP-2.8
@@ -44,12 +44,13 @@ endef
 define Package/knot-libs
 	$(call Package/knot-lib/Default)
 	TITLE+= common DNS and DNSSEC libraries
-	DEPENDS+=+libgnutls +lmdb
+	DEPENDS+=+libgnutls +lmdb @!arc
 endef
 
 define Package/knot-libzscanner
 	$(call Package/knot-lib/Default)
 	TITLE+= zone parser library
+	DEPENDS+=@!arc
 endef
 
 define Package/knot
@@ -148,14 +149,19 @@ export KNOT_VERSION_FORMAT=release
 
 CONFIGURE_ARGS += 			\
 	--enable-recvmmsg=no		\
+	--enable-cap-ng=no            	\
+	--enable-xdp=no                 \
+	--enable-maxminddb=no		\
+	--enable-quic			\
 	--disable-fastparser		\
 	--without-libidn		\
+	--with-libnghttp2=no		\
 	--with-rundir=/var/run/knot	\
 	--with-storage=/var/lib/knot	\
 	--with-configdir=/etc/knot	\
 	--with-conf-mapsize=20
 
-TARGET_CFLAGS += -DPSELECT_COMPAT -DNDEBUG
+TARGET_CFLAGS += -DNDEBUG
 
 define Package/knot/conffiles
 /etc/knot/knot.conf
@@ -166,6 +172,7 @@ define Build/Compile
 	$(MAKE) -C $(PKG_BUILD_DIR)/tests check-compile
 endef
 
+ifneq ($(CONFIG_arc),y)
 define Build/InstallDev
 	$(INSTALL_DIR)					$(1)/usr/lib
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/*.{a,so*}	$(1)/usr/lib/
@@ -182,6 +189,7 @@ define Build/InstallDev
 	$(INSTALL_DIR)							$(1)/usr/lib/pkgconfig
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/pkgconfig/*.pc	$(1)/usr/lib/pkgconfig/
 endef
+endif
 
 define Package/knot-libs/install
 	$(INSTALL_DIR) 						$(1)/usr/lib

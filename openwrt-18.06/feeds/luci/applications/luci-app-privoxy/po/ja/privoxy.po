@@ -1,20 +1,28 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2024-03-28 23:40+0000\n"
+"Last-Translator: Ioroi Kouhei <kouhei@ioroi.org>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationsprivoxy/ja/>\n"
 "Language: ja\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:236
 msgid ""
 "A URL to be displayed in the error page that users will see if access to an "
 "untrusted page is denied."
-msgstr ""
+msgstr "信頼されていないページへのアクセスが拒否された場合に、ユーザーに表示されるエ"
+"ラーページに表示されるURL。"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:226
 msgid ""
 "A URL to documentation about the local Privoxy setup, configuration or "
 "policies."
-msgstr ""
+msgstr "ローカルの Privoxy のセットアップ、構成、"
+"またはポリシーに関するドキュメントへの URL。"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:325
 msgid "A directory where Privoxy can create temporary files."
@@ -23,7 +31,7 @@ msgstr ""
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:84
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:87
 msgid "Access Control"
-msgstr ""
+msgstr "アクセス制御"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:337
 msgid "Actions that are applied to all sites and maybe overruled later on."
@@ -49,7 +57,7 @@ msgstr ""
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:869
 msgid "CGI user interface"
-msgstr ""
+msgstr "CGIユーザーインターフェイス"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:857
 msgid "Common Log Format"
@@ -86,7 +94,7 @@ msgstr ""
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:298
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:315
 msgid "Directory does not exist!"
-msgstr ""
+msgstr "ディレクトリが存在しません!"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:557
 msgid "Disabled == Transparent Proxy Mode"
@@ -116,7 +124,7 @@ msgstr ""
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:134
 msgid "Enabled"
-msgstr ""
+msgstr "有効"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:602
 msgid ""
@@ -133,12 +141,12 @@ msgstr ""
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:915
 #: applications/luci-app-privoxy/luasrc/view/privoxy/detail_logview.htm:12
 msgid "File not found or empty"
-msgstr ""
+msgstr "ファイルが見つからないか空です"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:75
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:80
 msgid "Files and Directories"
-msgstr ""
+msgstr "ファイルとディレクトリ"
 
 #: applications/luci-app-privoxy/luasrc/controller/privoxy.lua:36
 msgid "For help use link at the relevant option"
@@ -147,6 +155,10 @@ msgstr ""
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:91
 msgid "Forwarding"
 msgstr ""
+
+#: applications/luci-app-privoxy/root/usr/share/rpcd/acl.d/luci-app-privoxy.json:3
+msgid "Grant UCI access for luci-app-privoxy"
+msgstr "luci-app-privoxyにUCIアクセスを許可"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:589
 msgid ""
@@ -163,11 +175,11 @@ msgstr ""
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:215
 msgid "Invalid email address"
-msgstr ""
+msgstr "無効なメール アドレス"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:416
 msgid "It is NOT recommended for the casual user."
-msgstr ""
+msgstr "ライトユーザーにはお勧めしません。"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:194
 msgid "Location of the Privoxy User Manual."
@@ -175,7 +187,7 @@ msgstr ""
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:108
 msgid "Log File Viewer"
-msgstr ""
+msgstr "ログファイル・ビューア"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:895
 msgid "Log all data read from the network"
@@ -203,7 +215,7 @@ msgstr ""
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:104
 msgid "Logging"
-msgstr ""
+msgstr "ロギング"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:339
 msgid "Main actions file"
@@ -255,7 +267,7 @@ msgstr ""
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:97
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:100
 msgid "Miscellaneous"
-msgstr ""
+msgstr "詳細設定"
 
 #: applications/luci-app-privoxy/luasrc/controller/privoxy.lua:51
 msgid "NOT installed"
@@ -292,7 +304,7 @@ msgstr ""
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:913
 msgid "Please press [Read] button"
-msgstr ""
+msgstr "[読込] ボタンを押してください"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:518
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:527
@@ -323,7 +335,7 @@ msgstr ""
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:908
 msgid "Read / Reread log file"
-msgstr ""
+msgstr "ログファイルの読み込み/再読み込み"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:815
 msgid "Show I/O status"
@@ -348,11 +360,11 @@ msgstr ""
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:125
 #: applications/luci-app-privoxy/luasrc/view/privoxy/detail_startstop.htm:10
 msgid "Start"
-msgstr ""
+msgstr "開始"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:115
 msgid "Start / Stop"
-msgstr ""
+msgstr "開始 / 停止"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:116
 msgid "Start/Stop Privoxy WEB Proxy"
@@ -381,7 +393,7 @@ msgstr ""
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:59
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:62
 msgid "System"
-msgstr ""
+msgstr "システム"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:335
 msgid ""
@@ -489,15 +501,15 @@ msgstr ""
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:168
 msgid "Value not between 0 and 300"
-msgstr ""
+msgstr "0 から 300 の間の値ではありません"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:774
 msgid "Value not between 0 and 9"
-msgstr ""
+msgstr "0 から 9 の間の値ではありません"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:545
 msgid "Value not between 1 and 4096"
-msgstr ""
+msgstr "1 から 4096 の間の値ではありません"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:675
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:698
@@ -514,11 +526,11 @@ msgstr ""
 #: applications/luci-app-privoxy/luasrc/controller/privoxy.lua:47
 #: applications/luci-app-privoxy/luasrc/controller/privoxy.lua:50
 msgid "Version"
-msgstr ""
+msgstr "バージョン"
 
 #: applications/luci-app-privoxy/luasrc/controller/privoxy.lua:43
 msgid "Version Information"
-msgstr ""
+msgstr "バージョン情報"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:646
 msgid "Whether intercepted requests should be treated as valid."

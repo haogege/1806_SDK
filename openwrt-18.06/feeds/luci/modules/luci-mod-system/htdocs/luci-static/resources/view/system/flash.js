@@ -1,14 +1,18 @@
 'use strict';
+'require view';
+'require dom';
 'require form';
 'require rpc';
 'require fs';
 'require ui';
 
+var isReadonlyView = !L.hasViewPermission();
+
 var callSystemValidateFirmwareImage = rpc.declare({
 	object: 'system',
 	method: 'validate_firmware_image',
 	params: [ 'path' ],
-	expect: { '': { valid: true, forcable: true, allow_backup: true} }
+	expect: { '': { valid: false, forcable: true } }
 });
 
 function findStorageSize(procmtd, procpart) {
@@ -60,7 +64,7 @@ function findStorageSize(procmtd, procpart) {
 
 var mapdata = { actions: {}, config: {} };
 
-return L.view.extend({
+return view.extend({
 	load: function() {
 		var tasks = [
 			L.resolveDefault(fs.stat('/lib/upgrade/platform.sh'), {}),
@@ -76,7 +80,7 @@ return L.view.extend({
 	handleBackup: function(ev) {
 		var form = E('form', {
 			method: 'post',
-			action: '/cgi-bin/cgi-backup',
+			action: L.env.cgi_base + '/cgi-backup',
 			enctype: 'application/x-www-form-urlencoded'
 		}, E('input', { type: 'hidden', name: 'sessionid', value: rpc.getSessionID() }));
 
@@ -166,10 +170,10 @@ return L.view.extend({
 	},
 
 	handleBlock: function(hostname, ev) {
-		var mtdblock = L.dom.parent(ev.target, '.cbi-section').querySelector('[data-name="mtdselect"] select').value;
+		var mtdblock = dom.parent(ev.target, '.cbi-section').querySelector('[data-name="mtdselect"] select').value;
 		var form = E('form', {
 			'method': 'post',
-			'action': '/cgi-bin/cgi-download',
+			'action': L.env.cgi_base + '/cgi-download',
 			'enctype': 'application/x-www-form-urlencoded'
 		}, [
 			E('input', { 'type': 'hidden', 'name': 'sessionid', 'value': rpc.getSessionID() }),
@@ -183,7 +187,7 @@ return L.view.extend({
 		form.parentNode.removeChild(form);
 	},
 
-	handleSysupgrade: function(storage_size, ev) {
+	handleSysupgrade: function(storage_size, has_rootfs_data, ev) {
 		return ui.uploadFile('/tmp/firmware.bin', ev.target.firstChild)
 			.then(L.bind(function(btn, reply) {
 				btn.firstChild.data = _('Checking image…');
@@ -200,15 +204,20 @@ return L.view.extend({
 					.then(function(res) { reply.push(res); return reply; });
 			}, this, ev.target))
 			.then(L.bind(function(btn, res) {
-				var keep = E('input', { type: 'checkbox' }),
-				    force = E('input', { type: 'checkbox' }),
+				/* sysupgrade opts table  [0]:checkbox element [1]:check condition [2]:args to pass */
+				var opts = {
+				    keep : [ E('input', { type: 'checkbox' }), false, '-n' ],
+				    force : [ E('input', { type: 'checkbox' }), true, '--force' ],
+				    skip_orig : [ E('input', { type: 'checkbox' }), true, '-u' ],
+				    backup_pkgs : [ E('input', { type: 'checkbox' }), true, '-k' ],
+				    },
 				    is_valid = res[1].valid,
 				    is_forceable = res[1].forceable,
 				    allow_backup = res[1].allow_backup,
 				    is_too_big = (storage_size > 0 && res[0].size > storage_size),
 				    body = [];
 
-				body.push(E('p', _('The flash image was uploaded. Below is the checksum and file size listed, compare them with the original file to ensure data integrity. <br /> Click "Proceed" below to start the flash procedure.')));
+				body.push(E('p', _("The flash image was uploaded. Below is the checksum and file size listed, compare them with the original file to ensure data integrity. <br /> Click 'Continue' below to start the flash procedure.")));
 				body.push(E('ul', {}, [
 					res[0].size ? E('li', {}, '%s: %1024.2mB'.format(_('Size'), res[0].size)) : '',
 					res[0].checksum ? E('li', {}, '%s: %s'.format(_('MD5'), res[0].checksum)) : '',
@@ -216,7 +225,7 @@ return L.view.extend({
 				]));
 
 				body.push(E('p', {}, E('label', { 'class': 'btn' }, [
-					keep, ' ', _('Keep settings and retain the current configuration')
+					opts.keep[0], ' ', _('Keep settings and retain the current configuration')
 				])));
 
 				if (!is_valid || is_too_big)
@@ -235,29 +244,47 @@ return L.view.extend({
 						_('The uploaded image file does not contain a supported format. Make sure that you choose the generic image format for your platform.')
 					]));
 
-				if (!allow_backup)
+				if (!allow_backup) {
 					body.push(E('p', { 'class': 'alert-message' }, [
 						_('The uploaded firmware does not allow keeping current configuration.')
 					]));
+					opts.keep[0].disabled = true;
+				} else {
+					opts.keep[0].checked = true;
 
-				if (allow_backup)
-					keep.checked = true;
-				else
-					keep.disabled = true;
+					if (has_rootfs_data) {
+						body.push(E('p', {}, E('label', { 'class': 'btn' }, [
+							opts.skip_orig[0], ' ', _('Skip from backup files that are equal to those in /rom')
+						])));
+					}
 
-
-				if ((!is_valid || is_too_big) && is_forceable)
-					body.push(E('p', {}, E('label', { 'class': 'btn alert-message danger' }, [
-						force, ' ', _('Force upgrade'),
-						E('br'), E('br'),
-						_('Select \'Force upgrade\' to flash the image even if the image format check fails. Use only if you are sure that the firmware is correct and meant for your device!')
+					body.push(E('p', {}, E('label', { 'class': 'btn' }, [
+						opts.backup_pkgs[0], ' ', _('Include in backup a list of current installed packages at /etc/backup/installed_packages.txt')
 					])));
+				};
 
 				var cntbtn = E('button', {
 					'class': 'btn cbi-button-action important',
-					'click': ui.createHandlerFn(this, 'handleSysupgradeConfirm', btn, keep, force),
-					'disabled': (!is_valid || is_too_big) ? true : null
+					'click': ui.createHandlerFn(this, 'handleSysupgradeConfirm', btn, opts),
 				}, [ _('Continue') ]);
+
+				if (res[2].code != 0) {
+					body.push(E('p', { 'class': 'alert-message danger' }, E('label', {}, [
+						_('Image check failed:'),
+						E('br'), E('br'),
+						res[2].stderr
+					])));
+				};
+
+				if ((!is_valid || is_too_big || res[2].code != 0) && is_forceable) {
+					body.push(E('p', {}, E('label', { 'class': 'btn alert-message danger' }, [
+						opts.force[0], ' ', _('Force upgrade'),
+						E('br'), E('br'),
+						_('Select \'Force upgrade\' to flash the image even if the image format check fails. Use only if you are sure that the firmware is correct and meant for your device!')
+					])));
+					cntbtn.disabled = true;
+				};
+
 
 				body.push(E('div', { 'class': 'right' }, [
 					E('button', {
@@ -268,8 +295,14 @@ return L.view.extend({
 					}, [ _('Cancel') ]), ' ', cntbtn
 				]));
 
-				force.addEventListener('change', function(ev) {
+				opts.force[0].addEventListener('change', function(ev) {
 					cntbtn.disabled = !ev.target.checked;
+				});
+
+				opts.keep[0].addEventListener('change', function(ev) {
+					opts.skip_orig[0].disabled = !ev.target.checked;
+					opts.backup_pkgs[0].disabled = !ev.target.checked;
+
 				});
 
 				ui.showModal(_('Flash image?'), body);
@@ -280,27 +313,26 @@ return L.view.extend({
 			}, this, ev.target));
 	},
 
-	handleSysupgradeConfirm: function(btn, keep, force, ev) {
+	handleSysupgradeConfirm: function(btn, opts, ev) {
 		btn.firstChild.data = _('Flashing…');
 
 		ui.showModal(_('Flashing…'), [
 			E('p', { 'class': 'spinning' }, _('The system is flashing now.<br /> DO NOT POWER OFF THE DEVICE!<br /> Wait a few minutes before you try to reconnect. It might be necessary to renew the address of your computer to reach the device again, depending on your settings.'))
 		]);
 
-		var opts = [];
+		var args = [];
 
-		if (!keep.checked)
-			opts.push('-n');
+		for (var key in opts)
+			/* if checkbox == condition add args to sysupgrade */
+			if (opts[key][0].checked == opts[key][1])
+				args.push(opts[key][2]);
 
-		if (force.checked)
-			opts.push('--force');
-
-		opts.push('/tmp/firmware.bin');
+		args.push('/tmp/firmware.bin');
 
 		/* Currently the sysupgrade rpc call will not return, hence no promise handling */
-		fs.exec('/sbin/sysupgrade', opts);
+		fs.exec('/sbin/sysupgrade', args);
 
-		if (keep.checked)
+		if (opts['keep'][0].checked)
 			ui.awaitReconnect(window.location.host);
 		else
 			ui.awaitReconnect('192.168.1.1', 'openwrt.lan');
@@ -351,6 +383,7 @@ return L.view.extend({
 
 		m = new form.JSONMap(mapdata, _('Flash operations'));
 		m.tabbed = true;
+		m.readonly = isReadonlyView;
 
 		s = m.section(form.NamedSection, 'actions', _('Actions'));
 
@@ -380,16 +413,21 @@ return L.view.extend({
 		o.onclick = L.bind(this.handleRestore, this);
 
 
-		if (procmtd.length) {
+		var mtdblocks = [];
+		procmtd.split(/\n/).forEach(function(ln) {
+			var match = ln.match(/^mtd(\d+): .+ "(.+?)"$/);
+			if (match)
+				mtdblocks.push(match[1], match[2]);
+		});
+
+		if (mtdblocks.length) {
 			o = s.option(form.SectionValue, 'actions', form.NamedSection, 'actions', 'actions', _('Save mtdblock contents'), _('Click "Save mtdblock" to download specified mtdblock file. (NOTE: THIS FEATURE IS FOR PROFESSIONALS! )'));
 			ss = o.subsection;
 
 			o = ss.option(form.ListValue, 'mtdselect', _('Choose mtdblock'));
-			procmtd.split(/\n/).forEach(function(ln) {
-				var match = ln.match(/^mtd(\d+): .+ "(.+?)"$/);
-				if (match)
-					o.value(match[1], match[2]);
-			});
+
+			for (var i = 0; i < mtdblocks.length; i += 2)
+				o.value(mtdblocks[i], mtdblocks[i+1]);
 
 			o = ss.option(form.Button, 'mtddownload', _('Download mtdblock'));
 			o.inputstyle = 'action important';
@@ -409,7 +447,7 @@ return L.view.extend({
 			o = ss.option(form.Button, 'sysupgrade', _('Image'));
 			o.inputstyle = 'action important';
 			o.inputtitle = _('Flash image...');
-			o.onclick = L.bind(this.handleSysupgrade, this, storage_size);
+			o.onclick = L.bind(this.handleSysupgrade, this, storage_size, has_rootfs_data);
 		}
 
 
@@ -420,7 +458,8 @@ return L.view.extend({
 					node.appendChild(E('div', { 'class': 'cbi-page-actions' }, [
 						E('button', {
 							'class': 'cbi-button cbi-button-save',
-							'click': ui.createHandlerFn(view, 'handleBackupSave', this.map)
+							'click': ui.createHandlerFn(view, 'handleBackupSave', this.map),
+							'disabled': isReadonlyView || null
 						}, [ _('Save') ])
 					]));
 

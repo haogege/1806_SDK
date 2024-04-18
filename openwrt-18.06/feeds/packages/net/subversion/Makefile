@@ -6,32 +6,32 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=subversion
+PKG_VERSION:=1.14.3
 PKG_RELEASE:=1
-PKG_VERSION:=1.13.0
+
 PKG_SOURCE_URL:=@APACHE/subversion
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
-PKG_HASH:=bc50ce2c3faa7b1ae9103c432017df98dfd989c4239f9f8270bb3a314ed9e5bd
+PKG_HASH:=949efd451a09435f7e8573574c71c7b71b194d844890fa49cd61d2262ea1a440
+
+PKG_MAINTAINER:=Aleksey Vasilenko <aleksey.vasilenko@gmail.com>
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
-PKG_MAINTAINER:=Val Kulkov <val.kulkov@gmail.com>
 PKG_CPE_ID:=cpe:/a:apache:subversion
 
 PKG_FIXUP:=autoreconf
 PKG_MACRO_PATHS:=build/ac-macros
-PKG_BUILD_DEPENDS:=apr-util
 PKG_BUILD_PARALLEL:=1
 PKG_INSTALL:=1
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
 
-
 define Package/subversion/Default
   SECTION:=net
   CATEGORY:=Network
   SUBMENU:=Version Control Systems
   TITLE:=A compelling replacement for CVS
-  DEPENDS:=+PACKAGE_unixodbc:unixodbc +libaprutil +libmagic $(ICONV_DEPENDS) $(INTL_DEPENDS)
+  DEPENDS:=+PACKAGE_unixodbc:unixodbc +libaprutil +libmagic +libsqlite3 $(ICONV_DEPENDS) $(INTL_DEPENDS)
   URL:=https://subversion.apache.org/
 endef
 
@@ -79,30 +79,18 @@ define Package/subversion-server/conffiles
 /etc/config/subversion
 endef
 
-TARGET_CFLAGS += $(FPIC)
-APU_LIBS=$(shell $(STAGING_DIR)/usr/bin/apu-1-config --link-libtool --libs)
-TARGET_LDFLAGS += $(APU_LIBS)
-
 CONFIGURE_ARGS += \
-	--with-apr="$(STAGING_DIR)/usr/bin/apr-1-config" \
-	--with-apr-util="$(STAGING_DIR)/usr/bin/apu-1-config" \
-	--with-libmagic="$(STAGING_DIR)/usr" \
-	--disable-mod-activation \
-	--without-ruby-sitedir \
+	--with-apr=$(STAGING_DIR)/usr/bin/apr-1-config \
+	--with-apr-util=$(STAGING_DIR)/usr/bin/apu-1-config \
 	--without-swig \
-	--without-jikes \
-	--without-junit \
 	--without-berkeley-db \
 	--without-apxs \
 	--without-sasl \
 	--with-lz4=internal \
-	--with-utf8proc=internal
+	--with-utf8proc=internal \
+	$(call autoconf_bool,INTL_FULL,nls)
 
-ifdef $(INTL_FULL)
-	CONFIGURE_ARGS += --enable-nls
-else
-	CONFIGURE_ARGS += --disable-nls
-endif
+TARGET_LDFLAGS += $(if $(INTL_FULL),-lintl)
 
 define Package/subversion-libs/install
 	$(INSTALL_DIR) $(1)/usr/lib

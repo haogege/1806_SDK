@@ -1,13 +1,19 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2023-07-10 15:50+0000\n"
+"Last-Translator: MaycoH <hudec.marian@hotmail.com>\n"
+"Language-Team: Slovak <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationsdcwapd/sk/>\n"
 "Language: sk\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: applications/luci-app-dcwapd/luasrc/model/cbi/dcwapd/dcwapd.lua:72
 #: applications/luci-app-dcwapd/luasrc/model/cbi/dcwapd/dcwapd.lua:121
 msgid "Bridge"
-msgstr ""
+msgstr "Premostenie"
 
 #: applications/luci-app-dcwapd/luasrc/model/cbi/dcwapd/dcwapd.lua:45
 msgid "Channel Sets"
@@ -40,14 +46,14 @@ msgstr ""
 msgid "Dual Channel Wi-Fi AP Daemon"
 msgstr ""
 
-#: applications/luci-app-dcwapd/luasrc/controller/dcwapd.lua:11
+#: applications/luci-app-dcwapd/root/usr/share/luci/menu.d/luci-app-dcwapd.json:3
 msgid "Dual Channel WiFi"
 msgstr ""
 
 #: applications/luci-app-dcwapd/luasrc/model/cbi/dcwapd/dcwapd.lua:34
 #: applications/luci-app-dcwapd/luasrc/model/cbi/dcwapd/dcwapd.lua:52
 msgid "Enable"
-msgstr ""
+msgstr "Povoliť"
 
 #: applications/luci-app-dcwapd/luasrc/model/cbi/dcwapd/dcwapd.lua:154
 msgid "Filter Sets"
@@ -64,15 +70,20 @@ msgstr ""
 
 #: applications/luci-app-dcwapd/luasrc/model/cbi/dcwapd/dcwapd.lua:27
 msgid "General Settings"
+msgstr "Všeobecné nastavenia"
+
+#: applications/luci-app-dcwapd/root/usr/share/rpcd/acl.d/luci-app-dcwapd.json:3
+msgid "Grant UCI access for luci-app-dcwapd"
 msgstr ""
 
 #: applications/luci-app-dcwapd/luasrc/model/cbi/dcwapd/dcwapd.lua:138
 msgid "Interfaces"
-msgstr ""
+msgstr "Rozhranie"
 
 #: applications/luci-app-dcwapd/luasrc/model/cbi/dcwapd/dcwapd.lua:161
+#, fuzzy
 msgid "MAC Address"
-msgstr ""
+msgstr "Adresa MAC"
 
 #: applications/luci-app-dcwapd/luasrc/model/cbi/dcwapd/dcwapd.lua:186
 msgid "Packet size"
@@ -80,12 +91,12 @@ msgstr ""
 
 #: applications/luci-app-dcwapd/luasrc/model/cbi/dcwapd/dcwapd.lua:204
 msgid "Protocol"
-msgstr ""
+msgstr "Protokol"
 
 #: applications/luci-app-dcwapd/luasrc/model/cbi/dcwapd/dcwapd.lua:58
 #: applications/luci-app-dcwapd/luasrc/model/cbi/dcwapd/dcwapd.lua:107
 msgid "SSID"
-msgstr ""
+msgstr "SSID"
 
 #: applications/luci-app-dcwapd/luasrc/model/cbi/dcwapd/dcwapd.lua:154
 msgid "Select filters to apply to matching MAC addresses."

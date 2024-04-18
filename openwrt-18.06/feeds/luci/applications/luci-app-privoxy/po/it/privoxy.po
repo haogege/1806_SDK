@@ -1,61 +1,70 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-11-25 13:57+0000\n"
-"Last-Translator: Ansuel Smith <ansuelsmth@gmail.com>\n"
+"PO-Revision-Date: 2024-03-06 09:49+0000\n"
+"Last-Translator: Nico Carlino <ziconick@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsprivoxy/it/>\n"
 "Language: it\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:236
 msgid ""
 "A URL to be displayed in the error page that users will see if access to an "
 "untrusted page is denied."
 msgstr ""
+"Un URL da mostrare nella pagina di errore che gli utenti vedranno se viene "
+"negato l'accesso ad una pagina non affidabile."
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:226
 msgid ""
 "A URL to documentation about the local Privoxy setup, configuration or "
 "policies."
 msgstr ""
+"Un URL alla documentazione locale su setup , configurazione o policy di "
+"Privoxy."
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:325
 msgid "A directory where Privoxy can create temporary files."
-msgstr ""
+msgstr "Una cartella in cui Privoxy può creare file temporanei."
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:84
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:87
 msgid "Access Control"
-msgstr ""
+msgstr "Controllo di accesso"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:337
 msgid "Actions that are applied to all sites and maybe overruled later on."
 msgstr ""
+"Azioni che vengono applicate a tutti i siti e che potrebbero essere "
+"sovrascritte in seguito."
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:308
 msgid "An alternative directory where the templates are loaded from."
-msgstr ""
+msgstr "Una directory alternativa da cui sono caricati i template."
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:206
 msgid "An email address to reach the Privoxy administrator."
 msgstr ""
+"Un indirizzo di posta elettronica per contattare l'amministratore di Privoxy."
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:691
 msgid ""
 "Assumed server-side keep-alive timeout (in seconds) if not specified by the "
 "server."
 msgstr ""
+"Tempo di attesa (in secondi) previsto lato server se non specificato dal "
+"server."
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:151
 msgid "Boot delay"
-msgstr ""
+msgstr "Ritardo all'avvio"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:869
 msgid "CGI user interface"
-msgstr ""
+msgstr "Interfaccia Utente CGI"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:857
 msgid "Common Log Format"
@@ -122,7 +131,7 @@ msgstr ""
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:134
 msgid "Enabled"
-msgstr "Abilitato"
+msgstr "Attivato"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:602
 msgid ""
@@ -152,6 +161,10 @@ msgstr ""
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:91
 msgid "Forwarding"
+msgstr ""
+
+#: applications/luci-app-privoxy/root/usr/share/rpcd/acl.d/luci-app-privoxy.json:3
+msgid "Grant UCI access for luci-app-privoxy"
 msgstr ""
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:589
@@ -209,7 +222,7 @@ msgstr ""
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:104
 msgid "Logging"
-msgstr ""
+msgstr "Registrazione (log)"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:339
 msgid "Main actions file"
@@ -354,7 +367,7 @@ msgstr ""
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:125
 #: applications/luci-app-privoxy/luasrc/view/privoxy/detail_startstop.htm:10
 msgid "Start"
-msgstr ""
+msgstr "Avvia"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:115
 msgid "Start / Stop"
@@ -370,7 +383,7 @@ msgstr ""
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:455
 msgid "Syntax:"
-msgstr ""
+msgstr "Sintassi:"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:786
 msgid "Syntax: Client header names delimited by spaces."
@@ -387,7 +400,7 @@ msgstr ""
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:59
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:62
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:335
 msgid ""
@@ -520,7 +533,7 @@ msgstr ""
 #: applications/luci-app-privoxy/luasrc/controller/privoxy.lua:47
 #: applications/luci-app-privoxy/luasrc/controller/privoxy.lua:50
 msgid "Version"
-msgstr ""
+msgstr "Versione"
 
 #: applications/luci-app-privoxy/luasrc/controller/privoxy.lua:43
 msgid "Version Information"

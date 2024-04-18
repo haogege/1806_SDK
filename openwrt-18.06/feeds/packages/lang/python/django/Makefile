@@ -8,13 +8,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=django
-PKG_VERSION:=2.2.7
+PKG_VERSION:=5.0.3
 PKG_RELEASE:=1
 
 PYPI_NAME:=Django
-PKG_HASH:=16040e1288c6c9f68c6da2fe75ebde83c0a158f6f5d54f4c5177b0c1478c5b86
+PKG_HASH:=5fb37580dcf4a262f9258c1f4373819aacca906431f505e4688e37f3a99195df
 
-PKG_MAINTAINER:=Alexandru Ardelean <ardeleanalex@gmail.com>
+PKG_MAINTAINER:=Alexandru Ardelean <ardeleanalex@gmail.com>, Peter Stadler <peter.stadler@student.uibk.ac.at>
 PKG_LICENSE:=BSD-3-Clause
 PKG_LICENSE_FILES:=LICENSE LICENSE.python
 PKG_CPE_ID:=cpe:/a:djangoproject:django
@@ -23,33 +23,24 @@ include ../pypi.mk
 include $(INCLUDE_DIR)/package.mk
 include ../python3-package.mk
 
-define Package/django/Default
+define Package/python3-django
   SUBMENU:=Python
   SECTION:=lang
   CATEGORY:=Languages
   TITLE:=The web framework for perfectionists with deadlines.
   URL:=https://www.djangoproject.com/
-  MENU:=1
-endef
-
-define Package/python3-django
-$(call Package/django/Default)
-  DEPENDS:= \
-	+PACKAGE_python3-django:python3 \
-	+PACKAGE_python3-django:python3-pytz \
-	+PACKAGE_python3-django:python3-sqlparse
-  VARIANT:=python3
+  DEPENDS:= +python3 +python3-pytz +python3-sqlparse +python3-asgiref
+  CONFLICTS:=python3-django1
+  PROVIDES:=django
 endef
 
 define Package/python3-django/description
-    The web framework for perfectionists with deadlines (LTS 2.2 series).
-    Python3 only.
+    The web framework for perfectionists with deadlines.
 endef
 
 define Py3Package/python3-django/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/django-admin.py \
-		$(1)/usr/bin/django-admin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/django-admin $(1)/usr/bin
 endef
 
 $(eval $(call Py3Package,python3-django))

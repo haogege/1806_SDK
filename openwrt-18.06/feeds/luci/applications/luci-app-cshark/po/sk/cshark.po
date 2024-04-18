@@ -1,12 +1,18 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2022-10-30 16:50+0000\n"
+"Last-Translator: MaycoH <hudec.marian@hotmail.com>\n"
+"Language-Team: Slovak <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationscshark/sk/>\n"
 "Language: sk\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 4.14.2-dev\n"
 
 #: applications/luci-app-cshark/luasrc/view/cshark.htm:24
 msgid "Actions"
-msgstr ""
+msgstr "Akcie"
 
 #: applications/luci-app-cshark/luasrc/view/cshark.htm:72
 msgid "Capture URL"
@@ -40,20 +46,25 @@ msgstr ""
 #: applications/luci-app-cshark/luasrc/view/cshark.htm:23
 #: applications/luci-app-cshark/luasrc/view/cshark.htm:51
 msgid "Filter"
+msgstr "Filter"
+
+#: applications/luci-app-cshark/root/usr/share/rpcd/acl.d/luci-app-cshark.json:3
+msgid "Grant UCI access for luci-app-cshark"
 msgstr ""
 
 #: applications/luci-app-cshark/luasrc/view/cshark.htm:21
 #: applications/luci-app-cshark/luasrc/view/cshark.htm:28
 msgid "Interface"
-msgstr ""
+msgstr "Rozhranie"
 
 #: applications/luci-app-cshark/luasrc/view/cshark.htm:92
+#, fuzzy
 msgid "Loading"
-msgstr ""
+msgstr "Načítava sa"
 
 #: applications/luci-app-cshark/luasrc/model/cbi/admin_network/cshark.lua:22
 msgid "Options"
-msgstr ""
+msgstr "Voľby"
 
 #: applications/luci-app-cshark/luasrc/view/cshark.htm:54
 #: applications/luci-app-cshark/luasrc/view/cshark.htm:196

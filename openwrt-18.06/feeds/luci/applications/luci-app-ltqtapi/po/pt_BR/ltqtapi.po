@@ -1,19 +1,19 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-12-03 08:26+0000\n"
-"Last-Translator: Wellington Terumi Uemura <wellingtonuemura@gmail.com>\n"
+"PO-Revision-Date: 2023-11-22 00:07+0000\n"
+"Last-Translator: Edison F Carbol <edisonfc@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "openwrt/luciapplicationsltqtapi/pt_BR/>\n"
 "Language: pt_BR\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.10-dev\n"
+"X-Generator: Weblate 5.2\n"
 
-#: applications/luci-app-ltqtapi/luasrc/controller/ltqtapi.lua:16
+#: applications/luci-app-ltqtapi/luasrc/controller/ltqtapi.lua:17
 #: applications/luci-app-ltqtapi/luasrc/model/cbi/luci_ltqtapi/account.lua:7
 msgid "Account"
-msgstr ""
+msgstr "Conta"
 
 #: applications/luci-app-ltqtapi/luasrc/view/telephony_status.htm:28
 msgid "Collecting data..."
@@ -23,29 +23,33 @@ msgstr "Coletando dados..."
 msgid "Contact"
 msgstr "Contato"
 
-#: applications/luci-app-ltqtapi/luasrc/controller/ltqtapi.lua:17
+#: applications/luci-app-ltqtapi/luasrc/controller/ltqtapi.lua:18
 msgid "Contacts"
-msgstr ""
+msgstr "Contatos"
 
 #: applications/luci-app-ltqtapi/luasrc/view/telephony_status.htm:20
 msgid "Current Telephony State"
-msgstr ""
+msgstr "Condição Atual da Telefonia"
 
 #: applications/luci-app-ltqtapi/luasrc/model/cbi/luci_ltqtapi/contact.lua:14
 msgid "Dial"
-msgstr ""
+msgstr "Discagem"
 
 #: applications/luci-app-ltqtapi/luasrc/model/cbi/luci_ltqtapi/account.lua:14
 msgid "Disabled"
 msgstr "Desabilitado"
 
+#: applications/luci-app-ltqtapi/root/usr/share/rpcd/acl.d/luci-app-ltqtapi.json:3
+msgid "Grant UCI access for luci-app-ltqtapi"
+msgstr "Conceder acesso UCI ao luci-app-ltqtapi"
+
 #: applications/luci-app-ltqtapi/luasrc/model/cbi/luci_ltqtapi/account.lua:7
 msgid "Here You can specify the SIP account that you want to use."
-msgstr ""
+msgstr "Aqui você pode definir uma conta SIP que deseja usar."
 
 #: applications/luci-app-ltqtapi/luasrc/model/cbi/luci_ltqtapi/contact.lua:7
 msgid "Here You can specify the SIP contacts that you want to use."
-msgstr ""
+msgstr "Aqui você pode definir os contatos SIP que deseja usar."
 
 #: applications/luci-app-ltqtapi/luasrc/model/cbi/luci_ltqtapi/contact.lua:12
 msgid "Name"
@@ -57,19 +61,19 @@ msgstr "Senha"
 
 #: applications/luci-app-ltqtapi/luasrc/view/telephony_status.htm:24
 msgid "Port1"
-msgstr ""
+msgstr "Porta1"
 
 #: applications/luci-app-ltqtapi/luasrc/view/telephony_status.htm:25
 msgid "Port2"
-msgstr ""
+msgstr "Porta2"
 
 #: applications/luci-app-ltqtapi/luasrc/model/cbi/luci_ltqtapi/account.lua:11
 msgid "Realm"
-msgstr ""
+msgstr "Reino"
 
 #: applications/luci-app-ltqtapi/luasrc/model/cbi/luci_ltqtapi/contact.lua:13
 msgid "Shortdial"
-msgstr ""
+msgstr "Discagem curta"
 
 #: applications/luci-app-ltqtapi/luasrc/model/cbi/luci_ltqtapi/contact.lua:16
 msgid "Type"
@@ -81,10 +85,10 @@ msgstr "Velocidade de envio do enlace (uplink)"
 
 #: applications/luci-app-ltqtapi/luasrc/model/cbi/luci_ltqtapi/account.lua:12
 msgid "Username"
-msgstr "Usuário"
+msgstr "Nome do usuário"
 
 #: applications/luci-app-ltqtapi/luasrc/controller/ltqtapi.lua:13
 #: applications/luci-app-ltqtapi/luasrc/model/cbi/luci_ltqtapi/account.lua:4
 #: applications/luci-app-ltqtapi/luasrc/model/cbi/luci_ltqtapi/contact.lua:4
 msgid "VoIP"
-msgstr ""
+msgstr "VoIP"

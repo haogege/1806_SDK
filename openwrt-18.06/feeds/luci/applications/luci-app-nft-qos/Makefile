@@ -6,8 +6,10 @@
 
 include $(TOPDIR)/rules.mk
 
-LUCI_TITLE:=Qos over Nftables
-LUCI_DEPENDS:=+luci-compat +nft-qos
+PKG_LICENSE:=Apache-2.0
+
+LUCI_TITLE:=QoS over Nftables
+LUCI_DEPENDS:=+luci-base +luci-compat +nft-qos
 
 include ../../luci.mk
 

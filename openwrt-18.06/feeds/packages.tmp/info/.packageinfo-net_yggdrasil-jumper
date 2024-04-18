@@ -1,0 +1,29 @@
+Source-Makefile: feeds/packages/net/yggdrasil-jumper/Makefile
+Build-Depends: rust/host
+
+Package: yggdrasil-jumper
+Submenu: Routing and Redirection
+Version: 0.3.0-1
+Depends: +libc +GCC_LIBSSP:libssp +USE_GLIBC:librt +USE_GLIBC:libpthread @(aarch64||arm||i386||i686||mips||mipsel||mips64||mips64el||mipsel||powerpc64||riscv64||x86_64) @!arc @IPV6 +kmod-tun
+Conflicts: 
+Menu-Depends: 
+Provides: 
+Section: net
+Category: Network
+Repository: base
+Title: Yggdrasil peer-to-peer firewall stun
+Maintainer: Remy D. Farley <one-d-wide@protonmail.com>
+Source: yggdrasil-jumper-0.3.0.tar.gz
+License: LGPL-3.0-only
+LicenseFiles: LICENSE
+Type: ipkg
+Description:   Yggdrasil Jumper is independent project that aims to transparently reduce latency of
+  a connection over Yggdrasil network, utilizing NAT traversal to bypass intermediary
+  nodes. It periodically probes for active sessions and automatically establishes direct
+  peerings over internet with remote nodes running Yggdrasil Jumper without requiring
+  firewall or port configuration.
+https://github.com/one-d-wide/yggdrasil-jumper
+Remy D. Farley <one-d-wide@protonmail.com>
+@@
+
+

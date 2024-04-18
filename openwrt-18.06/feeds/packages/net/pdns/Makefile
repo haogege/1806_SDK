@@ -1,16 +1,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=pdns
-PKG_VERSION:=4.2.0
+PKG_VERSION:=4.9.0
 PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=https://downloads.powerdns.com/releases/
-PKG_HASH:=222007f25e25aad71ac7d8b7f1797a4bcb30781e456d74ed00396e53828a903a
+PKG_HASH:=fe1d5433c88446ed70d931605c6ec377da99839c4e151b90b71aa211bd6eea92
 
-PKG_MAINTAINER:=James Taylor <james@jtaylor.id.au>
-PKG_LICENCE:=GPL-2.0-only
-PKG_LICENCE_FILES:=COPYING
+PKG_MAINTAINER:=Peter van Dijk <peter.van.dijk@powerdns.com>, Remi Gacogne <remi.gacogne@powerdns.com>
+PKG_LICENSE:=GPL-2.0-only
+PKG_LICENSE_FILES:=COPYING
 PKG_CPE_ID:=cpe:/a:powerdns:authoritative
 
 PKG_FIXUP:=autoreconf
@@ -19,7 +19,7 @@ PKG_INSTALL:=1
 
 PKG_BUILD_PARALLEL:=1
 
-PKG_BUILD_DEPENDS:=unixodbc/host
+PKG_BUILD_DEPENDS:=unixodbc/host protobuf-c/host
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -128,6 +128,7 @@ endef
 # 2: dependencies on other PowerDNS libraries (short name)
 # 3: dependencies on other packages
 # 4: conditional/inward dependencies
+# 5: friendly display name
 define DefinePdnsBackend
   PDNS_DEPENDS+= +pdns-backend-$(1)
   PKG_CONFIG_DEPENDS+= CONFIG_PACKAGE_pdns-backend$(1)
@@ -140,7 +141,8 @@ define DefinePdnsBackend
   define Package/pdns-backend-$(1)
     $(call Package/pdns/Default)
     TITLE+= ($(1))
-    DEPENDS+= pdns $$(foreach backend,$(2),+pdns-backend-$$(backend)) $(3)
+    DEPENDS+= pdns $$(foreach backend,$(2),+pdns-backend-$$(backend)) \
+	      $$(foreach dependency,$(3),+$$(dependency))
     HIDDEN:=1
   endef
 
@@ -160,9 +162,7 @@ $(eval $(call DefinePdnsBackend,odbc,,unixodbc,godbc,ODBC))
 $(eval $(call DefinePdnsBackend,pgsql,,libpq,gpgsql,PostgreSQL))
 $(eval $(call DefinePdnsBackend,sqlite3,,libsqlite3,gsqlite3,SQLite 3))
 $(eval $(call DefinePdnsBackend,ldap,,libopenldap krb5-libs,,OpenLDAP))
-$(eval $(call DefinePdnsBackend,lua,,lua liblua,,Lua))
 $(eval $(call DefinePdnsBackend,lua2,,lua liblua,,Lua2))
-$(eval $(call DefinePdnsBackend,mydns,,libmysqlclient,,MyDNS))
 $(eval $(call DefinePdnsBackend,pipe,,,,Pipe))
 $(eval $(call DefinePdnsBackend,remote,,,,Remote))
 
@@ -171,12 +171,14 @@ define Package/pdns/conffiles
 /etc/init.d/pdns
 endef
 
+TARGET_CXX+=-std=c++17
+
 CONFIGURE_ARGS+= \
 	--sysconfdir=/etc/powerdns \
 	--libdir=/usr/lib/powerdns  \
 	--with-dynmodules="$(foreach backend,$(PDNS_BACKENDS),$(if $(CONFIG_PACKAGE_pdns-backend-$(backend)),$(PDNS_BACKEND_$(backend)_LIB),))" \
 	--with-lua="lua" \
-	--with-modules="bind random" \
+	--with-modules="bind" \
 	--with-mysql-lib=$(STAGING_DIR)/usr \
 	--with-mysql-includes=$(STAGING_DIR)/usr \
 	$(if $(CONFIG_PACKAGE_pdns-tools),--enable-tools,) \
@@ -184,6 +186,7 @@ CONFIGURE_ARGS+= \
 	--without-libsodium \
 	--enable-experimental-pkcs11 \
 	--enable-lua-records \
+	--enable-reproducible \
 	$(if $(CONFIG_PACKAGE_pdns-ixfrdist),--enable-ixfrdist,)
 
 define Package/pdns/install
@@ -203,6 +206,10 @@ endef
 define Package/pdns/Default/install
 	$(INSTALL_DIR) $(1)/usr/lib/powerdns/pdns
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/powerdns/pdns/lib$(PDNS_BACKEND_$(2)_LIB)backend.so $(1)/usr/lib/powerdns/pdns/
+	if [ "$(PDNS_BACKEND_$(2)_LIB)" == "ldap" ]; then \
+	$(INSTALL_DIR) $(1)/usr/bin; \
+	$(CP) $(PKG_INSTALL_DIR)/usr/bin/zone2ldap $(1)/usr/bin/; \
+	fi
 endef
 
 define Package/pdns-ixfrdist/install
@@ -214,7 +221,6 @@ endef
 
 define Package/pdns-tools/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(CP) $(PKG_INSTALL_DIR)/usr/bin/zone2ldap $(1)/usr/bin/
 	$(CP) $(PKG_INSTALL_DIR)/usr/bin/dnsgram $(1)/usr/bin/
 	$(CP) $(PKG_INSTALL_DIR)/usr/bin/dnsreplay $(1)/usr/bin/
 	$(CP) $(PKG_INSTALL_DIR)/usr/bin/dnsscan $(1)/usr/bin/

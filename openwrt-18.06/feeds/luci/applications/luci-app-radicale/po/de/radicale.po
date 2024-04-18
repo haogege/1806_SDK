@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: luci-app-radicale 1.1.0-1\n"
 "POT-Creation-Date: 2016-01-30 20:34+0100\n"
-"PO-Revision-Date: 2019-11-04 01:52+0000\n"
+"PO-Revision-Date: 2024-03-02 21:56+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsradicale/de/>\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:268
@@ -31,22 +31,6 @@ msgstr ""
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:272
 msgid "AUTO"
 msgstr "AUTO"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:734
-msgid "Access-Control-Allow-Headers"
-msgstr "Access-Control-Allow-Headers"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:726
-msgid "Access-Control-Allow-Methods"
-msgstr "Access-Control-Allow-Methods"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:718
-msgid "Access-Control-Allow-Origin"
-msgstr "Access-Control-Allow-Origin"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:742
-msgid "Access-Control-Expose-Headers"
-msgstr "Access-Control-Expose-Headers"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:706
 msgid "Additional HTTP headers"
@@ -107,13 +91,9 @@ msgid ""
 "Change here the encoding Radicale will use instead of 'UTF-8' for responses "
 "to the client and/or to store data inside collections."
 msgstr ""
-"Ändern Sie hier die Zeichenkodierung die Radicale anstelle von \"UTF-8\" für "
-"Antworten an den Client und/oder zum Speichern von Daten in einer Sammlung  "
-"verwendet."
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:334
-msgid "Ciphers"
-msgstr "Chiffren"
+"Ändern Sie hier die Zeichenkodierung, die Radicale anstelle von \"UTF-8\" "
+"für Antworten an den Client und/oder zum Speichern von Daten in einer "
+"Sammlung verwendet."
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:544
 msgid "Console Log level"
@@ -137,14 +117,6 @@ msgid ""
 msgstr ""
 "Cross-Origin Resource Sharing (CORS) ist ein Mechanismus, um Webbrowsern "
 "oder auch anderen Webclients Cross-Origin-Requests zu ermöglichen."
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:491
-msgid "Custom"
-msgstr "Benutzerdefiniert"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:490
-msgid "Database"
-msgstr "Datenbank"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:548
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:570
@@ -187,7 +159,7 @@ msgid ""
 "Enable/Disable auto-start of Radicale on system start-up and interface events"
 msgstr ""
 "Aktiviert/Deaktiviert den Autostart von Radicale beim Systemstart und bei "
-"Schnittstellenereignissen."
+"Schnittstellenereignissen"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:676
 msgid "Encoding"
@@ -233,8 +205,8 @@ msgid ""
 "For example, for the 'user' key, '.+' means 'authenticated user' and '.*' "
 "means 'anybody' (including anonymous users)."
 msgstr ""
-"Beispiel für den 'user' Schlüssel:  '. +' bedeutet 'authentifizierten "
-"Benutzer' und '. *' bedeutet 'jeder' (einschließlich anonyme Benutzer)."
+"Beispiel für den 'user'-Schlüssel: '.+' bedeutet 'authentifizierter "
+"Benutzer' und '.*' bedeutet 'jeder' (einschließlich anonyme Benutzer)."
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:435
 msgid "Full access for Owner only"
@@ -255,6 +227,10 @@ msgstr "Vollständiger Pfad und Dateiname der Zertifikat Datei"
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:310
 msgid "Full path and file name of private key"
 msgstr "Vollständiger Pfad und Dateiname der Privaten Schlüsseldatei"
+
+#: applications/luci-app-radicale/root/usr/share/rpcd/acl.d/luci-app-radicale.json:3
+msgid "Grant UCI access for luci-app-radicale"
+msgstr "UCI-Zugriff für luci-app-radicale erlauben"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:549
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:571
@@ -316,10 +292,6 @@ msgstr "Keine"
 msgid "Number of backup files of log to create."
 msgstr "Anzahl der Protokoll Backup Dateien, die angelegt werden."
 
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:335
-msgid "OPTIONAL: See python's ssl module for available ciphers"
-msgstr "OPTIONAL: Siehe Python SSL-Modul Dokumentation"
-
 #: applications/luci-app-radicale/luasrc/view/radicale/tabmap_nsections.htm:50
 msgid "One or more missing/invalid fields on tab"
 msgstr "Ein oder mehrere fehlende/ungültige Felder auf der Registerkarte"
@@ -327,7 +299,7 @@ msgstr "Ein oder mehrere fehlende/ungültige Felder auf der Registerkarte"
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:436
 msgid "Owner allow write, authenticated users allow read"
 msgstr ""
-"Besitzer haben Schreibrechte, Authentifizierten Benutzer dürfen nur lesen."
+"Besitzer haben Schreibrechte, authentifizierte Benutzer dürfen nur lesen"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:303
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:328
@@ -358,7 +330,7 @@ msgstr "Aktualisieren Sie bitte auf die aktuelle Version!"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:225
 msgid "Port numbers below 1024 (Privileged ports) are not supported"
-msgstr "Port Nummern unter 1024 (Privileged Ports) werden nicht unterstützt."
+msgstr "Portnummern unter 1024 (Privilegierte Ports) werden nicht unterstützt"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:309
 msgid "Private key file"
@@ -387,7 +359,7 @@ msgstr "RegExp Datei"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:56
 msgid "Reload"
-msgstr "Neu laden"
+msgstr "Neu laden"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:688
 msgid "Response Encoding"
@@ -396,11 +368,11 @@ msgstr "Antwort Zeichenkodierung"
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:86
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:418
 msgid "Rights"
-msgstr "Zugriffsrechte"
+msgstr "Berechtigungen"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:437
 msgid "Rights are based on a regexp-based file"
-msgstr "Zugriff basiert auf RegExp-basierter Datei."
+msgstr "Rechte basieren auf einer RegExp-basierenden Datei"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:429
 msgid "Rights backend"
@@ -432,7 +404,7 @@ msgstr "Server"
 msgid "Setting this parameter to '0' will disable rotation of log-file."
 msgstr ""
 "Wenn dieser Parameter auf '0' gesetzt wird, wird die Protokolldatei nicht "
-"mehr rolliert!"
+"mehr rotiert."
 
 #: applications/luci-app-radicale/luasrc/controller/radicale.lua:62
 msgid "Software package '%s' is not installed."
@@ -537,8 +509,8 @@ msgstr "Versionsinformationen"
 msgid ""
 "WARNING: Only 'File-system' is documented and tested by Radicale development"
 msgstr ""
-"WARNUNG: Nur 'File-system' ist vom Radicale Entwicklerteam derzeit "
-"dokumentiert und getestet."
+"WARNUNG: Nur 'File-System' wird von der Radicale-Entwicklung dokumentiert "
+"und getestet"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:550
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:572
@@ -564,10 +536,6 @@ msgstr ""
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:390
 msgid "crypt"
 msgstr "crypt"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:364
-msgid "custom"
-msgstr "benutzerdefiniert"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:357
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:400
@@ -600,6 +568,33 @@ msgstr "erforderlich"
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:393
 msgid "salted SHA-1"
 msgstr "Salted SHA-1"
+
+#~ msgid "Ciphers"
+#~ msgstr "Chiffren"
+
+#~ msgid "Custom"
+#~ msgstr "Benutzerdefiniert"
+
+#~ msgid "Database"
+#~ msgstr "Datenbank"
+
+#~ msgid "OPTIONAL: See python's ssl module for available ciphers"
+#~ msgstr "OPTIONAL: Siehe Python SSL-Modul Dokumentation"
+
+#~ msgid "custom"
+#~ msgstr "benutzerdefiniert"
+
+#~ msgid "Access-Control-Allow-Headers"
+#~ msgstr "Access-Control-Allow-Headers"
+
+#~ msgid "Access-Control-Allow-Methods"
+#~ msgstr "Access-Control-Allow-Methods"
+
+#~ msgid "Access-Control-Allow-Origin"
+#~ msgstr "Access-Control-Allow-Origin"
+
+#~ msgid "Access-Control-Expose-Headers"
+#~ msgstr "Access-Control-Expose-Headers"
 
 #~ msgid "-- Please choose --"
 #~ msgstr "-- Bitte auswählen --"

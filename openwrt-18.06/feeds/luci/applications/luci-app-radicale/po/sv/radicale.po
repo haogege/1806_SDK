@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: luci-app-radicale 1.1.0-1\n"
 "POT-Creation-Date: 2016-01-30 20:34+0100\n"
-"PO-Revision-Date: 2019-10-17 20:22+0000\n"
-"Last-Translator: Mattias Münster <mattiasmun@gmail.com>\n"
+"PO-Revision-Date: 2021-11-04 17:37+0000\n"
+"Last-Translator: Paul Dee <itsascambutmailmeanyway+weblate@gmail.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsradicale/sv/>\n"
 "Language: sv\n"
@@ -11,12 +11,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9.1-dev\n"
+"X-Generator: Weblate 4.9-dev\n"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:268
 msgid ""
 "'AUTO' selects the highest protocol version that client and server support."
 msgstr ""
+"'AUTO' väljer den högsta protokollversionen som klienten och servern stödjer."
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:223
 msgid ""
@@ -26,22 +27,6 @@ msgstr ""
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:272
 msgid "AUTO"
 msgstr "AUTO"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:734
-msgid "Access-Control-Allow-Headers"
-msgstr ""
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:726
-msgid "Access-Control-Allow-Methods"
-msgstr ""
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:718
-msgid "Access-Control-Allow-Origin"
-msgstr ""
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:742
-msgid "Access-Control-Expose-Headers"
-msgstr ""
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:706
 msgid "Additional HTTP headers"
@@ -100,10 +85,6 @@ msgid ""
 "to the client and/or to store data inside collections."
 msgstr ""
 
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:334
-msgid "Ciphers"
-msgstr "Chiffer"
-
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:544
 msgid "Console Log level"
 msgstr "Loggnivå för konsoll"
@@ -125,19 +106,11 @@ msgid ""
 "another domain outside the domain from which the resource originated."
 msgstr ""
 
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:491
-msgid "Custom"
-msgstr "Anpassad"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:490
-msgid "Database"
-msgstr "Databas"
-
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:548
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:570
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:592
 msgid "Debug"
-msgstr "Felsök"
+msgstr "Felsökning"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:191
 msgid "Delay (in seconds) during system boot before Radicale start"
@@ -237,6 +210,10 @@ msgstr ""
 msgid "Full path and file name of private key"
 msgstr ""
 
+#: applications/luci-app-radicale/root/usr/share/rpcd/acl.d/luci-app-radicale.json:3
+msgid "Grant UCI access for luci-app-radicale"
+msgstr ""
+
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:549
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:571
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:593
@@ -294,10 +271,6 @@ msgstr "Ingen"
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:654
 msgid "Number of backup files of log to create."
 msgstr ""
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:335
-msgid "OPTIONAL: See python's ssl module for available ciphers"
-msgstr "VALFRITT: Kolla in python's ssl-modul för tillgängliga chiffer"
 
 #: applications/luci-app-radicale/luasrc/view/radicale/tabmap_nsections.htm:50
 msgid "One or more missing/invalid fields on tab"
@@ -532,10 +505,6 @@ msgstr ""
 msgid "crypt"
 msgstr "crypt"
 
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:364
-msgid "custom"
-msgstr "anpassad"
-
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:357
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:400
 msgid "htpasswd file"
@@ -567,6 +536,21 @@ msgstr "nödvändig"
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:393
 msgid "salted SHA-1"
 msgstr "saltad SHA-1"
+
+#~ msgid "Ciphers"
+#~ msgstr "Chiffer"
+
+#~ msgid "Custom"
+#~ msgstr "Anpassad"
+
+#~ msgid "Database"
+#~ msgstr "Databas"
+
+#~ msgid "OPTIONAL: See python's ssl module for available ciphers"
+#~ msgstr "VALFRITT: Kolla in python's ssl-modul för tillgängliga chiffer"
+
+#~ msgid "custom"
+#~ msgstr "anpassad"
 
 #~ msgid "-- Please choose --"
 #~ msgstr "-- Vänligen välj --"

@@ -1,0 +1,31 @@
+Source-Makefile: feeds/packages/utils/eza/Makefile
+Build-Depends: rust/host
+
+Package: eza
+Version: 0.18.9-1
+Depends: +libc +GCC_LIBSSP:libssp +USE_GLIBC:librt +USE_GLIBC:libpthread @(aarch64||arm||i386||i686||mips||mipsel||mips64||mips64el||mipsel||powerpc64||riscv64||x86_64) +zlib
+Conflicts: 
+Menu-Depends: 
+Provides: 
+Section: utils
+Category: Utilities
+Repository: base
+Title: A modern, maintained replacement for ls
+Maintainer: Jonas Jelonek <jelonek.jonas@gmail.com>
+Source: eza-0.18.9.tar.gz
+License: MIT
+LicenseFiles: LICENSE
+Type: ipkg
+Description:  eza is a modern, maintained replacement for the venerable
+ file-listing command-line program ls that ships with Unix
+ and Linux operating systems, giving it more features and
+ better defaults. It uses colours to distinguish file types
+ and metadata. It knows about symlinks, extended attributes,
+ and Git.
+
+ And it's small, fast, and just one single binary.
+https://eza.rocks
+Jonas Jelonek <jelonek.jonas@gmail.com>
+@@
+
+

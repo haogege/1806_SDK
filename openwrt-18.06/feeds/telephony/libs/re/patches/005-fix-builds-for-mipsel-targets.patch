@@ -1,6 +1,6 @@
 --- a/mk/re.mk
 +++ b/mk/re.mk
-@@ -438,11 +438,6 @@ endif
+@@ -412,11 +412,6 @@ endif
  
  CFLAGS	+= -DARCH=\"$(ARCH)\"
  

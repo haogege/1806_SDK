@@ -14,6 +14,8 @@
 #
 # Author: Nils Koenig <openwrt@newk.it>
 
+set -o pipefail
+
 SCRIPT=$0
 LOCKFILE=/tmp/wifi_schedule.lock
 LOGFILE=/tmp/log/wifi_schedule.log
@@ -122,10 +124,46 @@ _enable_wifi_schedule()
     return 0
 }
 
+_is_earlier()
+{
+    local hhmm=$1
+    local ret=1
+    if [[ $(date +%H) -lt ${hhmm:0:2} ]]
+    then
+        ret=0
+    fi
+    if [[ $(date +%H) -eq ${hhmm:0:2} && $(date +%M) -lt ${hhmm:3:4} ]]
+    then
+        ret=0
+    fi
+    echo $ret
+}
+
+# returns 0 if now() is in $entry
+_check_startup_timewindow()
+{
+    local entry=$1
+    local starttime
+    local stoptime
+    local dow
+    starttime=$(_get_uci_value ${PACKAGE}.${entry}.starttime) || _exit 1
+    stoptime=$(_get_uci_value ${PACKAGE}.${entry}.stoptime) || _exit 1
+    dow=$(_get_uci_value_raw ${PACKAGE}.${entry}.daysofweek) || _exit 1
+
+    echo $dow | grep $(date +%A) > /dev/null 2>&1
+    rc=$?
+
+    if [[ $rc -eq 0 && $(date +%H) -ge ${starttime:0:2}  && $(date +%M) -ge ${starttime:3:4}  && $(_is_earlier $stoptime) -eq 0  ]]
+    then
+        echo 0
+    else
+        echo 1
+    fi
+}
+
 _get_wireless_interfaces()
 {
-    local n=$(cat /proc/net/wireless | wc -l)
-    cat /proc/net/wireless | tail -n $(($n - 2))|awk -F':' '{print $1}'| sed  's/ //' 
+    iwinfo | grep ESSID | cut -f 1 -s -d" "
 }
 
 
@@ -218,6 +256,40 @@ _create_cron_entries()
     done
 }
 
+_should_wifi_enabled() 
+{
+
+    local enable_wifi=0
+    local entries=$(uci show ${PACKAGE} 2> /dev/null | awk -F'.' '{print $2}' | grep -v '=' | grep -v '@global\[0\]' | uniq | sort)
+    local _entry
+    for _entry in ${entries}
+    do
+        local status
+        status=$(_get_uci_value ${PACKAGE}.${_entry}.enabled) || _exit 1
+        if [ ${status} -eq 1 ]
+        then
+            enable_wifi=$(_check_startup_timewindow $_entry)
+        fi
+    done
+    echo ${enable_wifi}
+}
+
+startup()
+{
+    _log "startup"
+    local global_enabled=$(_get_uci_value ${GLOBAL}.enabled) || _exit 1
+    if [ ${global_enabled} -eq 1 ]; then
+        local _enable_wifi=$(_should_wifi_enabled)
+        if [ ${_enable_wifi} -eq 0 ]; then
+            _log "enable wifi"
+            enable_wifi
+        else
+            _log "disable wifi"
+            disable_wifi
+        fi
+    fi
+}
+
 check_cron_status()
 {
     local global_enabled
@@ -231,7 +303,7 @@ check_cron_status()
 disable_wifi()
 {
     _rm_cron_script "${SCRIPT} recheck"
-    /sbin/wifi down
+    _set_status_wifi_uci 1
     local unload_modules
     unload_modules=$(_get_uci_value_raw ${GLOBAL}.unload_modules) || _exit 1
     if [[ "${unload_modules}" == "1" ]]; then
@@ -241,34 +313,54 @@ disable_wifi()
 
 soft_disable_wifi()
 {
-    local _disable_wifi=1
+    local _disable_wifi=0 #0: disable wifi, 1: do not disable wifi
     local iwinfo=/usr/bin/iwinfo
     if [ ! -e ${iwinfo} ]; then
         _log "${iwinfo} not available, skipping"
         return 1
     fi
 
+    local ignore_stations=$(_get_uci_value_raw ${GLOBAL}.ignore_stations)
+    [ -n "${ignore_stations}" ] && _log "Ignoring station(s) ${ignore_stations}"
+
     # check if no stations are associated
     local _if
     for _if in $(_get_wireless_interfaces)
     do
-        output=$(${iwinfo} ${_if} assoclist)
-        if [[ "$output" != "No station connected" ]]
-        then
-            _disable_wifi=0
-            local stations=$(echo ${output}| grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}' | tr '\n' ' ')
-            _log "Station(s) ${stations}associated on ${_if}"
+        local stations=$(${iwinfo} ${_if} assoclist | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}')
+        if [ -n "${ignore_stations}" ]; then
+            stations=$(echo "${stations}" | grep -vwi -E "${ignore_stations// /|}")
+        fi
+
+        if [ -n "${stations}" ]; then
+            _disable_wifi=1
+            _log "Station(s) $(echo ${stations}) associated on ${_if}"
         fi
     done
 
-    if [ ${_disable_wifi} -eq 1 ]; then
+    local _wifi_enabled=$(_should_wifi_enabled)
+    if [[ ${_disable_wifi} -eq 0 && ${_wifi_enabled} -eq 1 ]]; then
         _log "No stations associated, disable wifi."
         disable_wifi
+    elif [[ ${_disable_wifi} -eq 0 && ${_wifi_enabled} -eq 0 ]]; then
+        _log "Do not disable wifi since there is an allow timeframe, skip rechecking."
+        _rm_cron_script "${SCRIPT} recheck"
     else
         _log "Could not disable wifi due to associated stations, retrying..."
         local recheck_interval=$(_get_uci_value ${GLOBAL}.recheck_interval)
         _add_cron_script "*/${recheck_interval} * * * * ${SCRIPT} recheck"
     fi
+}
+
+_set_status_wifi_uci()
+{
+    local status=$1
+    local radios=$(uci show wireless | grep radio | awk -F'.' '{print $2}' | grep -v '[=|@]' | sort | uniq)
+    for radio in ${radios}
+    do
+        uci set wireless.${radio}.disabled=${status}
+    done
+    uci commit
 }
 
 enable_wifi()
@@ -279,18 +371,20 @@ enable_wifi()
     if [[ "${unload_modules}" == "1" ]]; then
         _load_modules
     fi
+    _set_status_wifi_uci 0
     /sbin/wifi
 }
 
 usage()
 {
     echo ""
-    echo "$0 cron|start|stop|forcestop|recheck|getmodules|savemodules|help"
+    echo "$0 cron|start|startup|stop|forcestop|recheck|getmodules|savemodules|help"
     echo ""
     echo "    UCI Config File: /etc/config/${PACKAGE}"
     echo ""
     echo "    cron: Create cronjob entries."
     echo "    start: Start wifi."
+    echo "    startup: Checks current timewindow and enables/disables WIFI accordingly."
     echo "    stop: Stop wifi gracefully, i.e. check if there are stations associated and if so keep retrying."
     echo "    forcestop: Stop wifi immediately."
     echo "    recheck: Recheck if wifi can be disabled now."
@@ -300,16 +394,28 @@ usage()
     echo ""
 }
 
+_cleanup()
+{
+    lock -u ${LOCKFILE}
+    rm ${LOCKFILE}
+}
+
 ###############################################################################
 # MAIN
 ###############################################################################
+trap _cleanup EXIT
+
 LOGGING=$(_get_uci_value ${GLOBAL}.logging) || _exit 1
 _log ${SCRIPT} $1 $2
 lock ${LOCKFILE}
 
 case "$1" in
-    cron) check_cron_status ;;
+    cron) 
+        check_cron_status
+        startup
+    ;;
     start) enable_wifi ;;
+    startup) startup ;;
     forcestop) disable_wifi ;;
     stop) soft_disable_wifi ;;
     recheck) soft_disable_wifi ;;

@@ -1,14 +1,14 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-11-06 00:12+0000\n"
-"Last-Translator: Franco Castillo <castillofrancodamian@gmail.com>\n"
+"PO-Revision-Date: 2024-01-11 23:35+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsradicale/es/>\n"
 "Language: es\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:268
 msgid ""
@@ -27,22 +27,6 @@ msgstr ""
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:272
 msgid "AUTO"
 msgstr "AUTO"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:734
-msgid "Access-Control-Allow-Headers"
-msgstr "Acceso-Control-Permitir-Encabezados"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:726
-msgid "Access-Control-Allow-Methods"
-msgstr "Acceso-Control-Permitir-Métodos"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:718
-msgid "Access-Control-Allow-Origin"
-msgstr "Acceso-Control-Permitir-Origen"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:742
-msgid "Access-Control-Expose-Headers"
-msgstr "Acceso-Control-Exponer-Encabezados"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:706
 msgid "Additional HTTP headers"
@@ -106,10 +90,6 @@ msgstr ""
 "Cambie aquí la codificación que usará Radicale en lugar de 'UTF-8' para las "
 "respuestas al cliente y/o para almacenar datos dentro de colecciones."
 
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:334
-msgid "Ciphers"
-msgstr "Cifrados"
-
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:544
 msgid "Console Log level"
 msgstr "Nivel de registro de consola"
@@ -134,14 +114,6 @@ msgstr ""
 "permite solicitar recursos restringidos (por ejemplo, fuentes, JavaScript, "
 "etc.) en una página web desde otro dominio fuera del dominio desde el que se "
 "originó el recurso."
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:491
-msgid "Custom"
-msgstr "Personalizado"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:490
-msgid "Database"
-msgstr "Base de datos"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:548
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:570
@@ -253,6 +225,10 @@ msgstr "Ruta completa y nombre de archivo del certificado"
 msgid "Full path and file name of private key"
 msgstr "Ruta completa y nombre de archivo de clave privada"
 
+#: applications/luci-app-radicale/root/usr/share/rpcd/acl.d/luci-app-radicale.json:3
+msgid "Grant UCI access for luci-app-radicale"
+msgstr "Conceder acceso a UCI para luci-app-radicale"
+
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:549
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:571
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:593
@@ -287,7 +263,7 @@ msgstr "Tamaño del archivo de registro"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:533
 msgid "Logging"
-msgstr "Inicio de sesión"
+msgstr "Inicio sesión"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:235
 msgid "Logon message"
@@ -299,7 +275,8 @@ msgstr "Tamaño máximo de cada archivo de registro de rotación."
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:236
 msgid "Message displayed in the client when a password is needed."
-msgstr "Mensaje que se muestra en el cliente cuando se necesita una contraseña."
+msgstr ""
+"Mensaje que se muestra en el cliente cuando se necesita una contraseña."
 
 #: applications/luci-app-radicale/luasrc/controller/radicale.lua:46
 msgid "NOT installed"
@@ -312,11 +289,6 @@ msgstr "Ninguno"
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:654
 msgid "Number of backup files of log to create."
 msgstr "Número de archivos de respaldo de registro para crear."
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:335
-msgid "OPTIONAL: See python's ssl module for available ciphers"
-msgstr ""
-"OPCIONAL: Consulte el módulo ssl de python para ver los cifrados disponibles"
 
 #: applications/luci-app-radicale/luasrc/view/radicale/tabmap_nsections.htm:50
 msgid "One or more missing/invalid fields on tab"
@@ -487,8 +459,8 @@ msgid ""
 "The Radicale Project is a complete CalDAV (calendar) and CardDAV (contact) "
 "server solution."
 msgstr ""
-"El Proyecto Radicale es una solución completa de servidor CalDAV (calendario)"
-" y CardDAV (contacto)."
+"El Proyecto Radicale es una solución completa de servidor CalDAV "
+"(calendario) y CardDAV (contacto)."
 
 #: applications/luci-app-radicale/luasrc/controller/radicale.lua:34
 msgid ""
@@ -568,10 +540,6 @@ msgstr ""
 msgid "crypt"
 msgstr "cripto"
 
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:364
-msgid "custom"
-msgstr "personalizado"
-
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:357
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:400
 msgid "htpasswd file"
@@ -603,3 +571,32 @@ msgstr "requerido"
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:393
 msgid "salted SHA-1"
 msgstr "SHA-1 salado"
+
+#~ msgid "Ciphers"
+#~ msgstr "Cifrados"
+
+#~ msgid "Custom"
+#~ msgstr "Personalizado"
+
+#~ msgid "Database"
+#~ msgstr "Base de datos"
+
+#~ msgid "OPTIONAL: See python's ssl module for available ciphers"
+#~ msgstr ""
+#~ "OPCIONAL: Consulte el módulo ssl de python para ver los cifrados "
+#~ "disponibles"
+
+#~ msgid "custom"
+#~ msgstr "personalizado"
+
+#~ msgid "Access-Control-Allow-Headers"
+#~ msgstr "Acceso-Control-Permitir-Encabezados"
+
+#~ msgid "Access-Control-Allow-Methods"
+#~ msgstr "Acceso-Control-Permitir-Métodos"
+
+#~ msgid "Access-Control-Allow-Origin"
+#~ msgstr "Acceso-Control-Permitir-Origen"
+
+#~ msgid "Access-Control-Expose-Headers"
+#~ msgstr "Acceso-Control-Exponer-Encabezados"

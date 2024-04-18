@@ -1,35 +1,56 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=https_dns_proxy
-PKG_RELEASE=1
+PKG_NAME:=https-dns-proxy
+PKG_VERSION:=2023.11.19
+PKG_RELEASE:=r1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/aarond10/https_dns_proxy
-PKG_SOURCE_DATE:=2019-10-09
-PKG_SOURCE_VERSION:=3d20c75c4a17aa569748e63ac169b9274178d573
-PKG_MIRROR_HASH:=149839f1db4ab9691db3955de526080a5b731ff8484b06f164497f4e244140da
+PKG_SOURCE_URL:=https://github.com/aarond10/https_dns_proxy/
+PKG_SOURCE_DATE:=$(subst(.,-,$(PKG_VERSION)))
+PKG_SOURCE_RELEASE:=$(subst(r,,$(PKG_RELEASE)))
+PKG_SOURCE_VERSION:=489c57efd46983e688579974a2ab7aeaa7df8d83
+PKG_MIRROR_HASH:=804d857efe79437c7f859fb450aca0d6962b4e80b7354060eb399574083438e4
 
-PKG_MAINTAINER:=Aaron Drew <aarond10@gmail.com>
+PKG_MAINTAINER:=Stan Grishin <stangri@melmac.ca>
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
 
-CMAKE_OPTIONS += -DCLANG_TIDY_EXE=
+CMAKE_OPTIONS += -DCLANG_TIDY_EXE= -DGIT_VERSION=$(PKG_SOURCE_DATE)-$(PKG_SOURCE_RELEASE)
 
-define Package/https_dns_proxy
-  SECTION:=net
-  CATEGORY:=Network
-  TITLE:=DNS over HTTPS Proxy Server
-  DEPENDS:=+libcares +libcurl +libev +ca-bundle
+define Package/https-dns-proxy
+	SECTION:=net
+	CATEGORY:=Network
+	TITLE:=DNS Over HTTPS Proxy
+	URL:=https://docs.openwrt.melmac.net/https-dns-proxy/
+	DEPENDS:=+libcares +libcurl +libev +ca-bundle +jsonfilter +resolveip
+	DEPENDS+=+!BUSYBOX_DEFAULT_GREP:grep
+	DEPENDS+=+!BUSYBOX_DEFAULT_SED:sed
+	CONFLICTS:=https_dns_proxy
 endef
 
-define Package/https_dns_proxy/install
-	$(INSTALL_DIR) $(1)/usr/sbin $(1)/etc/init.d ${1}/etc/config
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/https_dns_proxy $(1)/usr/sbin/
-	$(INSTALL_BIN) ./files/https_dns_proxy.init $(1)/etc/init.d/https_dns_proxy
-	$(INSTALL_CONF) ./files/https_dns_proxy.config $(1)/etc/config/https_dns_proxy
+define Package/https-dns-proxy/description
+Light-weight DNS-over-HTTPS, non-caching translation proxy for the RFC 8484 DoH standard.
+It receives regular (UDP) DNS requests and resolves them via DoH resolver.
+Please see https://docs.openwrt.melmac.net/https-dns-proxy/ for more information.
 endef
 
-$(eval $(call BuildPackage,https_dns_proxy))
+define Package/https-dns-proxy/conffiles
+/etc/config/https-dns-proxy
+endef
+
+define Package/https-dns-proxy/install
+	$(INSTALL_DIR) $(1)/usr/sbin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/https_dns_proxy $(1)/usr/sbin/https-dns-proxy
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) ./files/etc/init.d/https-dns-proxy $(1)/etc/init.d/https-dns-proxy
+	$(SED) "s|^\(readonly PKG_VERSION\).*|\1='$(PKG_VERSION)-$(PKG_RELEASE)'|" $(1)/etc/init.d/https-dns-proxy
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_CONF) ./files/etc/config/https-dns-proxy $(1)/etc/config/https-dns-proxy
+	$(INSTALL_DIR) $(1)/etc/uci-defaults/
+	$(INSTALL_BIN) ./files/etc/uci-defaults/50-https-dns-proxy-migrate-options.sh $(1)/etc/uci-defaults/50-https-dns-proxy-migrate-options.sh
+endef
+
+$(eval $(call BuildPackage,https-dns-proxy))

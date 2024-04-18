@@ -1,27 +1,31 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-10-27 22:31+0000\n"
-"Last-Translator: Yurii Petrashko <yuripet@gmail.com>\n"
+"PO-Revision-Date: 2024-02-25 06:41+0000\n"
+"Last-Translator: Костянтин Серьогін <seryoginki@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsprivoxy/uk/>\n"
 "Language: uk\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.9.1-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:236
 msgid ""
 "A URL to be displayed in the error page that users will see if access to an "
 "untrusted page is denied."
 msgstr ""
+"URL-адреса, що відображається на сторінці помилки, яку користувачі "
+"бачитимуть, якщо доступ до ненадійної сторінки заборонено."
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:226
 msgid ""
 "A URL to documentation about the local Privoxy setup, configuration or "
 "policies."
 msgstr ""
+"URL-адреса для доступу до документації про локальне налаштування, "
+"конфігурацію або політики Privoxy."
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:325
 msgid "A directory where Privoxy can create temporary files."
@@ -155,6 +159,10 @@ msgstr ""
 msgid "Forwarding"
 msgstr ""
 
+#: applications/luci-app-privoxy/root/usr/share/rpcd/acl.d/luci-app-privoxy.json:3
+msgid "Grant UCI access for luci-app-privoxy"
+msgstr ""
+
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:589
 msgid ""
 "If enabled, Privoxy hides the 'go there anyway' link. The user obviously "
@@ -266,7 +274,7 @@ msgstr ""
 
 #: applications/luci-app-privoxy/luasrc/controller/privoxy.lua:51
 msgid "NOT installed"
-msgstr ""
+msgstr "Не інстальовано"
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:254
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:291
@@ -346,11 +354,11 @@ msgstr ""
 
 #: applications/luci-app-privoxy/luasrc/controller/privoxy.lua:76
 msgid "Software package '%s' is not installed."
-msgstr ""
+msgstr "Пакунок програм '%s' не встановлено."
 
 #: applications/luci-app-privoxy/luasrc/controller/privoxy.lua:85
 msgid "Software package '%s' is outdated."
-msgstr ""
+msgstr "Пакунок програм '%s' застарів."
 
 #: applications/luci-app-privoxy/luasrc/model/cbi/privoxy.lua:125
 #: applications/luci-app-privoxy/luasrc/view/privoxy/detail_startstop.htm:10
@@ -590,10 +598,10 @@ msgstr ""
 #: applications/luci-app-privoxy/luasrc/controller/privoxy.lua:78
 #: applications/luci-app-privoxy/luasrc/controller/privoxy.lua:89
 msgid "or higher"
-msgstr ""
+msgstr "чи вище"
 
 #: applications/luci-app-privoxy/luasrc/controller/privoxy.lua:46
 #: applications/luci-app-privoxy/luasrc/controller/privoxy.lua:78
 #: applications/luci-app-privoxy/luasrc/controller/privoxy.lua:89
 msgid "required"
-msgstr ""
+msgstr "вимагається"

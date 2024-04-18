@@ -3,15 +3,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-19 19:36+0200\n"
-"PO-Revision-Date: 2011-10-05 17:53+0200\n"
-"Last-Translator: Kentaro <kentaro.matsuyama@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2024-03-28 23:40+0000\n"
+"Last-Translator: Ioroi Kouhei <kouhei@ioroi.org>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationstinyproxy/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.0.4\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:219
 msgid ""
@@ -19,6 +20,9 @@ msgid ""
 "upstream proxy, <em>Reject access</em> disables any upstream proxy for the "
 "target"
 msgstr ""
+"<em>Via proxy</em>は、指定されたアップストリームプロキシを介して指定されたタ"
+"ーゲットへのリクエストをルーティングし、<em>Reject "
+"access</em>はターゲットのアップストリームプロキシを無効にします。"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:108
 msgid ""
@@ -45,33 +49,33 @@ msgid ""
 "By default, basic POSIX expressions are used for filtering. Enable this to "
 "activate extended regular expressions"
 msgstr ""
-"標準では、基本的なPOSIX正規表現がフィルタリングに使用されますが、このオプショ"
-"ンが有効に設定されている場合、拡張版のPOSIX正規表現が用いられます。"
+"初期設定では、基本的なPOSIX正規表現がフィルタリングに使用されますが、このオプ"
+"ションが有効に設定されている場合、拡張版のPOSIX正規表現が用いられます"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:153
 msgid ""
 "By default, filter strings are treated as case-insensitive. Enable this to "
 "make the matching case-sensitive"
 msgstr ""
-"標準では、フィルターの文字列は大文字小文字を区別しませんが、このオプションが"
-"有効に設定されている場合、区別してフィルタリングを行います。"
+"初期設定では、フィルターの文字列は大文字小文字を区別しませんが、このオプショ"
+"ンが有効に設定されている場合、区別してフィルタリングを行います"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:145
 msgid ""
 "By default, filtering is done based on domain names. Enable this to match "
 "against URLs instead"
 msgstr ""
-"標準では、ドメイン名を使用してフィルタリングを行いますが、このオプションが有"
-"効に設定されている場合、代わりにURLに対してフィルタリングを行います。"
+"初期設定では、ドメイン名を使用してフィルタリングを行いますが、このオプション"
+"が有効に設定されている場合、代わりにURLに対してフィルタリングを行います"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:157
 msgid ""
 "By default, the filter rules act as blacklist. Enable this option to only "
 "allow matched URLs or domain names"
 msgstr ""
-"標準では、フィルタリング・ルールはブラックリストとして動作しますが、このオプ"
-"ションが有効に設定されている場合、URLまたはドメイン名が一致した場合のみ、接続"
-"が許可されます。"
+"初期設定では、フィルタリング・ルールはブラックリストとして動作しますが、この"
+"オプションが有効に設定されている場合、URLまたはドメイン名が一致した場合のみ、"
+"接続が許可されます"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:226
 msgid ""
@@ -79,9 +83,9 @@ msgid ""
 "without domain"
 msgstr ""
 
-#: applications/luci-app-tinyproxy/luasrc/controller/tinyproxy.lua:14
+#: applications/luci-app-tinyproxy/root/usr/share/luci/menu.d/luci-app-tinyproxy.json:23
 msgid "Configuration"
-msgstr ""
+msgstr "設定"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:164
 msgid "Connection timeout"
@@ -89,7 +93,7 @@ msgstr "接続タイムアウト"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:156
 msgid "Default deny"
-msgstr ""
+msgstr "拒否 (デフォルト)"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:17
 msgid "Enable Tinyproxy server"
@@ -101,7 +105,7 @@ msgstr "エラーページ"
 
 #: applications/luci-app-tinyproxy/luasrc/view/tinyproxy_status.htm:36
 msgid "Failed to retrieve statistics from url:"
-msgstr ""
+msgstr "統計を取得できませんでした URL:"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:148
 msgid "Filter by RegExp"
@@ -125,7 +129,11 @@ msgstr "フィルタリングとアクセス制御"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:11
 msgid "General settings"
-msgstr "基本設定"
+msgstr "一般設定"
+
+#: applications/luci-app-tinyproxy/root/usr/share/rpcd/acl.d/luci-app-tinyproxy.json:3
+msgid "Grant UCI access for luci-app-tinyproxy"
+msgstr "luci-app-tinyproxy の UCI アクセスを許可"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:97
 msgid "Group"
@@ -150,19 +158,17 @@ msgstr "プロキシサーバーの使用を許可するIPアドレスリスト�
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:134
 msgid ""
-"List of allowed ports for the CONNECT method. A single value \"0\" allows "
-"all ports"
+"List of allowed ports for the CONNECT method. A single value \"0\" disables "
+"CONNECT completely, an empty list allows all ports"
 msgstr ""
-"プロキシサーバーから接続可能なポートリストです。\"0\"を設定した場合、すべての"
-"ポートを許可します。"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:39
 msgid "Listen address"
-msgstr "待受アドレス"
+msgstr "リッスンアドレス"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:31
 msgid "Listen port"
-msgstr "待受ポート"
+msgstr "リッスンポート"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:73
 msgid "Log file"
@@ -190,11 +196,11 @@ msgstr "サーバー毎の最大リクエスト数"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:186
 msgid "Max. spare servers"
-msgstr ""
+msgstr "最大スペアサーバ"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:173
 msgid "Maximum allowed number of concurrently connected clients"
-msgstr ""
+msgstr "同時接続可能なクライアントの最大数"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:201
 msgid ""
@@ -256,7 +262,7 @@ msgstr ""
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:32
 msgid "Specifies the HTTP port Tinyproxy is listening on for requests"
-msgstr "リクエストに対して、Tinyproxyが待ち受けるHTTPポートを設定します"
+msgstr "リクエストに対して、TinyproxyがリッスンするHTTPポートを設定します"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:112
 msgid "Specifies the Tinyproxy hostname to use in the Via HTTP header"
@@ -269,7 +275,7 @@ msgstr ""
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:40
 msgid "Specifies the addresses Tinyproxy is listening on for requests"
-msgstr "リクエストに対して、Tinyproxyが待ち受けるアドレスを設定します。"
+msgstr "リクエストに対して、Tinyproxyがリッスンするアドレスを設定します。"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:98
 msgid "Specifies the group name the Tinyproxy process is running as"
@@ -278,7 +284,7 @@ msgstr "Tinyproxyを実行するグループを設定します"
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:234
 msgid ""
 "Specifies the upstream proxy to use for accessing the target host. Format is "
-"<code>address:port</code>"
+"<code>address:port</code> or <code>socks5 address:port</code>"
 msgstr ""
 "特定のホストにアクセスする際に使用する、上位のプロキシサーバーを設定します。"
 "書式は <code>アドレス:ポート</code> です。"
@@ -295,16 +301,16 @@ msgstr ""
 msgid "Statistics page"
 msgstr ""
 
-#: applications/luci-app-tinyproxy/luasrc/controller/tinyproxy.lua:13
+#: applications/luci-app-tinyproxy/root/usr/share/luci/menu.d/luci-app-tinyproxy.json:14
 msgid "Status"
-msgstr ""
+msgstr "ステータス"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:225
 msgid "Target host"
 msgstr "宛先ホスト"
 
-#: applications/luci-app-tinyproxy/luasrc/controller/tinyproxy.lua:12
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:5
+#: applications/luci-app-tinyproxy/root/usr/share/luci/menu.d/luci-app-tinyproxy.json:3
 msgid "Tinyproxy"
 msgstr "Tinyproxy"
 
@@ -353,3 +359,10 @@ msgstr "ログファイルの代わりにsyslogへメッセージを記録しま
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:107
 msgid "X-Tinyproxy header"
 msgstr "X-Tinyproxy ヘッダー"
+
+#~ msgid ""
+#~ "List of allowed ports for the CONNECT method. A single value \"0\" allows "
+#~ "all ports"
+#~ msgstr ""
+#~ "プロキシサーバーから接続可能なポートリストです。\"0\"を設定した場合、すべ"
+#~ "てのポートを許可します。"

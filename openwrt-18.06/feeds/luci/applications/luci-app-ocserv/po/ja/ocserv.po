@@ -1,31 +1,33 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2024-03-28 23:40+0000\n"
+"Last-Translator: Ioroi Kouhei <kouhei@ioroi.org>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationsocserv/ja/>\n"
 "Language: ja\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.5-dev\n"
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:145
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:124
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:80
 msgid ""
 "<abbr title=\"Classless Inter-Domain Routing\">CIDR</abbr>-Notation: address/"
 "prefix"
 msgstr ""
+"<abbr title=\"Classless Inter-Domain Routing\""
+">CIDR</abbr>例:アドレス/プレフィックス"
 
 #: applications/luci-app-ocserv/luasrc/view/ocserv_status.htm:48
 msgid "Active OpenConnect Users"
-msgstr ""
+msgstr "アクティブな OpenConnect ユーザー"
 
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/users.lua:61
 msgid "Active users"
 msgstr ""
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:23
-msgid ""
-"An alternative value to be communicated to the client to verify the server's "
-"certificate; this value only depends on the public key"
-msgstr ""
-
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:95
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:74
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:64
 msgid "AnyConnect client compatibility"
 msgstr ""
@@ -37,23 +39,23 @@ msgstr ""
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:13
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:13
 msgid "CA certificate"
-msgstr ""
+msgstr "CA証明書"
 
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/users.lua:72
 #: applications/luci-app-ocserv/luasrc/view/ocserv_status.htm:57
 msgid "Cipher"
-msgstr ""
+msgstr "暗号"
 
 #: applications/luci-app-ocserv/luasrc/view/ocserv_status.htm:62
 msgid "Collecting data..."
-msgstr ""
+msgstr "データを収集中..."
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:153
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:132
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:111
 msgid "DNS servers"
-msgstr ""
+msgstr "DNS サーバー"
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:81
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:60
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:54
 msgid "Dead peer detection time (secs)"
 msgstr ""
@@ -61,45 +63,45 @@ msgstr ""
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/users.lua:70
 #: applications/luci-app-ocserv/luasrc/view/ocserv_status.htm:55
 msgid "Device"
-msgstr ""
+msgstr "デバイス"
 
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:14
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:14
 msgid "Edit Template"
-msgstr ""
+msgstr "テンプレートの編集"
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:101
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:80
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:85
 msgid "Edit the template that is used for generating the ocserv configuration."
-msgstr ""
+msgstr "ocserv 構成の生成に使用されるテンプレートを編集します。"
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:91
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:70
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:60
 msgid "Enable UDP"
-msgstr ""
+msgstr "UDP を有効にする"
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:92
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:71
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:61
 msgid ""
 "Enable UDP channel support; this must be enabled unless you know what you "
 "are doing"
 msgstr ""
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:87
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:88
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:66
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:67
 msgid "Enable compression"
-msgstr ""
+msgstr "圧縮を有効にする"
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:127
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:106
 msgid "Enable proxy arp"
 msgstr ""
 
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:16
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:16
 msgid "Enable server"
-msgstr ""
+msgstr "サーバーを有効にする"
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:96
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:75
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:65
 msgid "Enable support for CISCO AnyConnect clients"
 msgstr ""
@@ -111,45 +113,49 @@ msgstr ""
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:12
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:12
 msgid "General Settings"
-msgstr ""
+msgstr "一般設定"
+
+#: applications/luci-app-ocserv/root/usr/share/rpcd/acl.d/luci-app-ocserv.json:3
+msgid "Grant UCI access for luci-app-ocserv"
+msgstr "luci-app-ocservにUCIアクセスを許可"
 
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/users.lua:23
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/users.lua:67
 #: applications/luci-app-ocserv/luasrc/view/ocserv_status.htm:52
 msgid "Group"
-msgstr ""
+msgstr "グループ"
 
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/users.lua:65
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/users.lua:68
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:159
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:170
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:138
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:149
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:117
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:128
 #: applications/luci-app-ocserv/luasrc/view/ocserv_status.htm:53
 msgid "IP Address"
-msgstr ""
+msgstr "IP アドレス"
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:79
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:58
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:52
 msgid "Max clients"
-msgstr ""
+msgstr "最大クライアント"
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:80
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:59
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:53
 msgid "Max same clients"
 msgstr ""
 
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/users.lua:22
 msgid "Name"
-msgstr ""
+msgstr "名前"
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:172
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:151
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:131
 msgid "Netmask (or IPv6-prefix)"
 msgstr ""
@@ -163,19 +169,19 @@ msgstr ""
 
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/users.lua:24
 msgid "Password"
-msgstr ""
+msgstr "パスワード"
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:77
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:56
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:50
 msgid "Port"
-msgstr ""
+msgstr "ポート"
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:83
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:62
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:56
 msgid "Predictable IPs"
 msgstr ""
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:128
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:107
 msgid ""
 "Provide addresses to clients from a subnet of LAN; if enabled the network "
 "below must be a subnet of LAN. Note that the first address of the specified "
@@ -184,63 +190,53 @@ msgid ""
 "upper 62 addresses."
 msgstr ""
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:164
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:143
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:122
 msgid "Routing table"
 msgstr ""
 
-#: applications/luci-app-ocserv/luasrc/controller/ocserv.lua:19
+#: applications/luci-app-ocserv/luasrc/controller/ocserv.lua:20
 msgid "Server Settings"
-msgstr ""
-
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:22
-msgid "Server's Public Key ID"
-msgstr ""
+msgstr "サーバー設定"
 
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:20
-msgid "Server's certificate SHA1 hash"
+msgid "Server's Public Key ID"
 msgstr ""
 
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/users.lua:73
 #: applications/luci-app-ocserv/luasrc/view/ocserv_status.htm:58
 msgid "Status"
-msgstr ""
-
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:21
-msgid ""
-"That value should be communicated to the client to verify the server's "
-"certificate"
-msgstr ""
+msgstr "ステータス"
 
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:112
 msgid "The DNS servers to be provided to clients; can be either IPv6 or IPv4"
 msgstr ""
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:154
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:133
 msgid ""
 "The DNS servers to be provided to clients; can be either IPv6 or IPv4. "
 "Typically you should include the address of this device"
 msgstr ""
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:132
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:111
 msgid ""
 "The IPv4 subnet address to provide to clients; this should be some private "
 "network different than the LAN addresses unless proxy ARP is enabled. Leave "
 "empty to attempt auto-configuration."
 msgstr ""
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:146
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:125
 msgid ""
 "The IPv6 subnet address to provide to clients; leave empty to attempt auto-"
 "configuration."
 msgstr ""
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:84
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:63
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:57
 msgid "The assigned IPs will be selected deterministically"
 msgstr ""
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:71
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:50
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:38
 msgid ""
 "The authentication method for the users. The simplest is plain with a single "
@@ -252,11 +248,11 @@ msgstr ""
 msgid "The firewall zone that the VPN clients will be set to"
 msgstr ""
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:137
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:116
 msgid "The mask of the subnet above."
 msgstr ""
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:165
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:144
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:123
 msgid ""
 "The routing table to be provided to clients; you can mix IPv4 and IPv6 "
@@ -264,9 +260,15 @@ msgid ""
 "default route"
 msgstr ""
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:78
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:57
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:51
 msgid "The same UDP and TCP ports will be used"
+msgstr ""
+
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:21
+msgid ""
+"The value to be communicated to the client to verify the server's "
+"certificate; this value only depends on the public key"
 msgstr ""
 
 #: applications/luci-app-ocserv/luasrc/view/ocserv_status.htm:41
@@ -276,37 +278,37 @@ msgstr ""
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/users.lua:71
 #: applications/luci-app-ocserv/luasrc/view/ocserv_status.htm:56
 msgid "Time"
-msgstr ""
+msgstr "時刻"
 
 #: applications/luci-app-ocserv/luasrc/view/ocserv_status.htm:51
 msgid "User"
-msgstr ""
+msgstr "ユーザー"
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:70
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:49
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:37
 msgid "User Authentication"
 msgstr ""
 
-#: applications/luci-app-ocserv/luasrc/controller/ocserv.lua:24
+#: applications/luci-app-ocserv/luasrc/controller/ocserv.lua:25
 msgid "User Settings"
-msgstr ""
+msgstr "ユーザー設定"
 
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/users.lua:66
 msgid "Username"
-msgstr ""
+msgstr "ユーザー名"
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:136
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:115
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:72
 msgid "VPN <abbr title=\"Internet Protocol Version 4\">IPv4</abbr>-Netmask"
 msgstr ""
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:131
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:110
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:68
 msgid ""
 "VPN <abbr title=\"Internet Protocol Version 4\">IPv4</abbr>-Network-Address"
 msgstr ""
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:145
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:124
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:80
 msgid ""
 "VPN <abbr title=\"Internet Protocol Version 6\">IPv6</abbr>-Network-Address"
@@ -320,7 +322,7 @@ msgstr ""
 msgid "VPN IP Address"
 msgstr ""
 
-#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:116
+#: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/main.lua:95
 #: applications/luci-app-ocserv/luasrc/model/cbi/ocserv/user-config.lua:100
 msgid ""
 "View the CA certificate used by this server. You will need to save it as 'ca."

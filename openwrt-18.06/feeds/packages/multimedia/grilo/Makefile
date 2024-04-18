@@ -6,31 +6,29 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=grilo
-PKG_VERSION:=0.3.6
-PKG_RELEASE:=4
-
-PKG_MAINTAINER:=W. Michael Petullo <mike@flyn.org>
-
-PKG_LICENSE:=LGPLv2.1
-PKG_LICENSE_FILES:=COPYING
+PKG_VERSION:=0.3.16
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
-PKG_SOURCE_URL:=@GNOME/grilo/0.3/
-PKG_HASH:=1e65ca82dd58020451417fde79310d4b940adc3f63ab59997419c52ed3bc9c91
+PKG_SOURCE_URL:=@GNOME/grilo/$(basename $(PKG_VERSION))
+PKG_HASH:=884580e8c5ece280df23aa63ff5234b7d48988a404df7d6bfccd1e77b473bd96
 
-PKG_BUILD_PARALLEL:=1
-PKG_INSTALL:=1
+PKG_MAINTAINER:=W. Michael Petullo <mike@flyn.org>
+PKG_LICENSE:=LGPL-2.1-or-later
+PKG_LICENSE_FILES:=COPYING
+
 PKG_BUILD_DEPENDS:=vala/host
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
+include $(INCLUDE_DIR)/meson.mk
 
 define Package/grilo
   SECTION:=multimedia
   CATEGORY:=Multimedia
   TITLE:=grilo
   URL:=https://wiki.gnome.org/Projects/Grilo
-  DEPENDS:=+glib2 +libsoup +libxml2
+  DEPENDS:=+glib2 +libsoup3 +libxml2
 endef
 
 define Package/grilo/decription
@@ -38,13 +36,13 @@ define Package/grilo/decription
   multimedia content, using a pluggable system.
 endef
 
-CONFIGURE_ARGS += \
-	--disable-compile-warnings \
-	--disable-debug \
-	--disable-gtk-doc-html \
-	--disable-introspection \
-	--disable-test-ui \
-	--disable-vala
+MESON_ARGS += \
+	-Denable-grl-net=true \
+	-Denable-grl-pls=false \
+	-Denable-gtk-doc=false \
+	-Denable-introspection=false \
+	-Denable-test-ui=false \
+	-Denable-vala=false
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include/

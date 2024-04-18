@@ -1,48 +1,55 @@
-#
-# Copyright (C) 2013 OpenWrt.org
-#
-# This is free software, licensed under the GNU General Public License v2.
-# See /LICENSE for more information.
-#
+# SPDX-License-Identifier: GPL-2.0-only
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=alfred
-PKG_VERSION:=2019.4
-PKG_RELEASE:=0
-PKG_HASH:=b5525b396595004654335ac1ebf9de1aab90263e66d5bcc43fc8a708b56a18ea
+PKG_VERSION:=2024.1
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://downloads.open-mesh.org/batman/releases/batman-adv-$(PKG_VERSION)
+PKG_HASH:=262dad39c9be122ac7f061705c8a3e3b6d462782bbe3372e6dfc9ace0c384db9
+
+PKG_MAINTAINER:=Simon Wunderlich <sw@simonwunderlich.de>
 PKG_LICENSE:=GPL-2.0-only MIT
 PKG_LICENSE_FILES:=LICENSES/preferred/GPL-2.0 LICENSES/preferred/MIT
+
+PKG_BUILD_PARALLEL:=1
+PKG_BUILD_FLAGS:=gc-sections lto
+
+PKG_CONFIG_DEPENDS += \
+	CONFIG_ALFRED_NEEDS_lua \
+	CONFIG_ALFRED_NEEDS_libgps \
+	CONFIG_PACKAGE_ALFRED_VIS \
+	CONFIG_PACKAGE_ALFRED_BATHOSTS \
+	CONFIG_PACKAGE_ALFRED_GPSD
 
 include $(INCLUDE_DIR)/package.mk
 
 define Package/alfred
-  URL:=https://www.open-mesh.org/
   SECTION:=net
   CATEGORY:=Network
   TITLE:=A.L.F.R.E.D. - Almighty Lightweight Fact Remote Exchange Daemon
+  URL:=https://www.open-mesh.org/
   DEPENDS:= +libc @IPV6 +libnl-tiny +librt \
-	  +ALFRED_NEEDS_lua:lua \
-	  +ALFRED_NEEDS_libgps:libgps
+            +ALFRED_NEEDS_lua:lua \
+            +ALFRED_NEEDS_libgps:libgps
 endef
 
 define Package/alfred/description
-alfred is a user space daemon for distributing arbitrary local information over
-the mesh/network in a decentralized fashion. This data can be anything which
-appears to be useful - originally designed to replace the batman-adv
-visualization (vis), you may distribute hostnames, phone books, administration
-information, DNS information, the local weather forecast ...
+  alfred is a user space daemon for distributing arbitrary local information
+  over the mesh/network in a decentralized fashion. This data can be anything
+  which appears to be useful - originally designed to replace the batman-adv
+  visualization (vis), you may distribute hostnames, phone books, administration
+  information, DNS information, the local weather forecast ...
 
-alfred runs as daemon in the background of the system. A user may insert
-information by using the alfred binary on the command line, or use special
-programs to communicate with alfred (done via unix sockets). alfred then takes
-care of distributing the local information to other alfred servers on other
-nodes. This is done via IPv6 link-local multicast, and does not require any
-configuration. A user can request data from alfred, and will receive the
-information available from all alfred servers in the network.
+  alfred runs as daemon in the background of the system. A user may insert
+  information by using the alfred binary on the command line, or use special
+  programs to communicate with alfred (done via unix sockets). alfred then takes
+  care of distributing the local information to other alfred servers on other
+  nodes. This is done via IPv6 link-local multicast, and does not require any
+  configuration. A user can request data from alfred, and will receive the
+  information available from all alfred servers in the network.
 endef
 
 define Package/alfred/conffiles
@@ -59,10 +66,7 @@ MAKE_FLAGS += \
 	CONFIG_ALFRED_CAPABILITIES=n \
         LIBNL_NAME="libnl-tiny" \
         LIBNL_GENL_NAME="libnl-tiny" \
-        REVISION="openwrt-$(PKG_VERSION)-$(PKG_RELEASE)"
-
-TARGET_CFLAGS  += -ffunction-sections -fdata-sections -flto
-TARGET_LDFLAGS += -Wl,--gc-sections -fuse-linker-plugin
+        REVISION="$(PKG_VERSION)-openwrt-$(PKG_RELEASE)"
 
 define Package/alfred/install
 	$(INSTALL_DIR) $(1)/usr/sbin

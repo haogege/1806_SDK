@@ -1,5 +1,14 @@
 'use strict';
 'require rpc';
+'require baseclass';
+
+function isEmpty(object, ignore) {
+	for (var property in object)
+		if (object.hasOwnProperty(property) && property != ignore)
+			return false;
+
+	return true;
+}
 
 /**
  * @class uci
@@ -9,10 +18,10 @@
  *
  * The `LuCI.uci` class utilizes {@link LuCI.rpc} to declare low level
  * remote UCI `ubus` procedures and implements a local caching and data
- * manipulation layer on top to allow for synchroneous operations on
+ * manipulation layer on top to allow for synchronous operations on
  * UCI configuration data.
  */
-return L.Class.extend(/** @lends LuCI.uci.prototype */ {
+return baseclass.extend(/** @lends LuCI.uci.prototype */ {
 	__init__: function() {
 		this.state = {
 			newidx:  0,
@@ -30,44 +39,50 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 		object: 'uci',
 		method: 'get',
 		params: [ 'config' ],
-		expect: { values: { } }
+		expect: { values: { } },
+		reject: true
 	}),
-
 
 	callOrder: rpc.declare({
 		object: 'uci',
 		method: 'order',
-		params: [ 'config', 'sections' ]
+		params: [ 'config', 'sections' ],
+		reject: true
 	}),
 
 	callAdd: rpc.declare({
 		object: 'uci',
 		method: 'add',
 		params: [ 'config', 'type', 'name', 'values' ],
-		expect: { section: '' }
+		expect: { section: '' },
+		reject: true
 	}),
 
 	callSet: rpc.declare({
 		object: 'uci',
 		method: 'set',
-		params: [ 'config', 'section', 'values' ]
+		params: [ 'config', 'section', 'values' ],
+		reject: true
 	}),
 
 	callDelete: rpc.declare({
 		object: 'uci',
 		method: 'delete',
-		params: [ 'config', 'section', 'options' ]
+		params: [ 'config', 'section', 'options' ],
+		reject: true
 	}),
 
 	callApply: rpc.declare({
 		object: 'uci',
 		method: 'apply',
-		params: [ 'timeout', 'rollback' ]
+		params: [ 'timeout', 'rollback' ],
+		reject: true
 	}),
 
 	callConfirm: rpc.declare({
 		object: 'uci',
-		method: 'confirm'
+		method: 'confirm',
+		reject: true
 	}),
 
 
@@ -78,7 +93,7 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	 * identifier in the form `cfgXXXXXX` once the configuration is saved
 	 * by the remote `ubus` UCI api.
 	 *
-	 * @param {string} config
+	 * @param {string} conf
 	 * The configuration to generate the new section ID for.
 	 *
 	 * @returns {string}
@@ -101,7 +116,7 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	 * Resolves a given section ID in extended notation to the internal
 	 * section ID value.
 	 *
-	 * @param {string} config
+	 * @param {string} conf
 	 * The configuration to resolve the section ID for.
 	 *
 	 * @param {string} sid
@@ -194,7 +209,7 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	 * To force reloading a configuration, it has to be unloaded with
 	 * {@link LuCI.uci#unload uci.unload()} first.
 	 *
-	 * @param {string|string[]} config
+	 * @param {string|string[]} packages
 	 * The name of the configuration or an array of configuration
 	 * names to load.
 	 *
@@ -230,7 +245,7 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	/**
 	 * Unloads the given UCI configurations from the local cache.
 	 *
-	 * @param {string|string[]} config
+	 * @param {string|string[]} packages
 	 * The name of the configuration or an array of configuration
 	 * names to unload.
 	 */
@@ -252,7 +267,7 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	 * Adds a new section of the given type to the given configuration,
 	 * optionally named according to the given name.
 	 *
-	 * @param {string} config
+	 * @param {string} conf
 	 * The name of the configuration to add the section to.
 	 *
 	 * @param {string} type
@@ -287,14 +302,15 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	/**
 	 * Removes the section with the given ID from the given configuration.
 	 *
-	 * @param {string} config
+	 * @param {string} conf
 	 * The name of the configuration to remove the section from.
 	 *
 	 * @param {string} sid
 	 * The ID of the section to remove.
 	 */
 	remove: function(conf, sid) {
-		var n = this.state.creates,
+		var v = this.state.values,
+		    n = this.state.creates,
 		    c = this.state.changes,
 		    d = this.state.deletes;
 
@@ -302,7 +318,7 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 		if (n[conf] && n[conf][sid]) {
 			delete n[conf][sid];
 		}
-		else {
+		else if (v[conf] && v[conf][sid]) {
 			if (c[conf])
 				delete c[conf][sid];
 
@@ -318,7 +334,7 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	 * enclosed within a configuration section, as well as some additional
 	 * meta data such as sort indexes and internal ID.
 	 *
-	 * Any internal metadata fields are prefixed with a dot which is isn't
+	 * Any internal metadata fields are prefixed with a dot which isn't
 	 * an allowed character for normal option names.
 	 *
 	 * @typedef {Object<string, boolean|number|string|string[]>} SectionObject
@@ -329,7 +345,7 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	 * anonymous (`true`) or named (`false`).
 	 *
 	 * @property {number} .index
-	 * The `.index` property specifes the sort order of the section.
+	 * The `.index` property specifies the sort order of the section.
 	 *
 	 * @property {string} .name
 	 * The `.name` property holds the name of the section object. It may be
@@ -367,7 +383,7 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	 * Enumerates the sections of the given configuration, optionally
 	 * filtered by type.
 	 *
-	 * @param {string} config
+	 * @param {string} conf
 	 * The name of the configuration to enumerate the sections for.
 	 *
 	 * @param {string} [type]
@@ -394,7 +410,7 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 		for (var s in v)
 			if (!d || d[s] !== true)
 				if (!type || v[s]['.type'] == type)
-					sa.push(Object.assign({ }, v[s], c ? c[s] : undefined));
+					sa.push(Object.assign({ }, v[s], c ? c[s] : null));
 
 		if (n)
 			for (var s in n)
@@ -420,13 +436,13 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	 * of the given configuration or the entire section object if the
 	 * option name is omitted.
 	 *
-	 * @param {string} config
+	 * @param {string} conf
 	 * The name of the configuration to read the value from.
 	 *
 	 * @param {string} sid
 	 * The name or ID of the section to read.
 	 *
-	 * @param {string} [option]
+	 * @param {string} [opt]
 	 * The option name to read the value from. If the option name is
 	 * omitted or `null`, the entire section is returned instead.
 	 *
@@ -454,7 +470,7 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 		/* requested option in a just created section */
 		if (n[conf] && n[conf][sid]) {
 			if (!n[conf])
-				return undefined;
+				return null;
 
 			if (opt == null)
 				return n[conf][sid];
@@ -465,14 +481,9 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 		/* requested an option value */
 		if (opt != null) {
 			/* check whether option was deleted */
-			if (d[conf] && d[conf][sid]) {
-				if (d[conf][sid] === true)
-					return undefined;
-
-				for (var i = 0; i < d[conf][sid].length; i++)
-					if (d[conf][sid][i] == opt)
-						return undefined;
-			}
+			if (d[conf] && d[conf][sid])
+				if (d[conf][sid] === true || d[conf][sid][opt])
+					return null;
 
 			/* check whether option was changed */
 			if (c[conf] && c[conf][sid] && c[conf][sid][opt] != null)
@@ -482,14 +493,34 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 			if (v[conf] && v[conf][sid])
 				return v[conf][sid][opt];
 
-			return undefined;
+			return null;
 		}
 
 		/* requested an entire section */
-		if (v[conf])
-			return v[conf][sid];
+		if (v[conf]) {
+			/* check whether entire section was deleted */
+			if (d[conf] && d[conf][sid] === true)
+				return null;
 
-		return undefined;
+			var s = v[conf][sid] || null;
+
+			if (s) {
+				/* merge changes */
+				if (c[conf] && c[conf][sid])
+					for (var opt in c[conf][sid])
+						if (c[conf][sid][opt] != null)
+							s[opt] = c[conf][sid][opt];
+
+				/* merge deletions */
+				if (d[conf] && d[conf][sid])
+					for (var opt in d[conf][sid])
+						delete s[opt];
+			}
+
+			return s;
+		}
+
+		return null;
 	},
 
 	/**
@@ -499,16 +530,16 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	 * If either config, section or option is null, or if `option` begins
 	 * with a dot, the function will do nothing.
 	 *
-	 * @param {string} config
+	 * @param {string} conf
 	 * The name of the configuration to set the option value in.
 	 *
 	 * @param {string} sid
 	 * The name or ID of the section to set the option value in.
 	 *
-	 * @param {string} option
+	 * @param {string} opt
 	 * The option name to set the value for.
 	 *
-	 * @param {null|string|string[]} value
+	 * @param {null|string|string[]} val
 	 * The option value to set. If the value is `null` or an empty string,
 	 * the option will be removed, otherwise it will be set or overwritten
 	 * with the given value.
@@ -546,25 +577,35 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 				c[conf][sid] = {};
 
 			/* undelete option */
-			if (d[conf] && d[conf][sid])
-				d[conf][sid] = d[conf][sid].filter(function(o) { return o !== opt });
+			if (d[conf] && d[conf][sid]) {
+				if (isEmpty(d[conf][sid], opt))
+					delete d[conf][sid];
+				else
+					delete d[conf][sid][opt];
+			}
 
 			c[conf][sid][opt] = val;
 		}
 		else {
-			/* only delete in existing sections */
-			if (!(v[conf] && v[conf][sid] && v[conf][sid].hasOwnProperty(opt)) &&
-			    !(c[conf] && c[conf][sid] && c[conf][sid].hasOwnProperty(opt)))
-			    return;
+			/* revert any change for to-be-deleted option */
+			if (c[conf] && c[conf][sid]) {
+				if (isEmpty(c[conf][sid], opt))
+					delete c[conf][sid];
+				else
+					delete c[conf][sid][opt];
+			}
 
-			if (!d[conf])
-				d[conf] = { };
+			/* only delete existing options */
+			if (v[conf] && v[conf][sid] && v[conf][sid].hasOwnProperty(opt)) {
+				if (!d[conf])
+					d[conf] = { };
 
-			if (!d[conf][sid])
-				d[conf][sid] = [ ];
+				if (!d[conf][sid])
+					d[conf][sid] = { };
 
-			if (d[conf][sid] !== true)
-				d[conf][sid].push(opt);
+				if (d[conf][sid] !== true)
+					d[conf][sid][opt] = true;
+			}
 		}
 	},
 
@@ -575,13 +616,13 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	 * This function is a convenience wrapper around
 	 * `uci.set(config, section, option, null)`.
 	 *
-	 * @param {string} config
+	 * @param {string} conf
 	 * The name of the configuration to remove the option from.
 	 *
 	 * @param {string} sid
 	 * The name or ID of the section to remove the option from.
 	 *
-	 * @param {string} option
+	 * @param {string} opt
 	 * The name of the option to remove.
 	 */
 	unset: function(conf, sid, opt) {
@@ -591,9 +632,9 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	/**
 	 * Gets the value of the given option or the entire section object of
 	 * the first found section of the specified type or the first found
-	 * section of the entire configuration if no type is specfied.
+	 * section of the entire configuration if no type is specified.
 	 *
-	 * @param {string} config
+	 * @param {string} conf
 	 * The name of the configuration to read the value from.
 	 *
 	 * @param {string} [type]
@@ -601,7 +642,7 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	 * section of the entire config is read, otherwise the first section
 	 * matching the given type.
 	 *
-	 * @param {string} [option]
+	 * @param {string} [opt]
 	 * The option name to read the value from. If the option name is
 	 * omitted or `null`, the entire section is returned instead.
 	 *
@@ -634,7 +675,7 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	 * If either config, type or option is null, or if `option` begins
 	 * with a dot, the function will do nothing.
 	 *
-	 * @param {string} config
+	 * @param {string} conf
 	 * The name of the configuration to set the option value in.
 	 *
 	 * @param {string} [type]
@@ -642,10 +683,10 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	 * section of the entire config is written to, otherwise the first
 	 * section matching the given type is used.
 	 *
-	 * @param {string} option
+	 * @param {string} opt
 	 * The option name to set the value for.
 	 *
-	 * @param {null|string|string[]} value
+	 * @param {null|string|string[]} val
 	 * The option value to set. If the value is `null` or an empty string,
 	 * the option will be removed, otherwise it will be set or overwritten
 	 * with the given value.
@@ -669,7 +710,7 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	 * This function is a convenience wrapper around
 	 * `uci.set_first(config, type, option, null)`.
 	 *
-	 * @param {string} config
+	 * @param {string} conf
 	 * The name of the configuration to set the option value in.
 	 *
 	 * @param {string} [type]
@@ -677,7 +718,7 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	 * section of the entire config is written to, otherwise the first
 	 * section matching the given type is used.
 	 *
-	 * @param {string} option
+	 * @param {string} opt
 	 * The option name to set the value for.
 	 */
 	unset_first: function(conf, type, opt) {
@@ -688,7 +729,7 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 	 * Move the first specified section within the given configuration
 	 * before or after the second specified section.
 	 *
-	 * @param {string} config
+	 * @param {string} conf
 	 * The configuration to move the section within.
 	 *
 	 * @param {string} sid1
@@ -780,25 +821,39 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 		    pkgs = { },
 		    tasks = [];
 
+		if (d)
+			for (var conf in d) {
+				for (var sid in d[conf]) {
+					var o = d[conf][sid];
+
+					if (o === true)
+						tasks.push(self.callDelete(conf, sid, null));
+					else
+						tasks.push(self.callDelete(conf, sid, Object.keys(o)));
+				}
+
+				pkgs[conf] = true;
+			}
+
 		if (n)
 			for (var conf in n) {
 				for (var sid in n[conf]) {
-					var r = {
+					var p = {
 						config: conf,
 						values: { }
 					};
 
 					for (var k in n[conf][sid]) {
 						if (k == '.type')
-							r.type = n[conf][sid][k];
+							p.type = n[conf][sid][k];
 						else if (k == '.create')
-							r.name = n[conf][sid][k];
+							p.name = n[conf][sid][k];
 						else if (k.charAt(0) != '.')
-							r.values[k] = n[conf][sid][k];
+							p.values[k] = n[conf][sid][k];
 					}
 
 					snew.push(n[conf][sid]);
-					tasks.push(self.callAdd(r.config, r.type, r.name, r.values));
+					tasks.push(self.callAdd(p.config, p.type, p.name, p.values));
 				}
 
 				pkgs[conf] = true;
@@ -808,16 +863,6 @@ return L.Class.extend(/** @lends LuCI.uci.prototype */ {
 			for (var conf in c) {
 				for (var sid in c[conf])
 					tasks.push(self.callSet(conf, sid, c[conf][sid]));
-
-				pkgs[conf] = true;
-			}
-
-		if (d)
-			for (var conf in d) {
-				for (var sid in d[conf]) {
-					var o = d[conf][sid];
-					tasks.push(self.callDelete(conf, sid, (o === true) ? null : o));
-				}
 
 				pkgs[conf] = true;
 			}
